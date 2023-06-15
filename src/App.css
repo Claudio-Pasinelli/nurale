@@ -41,10 +41,6 @@ body
     transform: rotate(360deg);
   }
 }
-.chakra-button span
-{
-  color:#4968ad;
-}
 
 a:hover
 {

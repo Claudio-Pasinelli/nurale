@@ -1,0 +1,1 @@
+export { default as InputPwdForm } from './InputPwdForm'
