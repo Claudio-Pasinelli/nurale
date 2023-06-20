@@ -5,6 +5,7 @@
 body
 {
   overflow-x: hidden;
+  color: rgb(4, 30, 66);;
 }
 
 .App-logo {
@@ -31,6 +32,16 @@ body
 
 .App-link {
   color: #61dafb;
+}
+
+ul
+{
+  list-style: none;
+}
+
+li
+{
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {

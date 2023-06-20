@@ -7,7 +7,9 @@ import schema from '../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, useState } from 'react';
-import { InputPwdForm } from '../../../organs';
+import { InputPwdForm } from '../../../organisms';
+import { theme } from '../../../themes';
+import { darkModePalette } from '../../../themes/colors';
 
 const defaultValues = {
     email: '',
@@ -65,15 +67,15 @@ const defaultValues = {
             <FormProvider {...methods}>
                 <Stack spacing={3} style={{border: 'solid rgba(81, 70, 137, 0.7)', borderWidth: '1px 0 0 0'}}>
                     <Spacer width={'10px'} height={'10px'} />
-                    <InputForm name='email' placeholder='Inserisci Email' label='Email' fontWeight='bold' fontSize='18px' error={errors?.email?.message}/>
-                    <InputPwdForm type='password' name='password' placeholder='Inserisci Password' label='Password' fontWeight='bold' fontSize='18px' error={errors?.password?.message}/>
+                    <InputForm name='email' placeholder='Inserisci Email' label='Email' fontWeight={theme.fontWeights.bold} fontSize={theme.fontSizes.xs} error={errors?.email?.message}/>
+                    <InputPwdForm type='password' name='password' placeholder='Inserisci Password' label='Password' fontWeight={theme.fontWeights.bold} fontSize={theme.fontSizes.xs} error={errors?.password?.message}/>
                 </Stack>
                 <Spacer width={'20px'} height={'25px'} />
-                <a style={{textAlign:'center', fontWeight:'bold'}} onClick={handleClickPassword}>Hai dimenticato la password?</a>
+                <a style={{textAlign:'center', fontWeight:theme.fontWeights.bold}} onClick={handleClickPassword}>Hai dimenticato la password?</a>
                 <Spacer width={'20px'} height={'25px'} />
                 <CheckboxForm onChange={handleChange}>Ricordami</CheckboxForm>
                 <Spacer width={'20px'} height={'40px'} />
-                <ButtonForm onClick={handleClickAccess} backgroundColor='#EF426F' _hover={{bg: '#d73e65'}} fontSize='16px'>Accedi</ButtonForm>
+                <ButtonForm onClick={handleClickAccess} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Accedi</ButtonForm>
             </FormProvider>
         </Flex>
     )

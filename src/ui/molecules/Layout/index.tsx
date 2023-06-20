@@ -1,12 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import { Sidebar } from '../../atoms';
 import { Flex } from '@chakra-ui/react';
+import Sidebar from '../../organisms/Sidebar';
 
 const Layout = () => {
   return (
-      <Flex flexDirection='column' width='100vw' height='100vh'>
-        <Sidebar />
-        <Outlet />
+      <Flex width='100vw' height='100vh'>
+        <Flex width='100%' height='100%'>
+          <Sidebar />
+          <Outlet />
+        </Flex>
       </Flex>
   );
 };
