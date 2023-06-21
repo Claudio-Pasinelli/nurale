@@ -4,7 +4,7 @@ import { theme } from '../../themes'
 
 interface Props
 {
-    name: string;
+    name?: string;
 }
 
 const Header = ({name}: Props) =>
@@ -18,9 +18,9 @@ const Header = ({name}: Props) =>
             </Flex>
             <Flex padding='0.5rem 1rem'>
                 <div style={{marginRight:'2rem'}}>
-                    <Icons name='notifiche' size={2}/>
+                    <Icons name='notifiche' size={1.75} color='rgba(81, 70, 137, 0.7)'/>
                 </div>
-                <Icons name='profilo' size={2}/>
+                <Icons name='profilo' size={1.75} color='rgba(81, 70, 137, 0.7)'/>
             </Flex>
         </Flex>
     )

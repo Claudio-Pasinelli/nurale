@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react'
 import { Icons } from '../../atoms'
 import { icons } from '../../atoms/Icons'
+import { theme } from '../../themes'
 
 interface Props {
     name?: string
@@ -35,11 +36,11 @@ const TextElement = ({
                 marginLeft: `${marginLeft}`,
                 marginRight: `${marginRight}`,
                 paddingRight: `${paddingRight}`,
-                width: '100%',
+                width: show ? '' : '100%',
             }}
         >
             {nameIcon && <Icons name={nameIcon} size={1.5} color={colorIcon} />}
-            <Text
+            {show ? null : (<Text
                 style={{
                     fontWeight: '500',
                     lineHeight: '1.3rem',
@@ -47,8 +48,8 @@ const TextElement = ({
                     padding: `${paddingIcon}`,
                 }}
             >
-                <span>{name}</span>
-            </Text>
+                <span style={{fontWeight:'600', fontSize:theme.fontSizes.xxs}}>{name}</span>
+            </Text>)}
             {show
                 ?
                 null

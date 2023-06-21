@@ -6,7 +6,7 @@ interface Props
     name?: string;
 }
 
-const Home = ({name}:Props) =>
+const Jobs = ({name}:Props) =>
 {
     return (
         <Flex width='100vw' direction='column'>
@@ -18,4 +18,4 @@ const Home = ({name}:Props) =>
     )
 }
 
-export default Home;
+export default Jobs;
