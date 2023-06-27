@@ -1,6 +1,6 @@
 import { icons } from '../../ui/atoms/Icons';
-
-export const defaultSize = 1.75;
+import { createColumnHelper } from '@tanstack/react-table';
+// export const defaultSize = 1.75;
 
 export const ROUTES = {
   login: '/',
@@ -115,6 +115,24 @@ export const SIDEBAR:SIDEBARInterface[] =
     ]
   },
 ];
+
+export const COLUMNHELPER:any = createColumnHelper<any>();
+
+export const UsersCols = [
+      COLUMNHELPER.accessor('firstName', {
+          cell: (props:any) => props.getValue(),
+          header: 'Nome',
+      }),
+      COLUMNHELPER.accessor('lastName', {
+          cell: (props:any) => props.getValue(),
+          header: 'Cognome',
+      }),
+      COLUMNHELPER.accessor('email', {
+          cell: (props:any) => props.getValue(),
+          header: 'Email',
+      }),
+];
+
 
 // export const SIDEBAR =
 // [

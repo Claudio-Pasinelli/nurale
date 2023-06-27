@@ -1,9 +1,9 @@
-.css-18rkyk9::-webkit-scrollbar {
+.sidebarList::-webkit-scrollbar {
     width: 5px;
 }
-.css-18rkyk9::-webkit-scrollbar-thumb {
+.sidebarList::-webkit-scrollbar-thumb {
     background: rgb(136, 136, 136);
 }
-.css-18rkyk9::-webkit-scrollbar-track {
+.sidebarList::-webkit-scrollbar-track {
     background: rgb(241, 241, 241);
 }

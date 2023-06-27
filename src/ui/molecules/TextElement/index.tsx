@@ -49,6 +49,7 @@ const TextElement = ({
                 }}
             >
                 <span style={{fontWeight:'600', fontSize:theme.fontSizes.xxs}}>{name}</span>
+                {/* <span style={{fontWeight:'600', fontSize:theme.fontSizes.xxs, color: pathname === location.pathname ? '#ef426f' : 'black'}}>{name}</span> */}
             </Text>)}
             {show
                 ?

@@ -7,7 +7,6 @@ interface Props extends ButtonProps
     backgroundColor?: string;
     color?: string;
     borderRadius?: string;
-    fontSize?: string;
     variant?: 'solid' | 'ghost' | 'outline' | 'link';
     onClick:()=> void;
 }
@@ -19,10 +18,10 @@ interface Props extends ButtonProps
 //     />
 // })
 
-const ButtonForm = ({children, backgroundColor, color, borderRadius, variant, fontSize, onClick, ...rest}: Props) =>
+const ButtonForm = ({children, backgroundColor, color, borderRadius, variant, onClick, ...rest}: Props) =>
 {
     return (
-        <Button fontSize={fontSize ? fontSize : '18px'} borderRadius={borderRadius ? borderRadius : '10px'} variant={variant} backgroundColor={backgroundColor? backgroundColor : 'white'} onClick={onClick} style={{color: color ? color : 'white'}} {...rest}>
+        <Button borderRadius={borderRadius ? borderRadius : '10px'} variant={variant} backgroundColor={backgroundColor} onClick={onClick} style={{color: color ? color : 'white'}} {...rest}>
             {children}
         </Button>
     )

@@ -1,6 +1,7 @@
 export const darkModePalette = {
     main1: '#1E272E',
     main2: '#FFFFFF',
+    purple: 'rgba(81, 70, 137)',
     purple100: '#4B2CC7',
     purple40: 'rgba(81, 70, 137, 0.4)',
     purple10: 'rgba(81, 70, 137, 0.1)',

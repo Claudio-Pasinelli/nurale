@@ -8,6 +8,13 @@ body
   color: rgb(4, 30, 66);;
 }
 
+#root
+{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

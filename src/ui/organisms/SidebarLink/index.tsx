@@ -13,12 +13,11 @@ interface Props
     name?: string;
     marginRight?: string
     onclick?: () => void
-
     dropdownVerification?: boolean
     subLinks?: any[]
     show?: boolean;
 }
-const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon, show = false, dropdownVerification = false, subLinks = [], }: Props) =>
+const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon, show = false, dropdownVerification = false }: Props) =>
 {
     const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(false);
@@ -31,23 +30,23 @@ const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon,
         {
             SIDEBAR.map((link) =>
             {
-                if(link.dropdownVerification)
-                {
-                    link.path?.map((linkPath) =>
-                    {
-                        if(linkPath.name == name)
-                        {
-                            linkPath.href && navigate(linkPath.href);
-                        }
-                    })
-                }
-                else
-                {
-                    if(link.name == name)
+                // if(link.dropdownVerification)
+                // {
+                //     link.path?.map((linkPath) =>
+                //     {
+                //         if(linkPath.name === name)
+                //         {
+                //             linkPath.href && navigate(linkPath.href);
+                //         }
+                //     })
+                // }
+                // else
+                // {
+                    if(link.name === name)
                     {
                         link.href && navigate(link.href);
                     }
-                }
+                // }
             })
         }
         else
@@ -114,13 +113,12 @@ const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon,
     return (
         <Flex width='100%' height='100%' direction='column'>
             <Button
-                // marginRight={show ? '0' : '20px'}
                 padding={0}
                 colorScheme="gray"
                 variant="ghost"
                 border={0}
                 width={'100%'}
-                onClick={handleClick}
+                onClick={show && open ? ()=>{return} : handleClick}
                 type="button"
             >
             <TextElement
@@ -133,7 +131,7 @@ const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon,
             />
             </Button>
             <Flex>
-                {open && <MenuList name={name} />}
+                {open && <MenuList name={name}/>}
             </Flex>
         </Flex>
     )

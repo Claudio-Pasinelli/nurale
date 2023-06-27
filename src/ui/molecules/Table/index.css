@@ -1,0 +1,4 @@
+tr:nth-of-type(odd) td
+{
+    background: #f8f7ff !important;
+}

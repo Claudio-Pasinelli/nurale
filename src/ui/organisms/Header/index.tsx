@@ -13,7 +13,7 @@ const Header = ({name}: Props) =>
         <Flex direction='row' alignItems='center'  height='48.5px' borderBottomRightRadius='2rem' boxShadow='rgba(81, 70, 137, 0.3) 0px 2px 6px'>
             <Flex height='100%' width='100%'>
                 <Flex style={{height: '100%', width: '100%', background: 'linear-gradient(90deg, rgb(239, 66, 111) 0%, rgb(81, 70, 137) 26.06%, rgba(0, 0, 0, 0) 51.87%)'}}>
-                    <p style={{color:'white', marginBlock:'auto', marginLeft: '2.2rem', fontSize: theme.fontSizes.lg}}>{name}</p>
+                    <p style={{color:'white', marginBlock:'auto', marginLeft: '2.2rem', fontSize: theme.fontSizes.xs, fontWeight: theme.fontWeights.bold}}>{name}</p>
                 </Flex>
             </Flex>
             <Flex padding='0.5rem 1rem'>
