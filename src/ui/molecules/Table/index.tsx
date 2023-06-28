@@ -21,6 +21,7 @@ const TableComponent = ({data, columns, display = 'block'}: Props) =>
 
     const ColumnModel = tableInstance.getHeaderGroups()
     const RowModel = tableInstance.getRowModel();
+    // console.log(ColumnModel)
 
     return (
         <TableContainer width='100%' borderRadius='10px' border='1px solid #857dac' overflow='hidden' display={display}>

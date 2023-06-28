@@ -16,7 +16,7 @@ const MenuList = ({name }: Props) =>
                     sidebar.name === name ? (
                         sidebar.path?.map((subLink) =>
                             (
-                                <Li style={{paddingBlock: '10px'}}
+                                <Li style={{paddingBlock: '10px', borderRadius: '0', borderWidth: '0 0 0 2px', }}
                                     onClick={() => navigate(subLink.href)}
                                     current={
                                         location.pathname === subLink.href ? true : false

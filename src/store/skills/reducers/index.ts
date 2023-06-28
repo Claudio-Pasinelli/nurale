@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsers } from '../actions/fetchUsers';
-import { initialStateUsers } from '../types';
+import { fetchSkills } from '../actions/fetchSkills';
+import { initialStateSkills } from '../types';
 
-const initialState : initialStateUsers =
+const initialState : initialStateSkills =
 {
     data: [],
     pagination: 0,
@@ -10,7 +10,7 @@ const initialState : initialStateUsers =
     error: null,
 };
 
-export const usersReduxer = createSlice(
+export const skillsReduxer = createSlice(
     {
         name: 'login',
         initialState,
@@ -19,19 +19,19 @@ export const usersReduxer = createSlice(
         extraReducers: (builder) =>
         {
             builder
-                .addCase(fetchUsers.fulfilled, (state, action) =>
+                .addCase(fetchSkills.fulfilled, (state, action) =>
                 {
                     state.data = action.payload.data;
                     state.pagination = action.payload.pagination.totalCount;
                     state.loading = false;
                     state.error = null;
                 })
-                .addCase(fetchUsers.pending, (state) =>
+                .addCase(fetchSkills.pending, (state) =>
                 {
                     state.loading = true;
                     state.error = null;
                 })
-                .addCase(fetchUsers.rejected, (state) =>
+                .addCase(fetchSkills.rejected, (state) =>
                 {
                     state.loading = false;
                     // state.error = 'Error during login';

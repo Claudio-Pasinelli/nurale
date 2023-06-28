@@ -42,13 +42,13 @@ const TextElement = ({
             {nameIcon && <Icons name={nameIcon} size={1.5} color={colorIcon} />}
             {show ? null : (<Text
                 style={{
-                    fontWeight: '500',
+                    fontWeight: 'bold',
                     lineHeight: '1.3rem',
                     fontSize: '14.2px',
                     padding: `${paddingIcon}`,
                 }}
             >
-                <span style={{fontWeight:'600', fontSize:theme.fontSizes.xxs}}>{name}</span>
+                <span style={{fontSize:'0.8rem'}}>{name}</span>
                 {/* <span style={{fontWeight:'600', fontSize:theme.fontSizes.xxs, color: pathname === location.pathname ? '#ef426f' : 'black'}}>{name}</span> */}
             </Text>)}
             {show
@@ -60,13 +60,13 @@ const TextElement = ({
                         {dropDownOpen ? (
                             <Icons
                                 name={'dropdownIconGiu'}
-                                size={1}
+                                size={0.8}
                                 color={colorIcon}
                             />
                         ) : (
                             <Icons
                                 name={'dropdownIconSu'}
-                                size={1}
+                                size={0.8}
                                 color={colorIcon}
                             />
                         )}

@@ -112,7 +112,7 @@ const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon,
 
     return (
         <Flex width='100%' height='100%' direction='column'>
-            <Button
+            <Button className='listLink'
                 padding={0}
                 colorScheme="gray"
                 variant="ghost"

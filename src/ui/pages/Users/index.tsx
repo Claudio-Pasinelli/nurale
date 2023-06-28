@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
-import { fetchUsers, getUsers } from '../../../store';
+import { fetchUsers, getUsers, getUsersPagination } from '../../../store';
 import { useEffect, useState } from 'react';
-import { UsersCols } from '../../../utils';
-import { InputForm, PageLayout, Table } from '../../molecules';
+import { UsersCols, usersList } from '../../../utils';
+import { InputForm, PageLayout, SelectForm, Table } from '../../molecules';
 import { Flex, Stack } from '@chakra-ui/react';
 import { ButtonForm, Icons, Modal } from '../../atoms';
 import { darkModePalette } from '../../themes/colors';
@@ -12,10 +12,11 @@ import { SettingsUser } from './Types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import schema from './validation';
-import './index.css'
+import '../../../utils/index.css';
 import InputPage from '../../molecules/InputPage';
 import { useAppDispatch } from '../../../store/applicationStore';
 import { createUser } from '../../../store/user';
+import { Pagination } from '../../organisms';
 
 const defaultValues = {
     email: '',
@@ -32,12 +33,12 @@ interface Props
 
 const Users = ({name}:Props) =>
 {
-    const initialPwd = 'Nurale2023!';
+    const initialPwd = `Nurale${new Date().getFullYear()}!`;
 
     const dispatch = useAppDispatch();
     const users = useSelector(getUsers);
     const [show, setShow] = useState(false);
-    const [numPage, setNumPage] = useState<number>(1);
+    const take = 10;
 
     const methods = useForm<SettingsUser>({
         defaultValues,
@@ -57,6 +58,7 @@ const Users = ({name}:Props) =>
         setShow(!show);
         setValue('password', initialPwd);
         setValue('confirmPwd', initialPwd);
+        handleReset();
     }
 
     const generatePassword = () =>
@@ -87,14 +89,14 @@ const Users = ({name}:Props) =>
                 passwordConfirm: getValues('confirmPwd'),
                 firstName: getValues('nome'),
                 lastName: getValues('cognome'),
-                resourceId: 0,
+                resourceId: 10,
             }
         ));
 
         await dispatch(fetchUsers(
                 {
                     search: '',
-                    skip: numPage * 10,
+                    skip: 0,
                     take: 10,
                 }
         ));
@@ -107,22 +109,6 @@ const Users = ({name}:Props) =>
     const handleReset = () => {
         reset(defaultValues);
     };
-
-    const handleIncreasePage = () =>
-    {
-        let page = numPage;
-        page++;
-        
-        setNumPage(numPage && page);
-    }
-
-    const handleDecreasePage = () =>
-    {
-        let page = numPage;
-        page--;
-
-        (numPage >= 2) ? setNumPage(numPage && page) : null;
-    }
 
     useEffect(()=>
     {
@@ -138,17 +124,6 @@ const Users = ({name}:Props) =>
         setValue('confirmPwd', initialPwd);
     },[]);
 
-    // useEffect(()=>
-    // {
-    //     dispatch(fetchUsers(
-    //         {
-    //             search: '',
-    //             skip: numPage * 10,
-    //             take: 10,
-    //         }
-    //     ));
-    // },[numPage]);
-
     return (
         <PageLayout name={name}>
             <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} leftIcon={<AddIcon />} width='fit-content' onClick={handlShow} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Aggiungi nuovo</ButtonForm>
@@ -156,43 +131,43 @@ const Users = ({name}:Props) =>
                 <Table data={users} columns={UsersCols} display={show ? 'none' : 'block'}/>
                 <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>Aggiungi nuovo utente</p>
                 <Modal show={show}>
-                    <Flex width='100%' direction='column'>
+                    <Flex width='100%' direction='row'>
                         <FormProvider {...methods}>
                             <Flex width='100%' direction='column'>
-                                <Flex placeContent='space-between'>
-                                    <InputForm label='Email' name='email' placeholder='Email' containerWidth='48%' fontWeight={theme.fontWeights.bold} error={errors?.email?.message}/>
-                                    <InputForm label='Risorsa' name='risorsa' placeholder='Risorsa' containerWidth='50%' fontWeight={theme.fontWeights.bold} error={errors?.risorsa?.message}/>
+                                <Flex>
+                                    <InputForm label='Email' name='email' placeholder='Email' containerWidth='90%' fontWeight={theme.fontWeights.bold} error={errors?.email?.message}/>
                                 </Flex>
-                                <Flex placeContent='space-between'>
-                                    <InputForm label='Nome' name='nome' placeholder='Nome' containerWidth='48%' fontWeight={theme.fontWeights.bold} error={errors?.nome?.message}/>
-                                    <InputForm label='Cognome' name='cognome' placeholder='Cognome' containerWidth='50%' fontWeight={theme.fontWeights.bold} error={errors?.cognome?.message}/>
+                                <Flex>
+                                    <InputForm label='Nome' name='nome' placeholder='Nome' containerWidth='90%' fontWeight={theme.fontWeights.bold} error={errors?.nome?.message}/>
                                 </Flex>
-                                <Flex placeContent='space-between' alignItems='center'>
-                                    <InputForm label='Password' name='password' placeholder='Password' containerWidth='35%' fontWeight={theme.fontWeights.bold} error={errors?.password?.message}/>
-                                    <ButtonForm width='fit-content' onClick={generatePassword} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Genera</ButtonForm>
-                                    <InputForm label='Conferma Password' name='confirmPwd' placeholder='Conferma Password' containerWidth='46%' fontWeight={theme.fontWeights.bold} error={errors?.confirmPwd?.message}/>
+                                <Flex alignItems='center' justifyContent='space-around'>
+                                    <InputForm label='Password' name='password' placeholder='Password' containerWidth='69999uiwi                                                                                                                                                                             0%' fontWeight={theme.fontWeights.bold} error={errors?.password?.message}/>
+                                    <ButtonForm margin='auto' width='fit-content' onClick={generatePassword} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Genera</ButtonForm>
                                 </Flex>
                             </Flex>
-                            <Flex width='100%' justifyContent='right'>
+                            <Flex width='100%' direction='column'>
                                 <Flex>
-                                    <Stack spacing={3} direction='row'>
-                                        <ButtonForm backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} leftIcon={<CloseIcon />} width='fit-content' onClick={handlShow}_hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>Annulla</ButtonForm>
-                                        <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Conferma</ButtonForm>
-                                    </Stack>
+                                    <SelectForm options={usersList} name='risorsa' label='Risorsa' fontWeight={theme.fontWeights.bold} error={errors?.risorsa?.message}/>
                                 </Flex>
-                            </Flex> 
+                                <Flex>
+                                    <InputForm label='Cognome' name='cognome' placeholder='Cognome' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.cognome?.message}/>
+                                </Flex>
+                                <Flex alignItems='center'>
+                                    <InputForm label='Conferma Password' name='confirmPwd' placeholder='Conferma Password' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.confirmPwd?.message}/>
+                                </Flex>
+                            </Flex>
                         </FormProvider>
                     </Flex>
+                    <Flex width='100%' justifyContent='right'>
+                        <Flex>
+                            <Stack spacing={3} direction='row'>
+                                <ButtonForm backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} leftIcon={<CloseIcon />} width='fit-content' onClick={handlShow}_hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>Annulla</ButtonForm>
+                                <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Conferma</ButtonForm>
+                            </Stack>
+                        </Flex>
+                    </Flex> 
                 </Modal>
-                <Flex justifyContent='right' marginTop='2rem' display={show ? 'none' : 'flex'}>
-                    <InputPage containerWidth='10%' value={numPage} type='number' label='Pagina' name='Pagina' placeholder='Num. pagina' fontWeight={theme.fontWeights.bold}/>
-                    <ButtonForm background={darkModePalette.gray} margin='0 5px 0 15px' padding='0' width='fit-content' onClick={handleDecreasePage}>
-                        <Icons name='btnTriangoloSn' size={1}/>
-                    </ButtonForm>
-                    <ButtonForm background={darkModePalette.gray} padding='0' width='fit-content' onClick={handleIncreasePage}>
-                        <Icons name='btnTriangoloDx' size={1}/>
-                    </ButtonForm>
-                </Flex>
+                <Pagination take={take} fetch={fetchUsers} show={show} getPagination={getUsersPagination}/>
             </Flex>
         </PageLayout>
     )

@@ -14,7 +14,7 @@ const PageLayout = ({children, name} : Props) =>
             <Flex width='100%' direction='column'>
                 <Header name={name}/>
             </Flex>
-            <div style={{padding: '3rem 2.3rem 0 1.8rem', width: '100%', height: '100%', overflowY: 'auto'}}>
+            <div style={{padding: '2rem 3rem 0px 1.8rem', width: '100%', height: '100%', overflowY: 'auto'}}>
                 {children}
             </div>
         </div>

@@ -5,15 +5,22 @@ export interface User
     passwordConfirm: string,
     firstName: string,
     lastName: string,
-    resourceId: 0,
+    resourceId: number,
+  }
+  
+export interface Skills
+{
+    name: string;
+    note: string;
+    skillType: string;
 }
-
 
 export interface QueryParams
 {
     search?: string;
     skip?: number;
     take?: number;
+    skillType?: string;
 }
 export interface LoginResponse {
   user:

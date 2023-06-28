@@ -1,5 +1,6 @@
 import { icons } from '../../ui/atoms/Icons';
 import { createColumnHelper } from '@tanstack/react-table';
+import { z } from 'zod';
 // export const defaultSize = 1.75;
 
 export const ROUTES = {
@@ -116,6 +117,10 @@ export const SIDEBAR:SIDEBARInterface[] =
   },
 ];
 
+export const schemaSearch = z.object({
+    name: z.string().min(8, { message: 'Filtro troppo corto' }).max(20, { message: 'Filtro troppo lungo' }),
+  });
+
 export const COLUMNHELPER:any = createColumnHelper<any>();
 
 export const UsersCols = [
@@ -130,6 +135,50 @@ export const UsersCols = [
       COLUMNHELPER.accessor('email', {
           cell: (props:any) => props.getValue(),
           header: 'Email',
+      }),
+      COLUMNHELPER.accessor('actions', {
+        cell: (props:any) => props.getValue(),
+        header: 'Azioni',
+    }),
+];
+
+export const usersList =
+[
+  {value: 'Gioè Tiziano'},
+  {value: 'Gelmi Alessandro'},
+  {value: 'Terzuolo Matteo'},
+  {value: 'Cattaneo Elisa'},
+  {value: 'Panteghini Luca'},
+  {value: 'Moschella Andrea'},
+  {value: 'Tizio Tizio'},
+  {value: 'Caio Caio'},
+  {value: 'Baglio Aldo'},
+  {value: 'Antonio Nicola'},
+  {value: 'Lini Manuel'},
+  {value: 'Pasinelli Claudio'},
+]
+
+export const skillsList =
+[
+  {value: 'Frontend'},
+  {value: 'Backend'},
+  {value: 'Designer'},
+  {value: 'Administrator'},
+  {value: 'Other'}
+]
+
+export const SkillsCols = [
+      COLUMNHELPER.accessor('name', {
+          cell: (props:any) => props.getValue(),
+          header: 'Nome',
+      }),
+      COLUMNHELPER.accessor('skillType', {
+          cell: (props:any) => props.getValue(),
+          header: 'Tipo di skill',
+      }),
+      COLUMNHELPER.accessor('note', {
+          cell: (props:any) => props.getValue(),
+          header: 'Note',
       }),
 ];
 

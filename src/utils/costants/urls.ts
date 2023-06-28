@@ -5,6 +5,7 @@ export const BASE = 'https://dev.nurale.com';
 export const API = '/api';
 export const V1 = '/v1';
 export const USERS = '/users';
+export const SKILLS = '/skills';
 
 // Auth
 export const AUTH = '/auth';

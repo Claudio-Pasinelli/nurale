@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUser } from '../actions';
+import { createSkill } from '../actions';
 import { initialStateUser } from '../types';
-import { deleteUser } from '../actions/delete';
+import { deleteSkill } from '../actions/delete';
 
 const initialState : initialStateUser =
 {
@@ -10,48 +10,48 @@ const initialState : initialStateUser =
     error: null,
 };
 
-export const userReduxer = createSlice(
+export const skillReduxer = createSlice(
     {
-        name: 'user',
+        name: 'skill',
         initialState,
         reducers:{},
         extraReducers: (builder) =>
         {
             builder
-                // casi per la creazione dello user
-                .addCase(createUser.fulfilled, (state, action) =>
+                // casi per la creazione della skill
+                .addCase(createSkill.fulfilled, (state, action) =>
                 {
                     state.data = action.payload;
                     state.loading = false;
                 })
-                .addCase(createUser.pending, (state) =>
+                .addCase(createSkill.pending, (state) =>
                 {
                     state.loading = true;
 
                     // resetto l'errore precedente
                     state.error = null;
                 })
-                .addCase(createUser.rejected, (state) =>
+                .addCase(createSkill.rejected, (state) =>
                 {
-                    state.error = 'Error creating user';
+                    state.error = 'Error creating skill';
                     state.loading = false;
                 })
 
-                // casi per la cancellazione dello user
-                .addCase(deleteUser.fulfilled, (state, action) =>
+                // casi per la cancellazione della skill
+                .addCase(deleteSkill.fulfilled, (state, action) =>
                 {
                     state.loading = false;
                 })
-                .addCase(deleteUser.pending, (state) =>
+                .addCase(deleteSkill.pending, (state) =>
                 {
                     state.loading = true;
 
                     // resetto l'errore precedente
                     state.error = null;
                 })
-                .addCase(deleteUser.rejected, (state) =>
+                .addCase(deleteSkill.rejected, (state) =>
                 {
-                    state.error = 'Error deleting user';
+                    state.error = 'Error deleting skill';
                     state.loading = false;
                 })
         }

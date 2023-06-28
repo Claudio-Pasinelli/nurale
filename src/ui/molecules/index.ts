@@ -5,3 +5,4 @@ export { default as TextElement} from './TextElement';
 export { default as RequireAuth} from './RequireAuth';
 export { default as Table} from './Table';
 export { default as PageLayout} from './PageLayout';
+export { default as SelectForm} from './SelectForm';

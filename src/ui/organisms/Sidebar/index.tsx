@@ -6,6 +6,8 @@ import { ROUTES, SIDEBAR } from '../../../utils'
 import { useNavigate } from 'react-router-dom'
 import './index.css';
 import { theme } from '../../themes'
+import Cookies from 'js-cookie'
+import { EMAIL } from '../../../utils/costants/auth'
 
 // manca il colore ai link selezionati
 
@@ -17,6 +19,12 @@ const Sidebar = () =>
     const handleOpen = (value = false) =>
     {
         value ? setOpen(false) : setOpen(!open);
+    }
+
+    const logOut = () =>
+    {
+        navigate(ROUTES.login);
+        return Cookies.remove(EMAIL);
     }
 
     return (
@@ -55,7 +63,7 @@ const Sidebar = () =>
             <Flex direction='column' padding={open ? '0 0 22px 0' : '0 22px 22px 0'}>
                 <div style={{border:'solid #514689', borderWidth:'2px 0 0 0'}}>
                     <Spacer width={'20px'} height={'25px'} />
-                    <Flex onClick={()=> navigate(ROUTES.login)} cursor='pointer' placeContent={open ? 'center' : 'none'}>
+                    <Flex onClick={logOut} cursor='pointer' placeContent={open ? 'center' : 'none'}>
                         <Icons name='logout' size={1.5}/>
                         {open ? null :
                             <span style={{padding:'0 1.3rem', fontWeight: theme.fontWeights.bold}}>Logout</span>}

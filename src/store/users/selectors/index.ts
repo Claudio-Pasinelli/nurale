@@ -8,11 +8,6 @@ export const getUsers = createSelector(
     (state)=> state.data
 );
 
-// export const getUsersData = createSelector(
-//     getUsers,
-//     (state) => state.data
-// );
-
 export const getUsersLoading = createSelector(
     getUsersState,
     (state)=> state.loading
@@ -21,5 +16,10 @@ export const getUsersLoading = createSelector(
 export const getUsersError = createSelector(
     getUsersState,
     (state)=> state.error
+);
+
+export const getUsersPagination = createSelector(
+    getUsersState,
+    (state)=> state.pagination
 );
 
