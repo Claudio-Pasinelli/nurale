@@ -1,28 +1,19 @@
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { InputForm, PageLayout, SelectForm, Table } from '../../molecules';
-import { Flex, Stack } from '@chakra-ui/react';
-import { ButtonForm, Filter, Modal } from '../../atoms';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { PageLayout, SelectFilter, Table } from '../../molecules';
+import { Flex } from '@chakra-ui/react';
+import { ButtonForm, Filter } from '../../atoms';
 import { darkModePalette } from '../../themes/colors';
 import { theme } from '../../themes';
-import { AddIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { SettingsSkill } from './Types';
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { AddIcon } from '@chakra-ui/icons';
 import '../../../utils/index.css';
 import { useAppDispatch } from '../../../store/applicationStore';
-import schema from './validation';
 import { fetchSkills, getSkills, getSkillsPagination } from '../../../store/skills';
-import { SkillsCols, schemaSearch, skillsList } from '../../../utils';
-import { createSkill } from '../../../store/skill';
+import { Skill, SkillsCols, skillsList } from '../../../utils';
+import { deleteSkill } from '../../../store/skill';
 import { Pagination } from '../../organisms';
-
-const defaultValues = {
-    name: '',
-    skillType: '',
-    skillTypeSearch: '',
-    note: '',
-  };
+import ModalConfirm from './ModalConfirm';
+import Form from './Form';
 
 interface Props
 {
@@ -36,79 +27,109 @@ const Skills = ({name}:Props) =>
     const skills = useSelector(getSkills);
     
     const [show, setShow] = useState(false);
+    const [openConfirm, setOpenConfirm] = useState(false);
     
-    const take = 10;
-
+    const take = 5;
+    
     const [showFilters, setShowFilters] = useState(false);
+    const [isFilterUsed, setIsFilterUsed] = useState(false);
+    const [skillTypeSearch, setSkillTypeSearch] = useState('');
+    const [skill, setSkill] = useState<Skill| null>(null)
+    const [skillName, setSkillName] = useState('')
+    const [id, setId] = useState<number| null | undefined>(null);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalConfirmButton, setModalConfirmButton] = useState('');
+    const [skip, setSkip] = useState<number>(0);
 
-    // parte per il form dell'aggiunta dalla skill
-    const methods = useForm<SettingsSkill>({
-        defaultValues,
-        resolver: zodResolver(schema),
-      });
-      const {
-        formState: { errors },
-        trigger,
-        reset,
-        setValue,
-        getValues,
-        setError,
-    } = methods;
-
-    const handlShow = () =>
+    const handleShow = () =>
     {
         setShow(!show);
         handleFilters;
-    }
 
-    const handleNew= async () =>
-    {
-        const hasErrors = await trigger();
-
-        if (!hasErrors)
+        if(skill)
         {
-          return;
+            setSkill(null);
         }
 
-        await dispatch(createSkill(
-            {
-                name: getValues('name'),
-                skillType: getValues('skillType'),
-                note: getValues('note'),
-            }
-        ));
-
-        await dispatch(fetchSkills(
-                {
-                    search: '',
-                    skip: 0,
-                    take: take,
-                }
-        ));
-
-        handleReset();
-        handlShow();
-        return;
+        setModalTitle('Aggiungi nuova Skill');
+        setModalConfirmButton('Conferma');
     }
-
-    const handleReset = () => {
-        reset(defaultValues);
-    };
 
     const handleFilters = () =>
     {
         setShowFilters(!showFilters);
     }
 
-    const searchSkills = ()=>
+    const emptyFilter = () =>
     {
+        setSkillTypeSearch('');
         dispatch(fetchSkills(
             {
-                skillType: getValues('skillTypeSearch'),
-                skip: 0,
-                take: 10,
+                search: '',
+                skip: skip,
+                take: take,
             }
         ));
+
+        setIsFilterUsed(false);
+    }
+
+    const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) =>
+    {
+        setSkillTypeSearch(event.target.value);
+    }
+
+    const fetchSkillsFiltered = async() =>
+    {
+        await dispatch(fetchSkills(
+            {
+                skillType: skillTypeSearch,
+                skip: skip,
+                take: take,
+            }
+        ));
+    }
+
+    const searchSkills = ()=>
+    {
+        fetchSkillsFiltered();
+
+        setIsFilterUsed(true);
+    }
+
+    const handleEdit = (item: Skill)=>
+    {
+        setSkill(item);
+        setShow(true);
+        setModalTitle('Modifica Skill');
+        setModalConfirmButton('Salva');
+    }
+
+    const handleDelete = (object: Skill)=>
+    {
+        setId(object.id);
+        setSkillName(object.name)
+        setOpenConfirm(true);
+    }
+
+    const handleCloseConfirm = async ()=>
+    {
+        setId(null);
+        setSkillName('');
+        setOpenConfirm(false);
+    }
+
+    const handleDeleteConfirm= async ()=>
+    {
+        await dispatch(deleteSkill(id));
+        await dispatch(fetchSkills(
+            {
+                search: '',
+                skip: skip,
+                take: take,
+            }
+        ));
+        return handleCloseConfirm();
     }
 
     useEffect(()=>
@@ -116,8 +137,8 @@ const Skills = ({name}:Props) =>
         dispatch(fetchSkills(
             {
                 search: '',
-                skip: 0,
-                take: 10,
+                skip: skip,
+                take: take,
             }
         ));
     },[]);
@@ -125,56 +146,34 @@ const Skills = ({name}:Props) =>
     return (
         <PageLayout name={name}>
             <Flex placeContent='space-between'>
-                <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} leftIcon={<AddIcon />} width='fit-content' onClick={handlShow} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} leftIcon={<AddIcon />} width='fit-content' onClick={handleShow} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
                     Aggiungi nuovo
                 </ButtonForm>
-                <Filter show={show} showFilters={showFilters} handleFilters={handleFilters}>
-                    <FormProvider {...methods}>
-                        <Flex width='100%' direction='column' marginTop={'1.7rem'}>
-                            <SelectForm options={skillsList} name='skillTypeSearch' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
-                            <Flex justifyContent='space-around'>
-                                <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={handleFilters} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
-                                    Svuota filtri
-                                </ButtonForm>
-                                <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={searchSkills} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
-                                    Conferma
-                                </ButtonForm>
-                            </Flex>
+                <Filter isFilterUsed={isFilterUsed} show={show} showFilters={showFilters} handleFilters={handleFilters}>
+                    <Flex width='100%' direction='column' marginTop={'1.7rem'}>
+                        <SelectFilter options={skillsList} value={skillTypeSearch} onChange={handleChangeFilter} name='skillTypeSearch' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
+                        <Flex justifyContent='space-around'>
+                            <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={emptyFilter} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                                Svuota filtri
+                            </ButtonForm>
+                            <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={searchSkills} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                                Conferma
+                            </ButtonForm>
                         </Flex>
-                    </FormProvider>
+                    </Flex>
                 </Filter>
             </Flex>
             <Flex direction='column'>
-                <Table data={skills} columns={SkillsCols} display={show ? 'none' : 'block'}/>
-                <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>Aggiungi nuova Skill</p>
-                <Modal show={show}>
-                    <FormProvider {...methods}>
-                        <Flex width='100%' direction='row' alignItems='center'>
-                            <Flex width='100%' direction='column'>
-                                <Flex >
-                                    <InputForm label='Nome' name='name' placeholder='Nome' containerWidth='90%' fontWeight={theme.fontWeights.bold} error={errors?.name?.message}/>
-                                </Flex>
-                            </Flex>
-                            <Flex width='100%' direction='column'>
-                                <SelectForm options={skillsList} name='skillType' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
-                            </Flex>
-                        </Flex>
-                        <Flex width='100%'>
-                            <Flex >
-                                <InputForm label='Note' name='note' placeholder='Note' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.note?.message}/>
-                            </Flex>
-                        </Flex>
-                    </FormProvider>
-                    <Flex width='100%' justifyContent='right'>
-                        <Flex>
-                            <Stack spacing={3} direction='row'>
-                                <ButtonForm backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} leftIcon={<CloseIcon />} width='fit-content' onClick={handlShow}_hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>Annulla</ButtonForm>
-                                <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Conferma</ButtonForm>
-                            </Stack>
-                        </Flex>
-                    </Flex> 
-                </Modal>
-                <Pagination take={take} fetch={fetchSkills} show={show} getPagination={getSkillsPagination}/>
+                <Table data={skills} columns={SkillsCols} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
+                <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>
+                    {modalTitle}
+                </p>
+                <Form show={show} selectList={skillsList} skip={skip} take={take} handleShow={handleShow} skill={skill} modalConfirmButton={modalConfirmButton}/>
+                {
+                    isFilterUsed ? <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} fetchFiltered={fetchSkillsFiltered} show={show} getPagination={getSkillsPagination}/>
+                    : <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} show={show} getPagination={getSkillsPagination}/>
+                }
+                <ModalConfirm handleDelete={handleDeleteConfirm} handleClose={handleCloseConfirm} open={openConfirm} objectName={skillName}/>
             </Flex>
         </PageLayout>
     )

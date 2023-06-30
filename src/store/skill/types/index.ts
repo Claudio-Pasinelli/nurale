@@ -1,8 +1,8 @@
-import { User } from '../../../utils';
+import { Skill } from '../../../utils';
 
 export interface initialStateUser
 {
-    data: User | null,
+    data: Skill | null,
     loading: boolean,
     error: string | null
 }

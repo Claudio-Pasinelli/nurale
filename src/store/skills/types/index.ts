@@ -1,8 +1,8 @@
-import { Skills } from '../../../utils';
+import { Skill } from '../../../utils';
 
 export interface initialStateSkills
 {
-    data: Skills[];
+    data: Skill[];
     pagination: number;
     loading: boolean;
     error: null | string

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createSkill } from '../actions';
+import { createSkill, editSkill } from '../actions';
 import { initialStateUser } from '../types';
 import { deleteSkill } from '../actions/delete';
 
@@ -27,8 +27,6 @@ export const skillReduxer = createSlice(
                 .addCase(createSkill.pending, (state) =>
                 {
                     state.loading = true;
-
-                    // resetto l'errore precedente
                     state.error = null;
                 })
                 .addCase(createSkill.rejected, (state) =>
@@ -45,13 +43,27 @@ export const skillReduxer = createSlice(
                 .addCase(deleteSkill.pending, (state) =>
                 {
                     state.loading = true;
-
-                    // resetto l'errore precedente
                     state.error = null;
                 })
                 .addCase(deleteSkill.rejected, (state) =>
                 {
                     state.error = 'Error deleting skill';
+                    state.loading = false;
+                })
+
+                // casi per la modifica della skill
+                .addCase(editSkill.fulfilled, (state, action) =>
+                {
+                    state.loading = false;
+                })
+                .addCase(editSkill.pending, (state) =>
+                {
+                    state.loading = true;
+                    state.error = null;
+                })
+                .addCase(editSkill.rejected, (state) =>
+                {
+                    state.error = 'Error updating skill';
                     state.loading = false;
                 })
         }

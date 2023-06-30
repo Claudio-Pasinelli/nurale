@@ -2,15 +2,18 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/reac
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { theme } from '../../themes';
 import './index.css'
+import { ButtonForm, Icons } from '../../atoms';
 
 interface Props
 {
     data: any
     columns: any
     display?: string;
+    handleDelete: (object: any) => void;
+    handleEdit: (item: any) => void;
 }
 
-const TableComponent = ({data, columns, display = 'block'}: Props) =>
+const TableComponent = ({data, columns, display = 'block', handleDelete, handleEdit }: Props) =>
 {
     const tableInstance = useReactTable(
         {
@@ -21,7 +24,6 @@ const TableComponent = ({data, columns, display = 'block'}: Props) =>
 
     const ColumnModel = tableInstance.getHeaderGroups()
     const RowModel = tableInstance.getRowModel();
-    // console.log(ColumnModel)
 
     return (
         <TableContainer width='100%' borderRadius='10px' border='1px solid #857dac' overflow='hidden' display={display}>
@@ -36,6 +38,9 @@ const TableComponent = ({data, columns, display = 'block'}: Props) =>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                             </Th> 
                             ))}
+                            <Th color='black' fontSize={theme.fontSizes.xxs} textTransform='none' textAlign='right'>
+                                Azioni
+                            </Th> 
                         </Tr>
                     ))}
                 </Thead>
@@ -49,6 +54,10 @@ const TableComponent = ({data, columns, display = 'block'}: Props) =>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </Td>
                             ))}
+                            <Td textAlign='right'>
+                                <ButtonForm padding='0' onClick={()=> handleEdit(row.original)} backgroundColor='transparent' _hover={{bg: 'transparent'}}><Icons name='edit' size={1.5}/></ButtonForm>
+                                <ButtonForm padding='0' onClick={()=> handleDelete(row.original)} backgroundColor='transparent' _hover={{bg: 'transparent'}}><Icons name='deleteIcon' size={1.5}/></ButtonForm>
+                            </Td>
                         </Tr>
                     ))}
                 </Tbody>

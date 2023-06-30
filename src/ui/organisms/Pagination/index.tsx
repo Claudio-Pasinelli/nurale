@@ -1,28 +1,30 @@
 import { Flex } from '@chakra-ui/react';
 import { ButtonForm, Icons } from '../../atoms';
-import InputPage from '../../molecules/InputPage';
 import { darkModePalette } from '../../themes/colors';
 import { theme } from '../../themes';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../../store/applicationStore';
 import { useSelector } from 'react-redux';
-
+import { InputPage } from '../../molecules';
 interface Props
 {
     show: boolean;
     take: number;
     getPagination: any;
+    skip: number;
+    setSkip: (skip: number) => void;
+
     // eslint-disable-next-line no-empty-pattern
     fetch: ({})=> void
+    fetchFiltered?: ()=> void
 }
 
-const Pagination = ({show, take, getPagination, fetch}:Props) =>
+const Pagination = ({show, take, getPagination, skip, setSkip, fetch, fetchFiltered}:Props) =>
 {
     const dispatch = useAppDispatch();
 
     const [maxNumPage, setMaxNumPage] = useState<number>(1);
     const [numPage, setNumPage] = useState<number>(1);
-    const [skip, setSkip] = useState<number>(0);
     const pagination = useSelector(getPagination);
     const [minReached, setMinReached] = useState(true);
     const [maxReached, setMaxReached] = useState(false);
@@ -32,36 +34,72 @@ const Pagination = ({show, take, getPagination, fetch}:Props) =>
         let page = numPage;
         page++;
         
-        if(numPage < maxNumPage)
+        if(page <= maxNumPage)
         {
             setNumPage(numPage && page);
-            const skipValueIncrement = skip + 10
+            const skipValueIncrement = skip + take;
+
+            setSkip(skipValueIncrement);
+            setMinReached(false);
+            
+            if(page === maxNumPage)
+            {
+                setMaxReached(true);
+            }
+
+            else
+            {
+                setMaxReached(false);
+            }
         
-            await dispatch(fetch(
+            if(fetchFiltered)
+            {
+                return fetchFiltered();
+            }
+
+            dispatch(fetch(
                 {
                     search: '',
                     skip: skipValueIncrement,
                     take: take,
                 }
-                ));
-            setSkip(skipValueIncrement);
-            setMaxReached(false);
-            setMinReached(false);
+            ));
         }
 
-        setMaxReached(true);
-        return null;
+        if(page > maxNumPage)
+        {
+            setMaxReached(true);
+            return null;
+        }
     }
 
     const handleDecreasePage = () =>
     {
         let page = numPage;
-        page--;
-
-        if(numPage >= 2)
+        
+        if(page >= 2)
         {
+            page--;
             setNumPage(numPage && page);
-            const skipValueDecrement = skip - 10
+            const skipValueDecrement = skip - take;
+
+            setSkip(skipValueDecrement);
+            setMaxReached(false);
+
+            if(page === 1)
+            {
+                setMinReached(true);
+            }
+
+            else
+            {
+                setMinReached(false);
+            }
+
+            if(fetchFiltered)
+            {
+                return fetchFiltered();
+            }
 
             dispatch(fetch(
                 {
@@ -70,26 +108,17 @@ const Pagination = ({show, take, getPagination, fetch}:Props) =>
                     take: take,
                 }
             ));
-    
-            setSkip(skipValueDecrement);
-            setMinReached(false);
-            setMaxReached(false);
         }
-        
-        setMinReached(true);
-        return null;
+
+        if(page === 1)
+        {
+            setMinReached(true);
+            return null;
+        }
     }
     
     useEffect(()=>
     {
-        dispatch(fetch(
-            {
-                search: '',
-                skip: skip,
-                take: take,
-            }
-        ));
-
         if(pagination as number % take === 0)
         {
             setMaxNumPage(Math.floor(pagination as number) / take);
@@ -97,7 +126,19 @@ const Pagination = ({show, take, getPagination, fetch}:Props) =>
         }
         
         setMaxNumPage(Math.floor(pagination as number / take) + 1);
-        return;
+
+        if(numPage === maxNumPage)
+        {
+            setMaxReached(true);
+        }
+
+        if(numPage === 1)
+        {
+            setMinReached(true);
+        }
+
+        setMaxReached(false);
+        return setMinReached(false);
     },[pagination]);
 
     return(

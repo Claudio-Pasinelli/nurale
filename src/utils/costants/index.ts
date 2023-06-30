@@ -135,15 +135,12 @@ export const UsersCols = [
       COLUMNHELPER.accessor('email', {
           cell: (props:any) => props.getValue(),
           header: 'Email',
-      }),
-      COLUMNHELPER.accessor('actions', {
-        cell: (props:any) => props.getValue(),
-        header: 'Azioni',
-    }),
+      })
 ];
 
 export const usersList =
 [
+  {value: ''},
   {value: 'Gioè Tiziano'},
   {value: 'Gelmi Alessandro'},
   {value: 'Terzuolo Matteo'},
@@ -160,6 +157,7 @@ export const usersList =
 
 export const skillsList =
 [
+  {value: ''},
   {value: 'Frontend'},
   {value: 'Backend'},
   {value: 'Designer'},
@@ -179,7 +177,7 @@ export const SkillsCols = [
       COLUMNHELPER.accessor('note', {
           cell: (props:any) => props.getValue(),
           header: 'Note',
-      }),
+      })
 ];
 
 

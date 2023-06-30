@@ -6,4 +6,6 @@ export interface SettingsUser
     cognome: string;
     password: string;
     confirmPwd: string;
+    phone: string;
+    id?: string;
 }

@@ -6,6 +6,7 @@ export const API = '/api';
 export const V1 = '/v1';
 export const USERS = '/users';
 export const SKILLS = '/skills';
+export const ME = '/me';
 
 // Auth
 export const AUTH = '/auth';

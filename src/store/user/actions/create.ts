@@ -6,9 +6,10 @@ import { User } from '../../../utils';
 
 export const createUser = createAsyncThunk(
     'user',
-    async (params: User | undefined, thunkAPI) => {
-      try {
-
+    async (params: User | undefined, thunkAPI) =>
+    {
+      try
+      {
         const response = await apiClient.post<AxiosResponse>({
           url: `${BASE}${API}${V1}${USERS}`,
           body:params,

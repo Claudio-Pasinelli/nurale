@@ -1,18 +1,26 @@
 export interface User
 {
     email: string,
-    password: string,
-    passwordConfirm: string,
+    password?: string,
+    passwordConfirm?: string,
     firstName: string,
     lastName: string,
+    phone?: string,
     resourceId: number,
-  }
+    id?: number,
+    createdAt?: Date
+    hasDarkTheme?: boolean
+    role?: string,
+    uid?: string,
+    updatedAt?: Date
+}
   
-export interface Skills
+export interface Skill
 {
     name: string;
     note: string;
     skillType: string;
+    id?: number | null;
 }
 
 export interface QueryParams

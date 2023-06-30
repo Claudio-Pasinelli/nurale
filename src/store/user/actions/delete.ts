@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { BASE, API, V1, USERS } from '../../../utils/costants/urls';
 import apiClient from '../../../utils/helpers/apiClient';
 
-export const deleteUser = createAsyncThunk('delete/User', async (id: number, thunkAPI) => {
+export const deleteUser = createAsyncThunk('delete/User', async (id: number | undefined | null, thunkAPI) => {
   try {
     const response = await apiClient.delete<AxiosResponse>({
       url: `${BASE}${API}${V1}${USERS}/${id}`,

@@ -15,10 +15,12 @@ import dropdownIconSu from './DropdownIconSu'
 import btnTriangoloSn from './BtnTriangoloSn'
 import btnTriangoloDx from './BtnTriangoloDx'
 import xCloseIcon from './XCloseIcon'
+import edit from './Edit'
+import deleteIcon from './DeleteIcon'
 
 export type icons = 'home' | 'notifiche' | 'profilo' | 'inserimentoVeloce'  | 'anagrafiche' | 
 'acquisti' | 'settings' | 'timesheet' | 'logout' | 'darkMode' | 'triangoloSn' | 'triangoloDx' | 'dropdownIconSu' | 'dropdownIconGiu' | 'btnTriangoloSn' |
-'btnTriangoloDx' | 'xCloseIcon'
+'btnTriangoloDx' | 'xCloseIcon' | 'edit' | 'deleteIcon'
 
 interface Props {
     name: icons;
@@ -46,6 +48,8 @@ const Icons = ({name, size = 2.4 , maxHeight = 2.4, color = 'black'}: Props)=>{
         btnTriangoloDx,
         btnTriangoloSn,
         xCloseIcon,
+        edit,
+        deleteIcon,
     }
         const Icon = index[name];
         return <Icon color={color} maxHeight={maxHeight} size={size}/>

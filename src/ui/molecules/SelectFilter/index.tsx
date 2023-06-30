@@ -1,6 +1,5 @@
 import { Select } from '@chakra-ui/react';
 import { HTMLAttributes } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { theme } from '../../themes';
 
 interface Props extends HTMLAttributes<HTMLSelectElement>
@@ -11,15 +10,14 @@ interface Props extends HTMLAttributes<HTMLSelectElement>
     fontWeight: string;
     fontSize?: string;
     error?: string;
+    value?: string;
 }
 
-const SelectForm = ({options, name, label, fontWeight, fontSize, error, ...rest}: Props) =>
-{
-    const { register } = useFormContext();
-    
+const SelectFilter = ({options, name, label, fontWeight, fontSize, error, value, ...rest}: Props) =>
+{   
     return <div>
         <label style={{fontWeight: fontWeight ? fontWeight : '100px'}}>{label}</label>
-        <Select {...register(name)} style={{fontSize: theme.fontSizes.xxs}} {...rest}>
+        <Select name={name} style={{fontSize: theme.fontSizes.xxs}} value={value} {...rest}>
             {options.map((selectOption) =>
             (
                 <option value={selectOption.value} key={selectOption.value} style={{fontSize: theme.fontSizes.xxs}}>
@@ -31,4 +29,4 @@ const SelectForm = ({options, name, label, fontWeight, fontSize, error, ...rest}
     </div>
 }
 
-export default SelectForm;
+export default SelectFilter;
