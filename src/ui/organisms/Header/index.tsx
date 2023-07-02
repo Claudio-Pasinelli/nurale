@@ -33,10 +33,10 @@ const Header = ({name}: Props) =>
 
         if(profileIconColor === 'rgba(81, 70, 137, 0.7)')
         {
-            setProfileIconColor(darkModePalette.pink100);
+            return setProfileIconColor(darkModePalette.pink100);
         }
-
-         return setProfileIconColor('rgba(81, 70, 137, 0.7)');
+        
+        return setProfileIconColor('rgba(81, 70, 137, 0.7)');
     }
 
     const logOut = () =>
@@ -77,7 +77,7 @@ const Header = ({name}: Props) =>
                         </Flex>
                         <Spacer width='100%' height='20px' style={{border:'solid rgba(123, 97, 255, 0.05)', borderWidth:'0 0 0.2rem 0'}}/>
                         <Spacer width='100%' height='20px'/>
-                        <Flex onClick={logOut} cursor='pointer' placeContent='center' justifyContent='left'>
+                        <Flex onClick={logOut} cursor='pointer' placeContent='center' justifyContent='left' width='fit-content'>
                             <Icons name='logout' size={1.5}/>
                             <span style={{padding:'0 1.3rem', fontWeight: theme.fontWeights.bold}}>Logout</span>
                         </Flex>

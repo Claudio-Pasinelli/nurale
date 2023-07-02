@@ -6,7 +6,6 @@ import { ButtonForm, Filter } from '../../atoms';
 import { darkModePalette } from '../../themes/colors';
 import { theme } from '../../themes';
 import { AddIcon } from '@chakra-ui/icons';
-import '../../../utils/index.css';
 import { useAppDispatch } from '../../../store/applicationStore';
 import { fetchSkills, getSkills, getSkillsPagination } from '../../../store/skills';
 import { Skill, SkillsCols, skillsList } from '../../../utils';
@@ -14,6 +13,7 @@ import { deleteSkill } from '../../../store/skill';
 import { Pagination } from '../../organisms';
 import ModalConfirm from './ModalConfirm';
 import Form from './Form';
+import '../../../utils/index.css';
 
 interface Props
 {
@@ -29,8 +29,6 @@ const Skills = ({name}:Props) =>
     const [show, setShow] = useState(false);
     const [openConfirm, setOpenConfirm] = useState(false);
     
-    const take = 5;
-    
     const [showFilters, setShowFilters] = useState(false);
     const [isFilterUsed, setIsFilterUsed] = useState(false);
     const [skillTypeSearch, setSkillTypeSearch] = useState('');
@@ -39,7 +37,12 @@ const Skills = ({name}:Props) =>
     const [id, setId] = useState<number| null | undefined>(null);
     const [modalTitle, setModalTitle] = useState('');
     const [modalConfirmButton, setModalConfirmButton] = useState('');
+
     const [skip, setSkip] = useState<number>(0);
+    const take = 5;
+
+    const totalRows = useSelector(getSkillsPagination);
+    const totalPages = Math.floor(totalRows/take);
 
     const handleShow = () =>
     {
@@ -141,7 +144,11 @@ const Skills = ({name}:Props) =>
                 take: take,
             }
         ));
+        
     },[]);
+
+    // console.log(Math.floor(totalPages))
+    // console.log(totalPages)
 
     return (
         <PageLayout name={name}>
@@ -170,8 +177,8 @@ const Skills = ({name}:Props) =>
                 </p>
                 <Form show={show} selectList={skillsList} skip={skip} take={take} handleShow={handleShow} skill={skill} modalConfirmButton={modalConfirmButton}/>
                 {
-                    isFilterUsed ? <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} fetchFiltered={fetchSkillsFiltered} show={show} getPagination={getSkillsPagination}/>
-                    : <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} show={show} getPagination={getSkillsPagination}/>
+                    isFilterUsed ? <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} fetchFiltered={fetchSkillsFiltered} show={show} totalPages={totalPages}/>
+                    : <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} show={show} totalPages={totalPages}/>
                 }
                 <ModalConfirm handleDelete={handleDeleteConfirm} handleClose={handleCloseConfirm} open={openConfirm} objectName={skillName}/>
             </Flex>

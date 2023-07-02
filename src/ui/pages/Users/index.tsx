@@ -33,6 +33,9 @@ const Users = ({name}:Props) =>
     const [modalConfirmButton, setModalConfirmButton] = useState('');
     const [skip, setSkip] = useState<number>(0);
 
+    const totalRows = useSelector(getUsersPagination);
+    const totalPages = Math.floor(totalRows/take);
+
     const handleShow = () =>
     {
         setShow(!show);
@@ -101,7 +104,7 @@ const Users = ({name}:Props) =>
                     {modalTitle}
                 </p>
                 <Form show={show} selectList={usersList} skip={skip} take={take} handleShow={handleShow} user={user} modalConfirmButton={modalConfirmButton}/>
-                <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchUsers} show={show} getPagination={getUsersPagination}/>
+                <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchUsers} show={show} totalPages={totalPages}/>
                 <ModalConfirm handleDelete={handleDeleteConfirm} handleClose={handleCloseConfirm} open={openConfirm} objectName={userName}/>
             </Flex>
         </PageLayout>

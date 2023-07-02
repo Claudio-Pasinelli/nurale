@@ -3,7 +3,6 @@ import { Spacer, ButtonForm, CheckboxForm } from '../../../atoms';
 import { InputForm } from '../../../molecules';
 import { ROUTES, User } from '../../../../utils';
 import { FormProvider, useForm } from 'react-hook-form';
-import schema from '../validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -15,7 +14,7 @@ import { loginUser } from '../../../../store';
 import { AppDispatch } from '../../../../store/applicationStore';
 import { EMAIL } from '../../../../utils/costants/auth';
 import Cookies from 'js-cookie';
-import { error } from 'console';
+import schema from '../validation';
 
 const defaultValues = {
     email: '',
@@ -46,16 +45,12 @@ const defaultValues = {
     const handleClickAccess = async () =>
     {
         const hasErrors = await trigger();
+
         if (!hasErrors) {
-          return;
-        }
-        
-        if(!checked)
-        {
-            Cookies.remove(EMAIL);
+          return hasErrors;
         }
 
-        Cookies.set(EMAIL, getValues(`${EMAIL}`));
+        (!checked) ? Cookies.remove(EMAIL) : Cookies.set(EMAIL, getValues(`${EMAIL}`));
         
         const response = await dispatch(loginUser(getValues()));
 

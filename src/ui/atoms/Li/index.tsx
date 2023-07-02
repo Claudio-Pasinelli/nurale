@@ -7,6 +7,7 @@ const Li = styled.div<Props>`
     padding: '0px';
     background-color: 'gray';
     border: '0px';
+    border-color: rgba(123, 97, 255, 0.05);
     width: 100%;
     height: fit-content;
     list-style: none;

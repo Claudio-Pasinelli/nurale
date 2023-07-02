@@ -24,7 +24,6 @@ const Sidebar = () =>
     const logOut = () =>
     {
         navigate(ROUTES.login);
-        return Cookies.remove(EMAIL);
     }
 
     return (

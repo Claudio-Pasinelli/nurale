@@ -120,6 +120,7 @@ const SidebarLink = ({nameIcon = '', name = '', marginRight = '', nameOtherIcon,
                 width={'100%'}
                 onClick={show && open ? ()=>{return} : handleClick}
                 type="button"
+                borderRadius='5px'
             >
             <TextElement
                 name={name}

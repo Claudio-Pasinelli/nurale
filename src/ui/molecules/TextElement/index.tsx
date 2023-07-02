@@ -20,7 +20,7 @@ const TextElement = ({
     nameIcon = undefined,
     nameOtherIcon = undefined,
     colorIcon = 'black',
-    paddingIcon = '0rem 1.3rem',
+    paddingIcon = '0 0.8rem',
     marginLeft = '',
     marginRight = '',
     paddingRight = '',
@@ -56,7 +56,7 @@ const TextElement = ({
                 null
                 :
                 nameOtherIcon && (
-                    <span style={{ paddingTop: '12px', marginLeft: 'auto' }}>
+                    <span style={{ paddingRight: '5px', marginLeft: 'auto' }}>
                         {dropDownOpen ? (
                             <Icons
                                 name={'dropdownIconGiu'}
