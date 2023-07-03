@@ -1,17 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import apiClient from '../../../utils/helpers/apiClient';
-import { BASE, API, V1, SKILLS } from '../../../utils/costants/urls';
-import { QueryParams } from '../../../utils';
+import { BASE, API, V1, USERS, ME } from '../../../utils/costants/urls';
 
-export const fetchSkills = createAsyncThunk(
-    'fetch/users',
-    async (params: QueryParams | undefined, thunkAPI) => {
-      // thunkAPI.getState
+export const fetchMe = createAsyncThunk(
+    'fetch/user/me',
+    async (_, thunkAPI) => {
       try {
         const response = await apiClient.get<AxiosResponse>({
-          url: `${BASE}${API}${V1}${SKILLS}`,
-          params,
+          url: `${BASE}${API}${V1}${USERS}${ME}`,
         });
   
         if (response.status === 200) {

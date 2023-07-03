@@ -63,7 +63,7 @@ export const userReduxer = createSlice(
                 })
                 .addCase(editUser.rejected, (state) =>
                 {
-                    state.error = 'Error deleting user';
+                    state.error = 'Error updating user';
                     state.loading = false;
                 })
 

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { fetchUsers, getUsers, getUsersPagination } from '../../../store';
 import { useEffect, useState } from 'react';
 import { User, UsersCols, usersList } from '../../../utils';
-import { PageLayout, Table } from '../../molecules';
+import { ModalConfirm, PageLayout, Table } from '../../molecules';
 import { Flex } from '@chakra-ui/react';
 import { ButtonForm } from '../../atoms';
 import { darkModePalette } from '../../themes/colors';
@@ -12,7 +12,6 @@ import '../../../utils/index.css';
 import { useAppDispatch } from '../../../store/applicationStore';
 import { Pagination } from '../../organisms';
 import Form from './Form';
-import ModalConfirm from '../Skills/ModalConfirm';
 import { deleteUser } from '../../../store/user';
 interface Props
 {
@@ -78,7 +77,7 @@ const Users = ({name}:Props) =>
             {
                 search: '',
                 skip: skip,
-                take: 10,
+                take: take,
             }
         ));
         return handleCloseConfirm();
@@ -89,8 +88,8 @@ const Users = ({name}:Props) =>
         dispatch(fetchUsers(
             {
                 search: '',
-                skip: 0,
-                take: 10,
+                skip: skip,
+                take: take,
             }
         ));
     },[]);

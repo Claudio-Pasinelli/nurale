@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { PageLayout, SelectFilter, Table } from '../../molecules';
+import { ModalConfirm, PageLayout, SelectFilter, Table } from '../../molecules';
 import { Flex } from '@chakra-ui/react';
 import { ButtonForm, Filter } from '../../atoms';
 import { darkModePalette } from '../../themes/colors';
@@ -11,7 +11,6 @@ import { fetchSkills, getSkills, getSkillsPagination } from '../../../store/skil
 import { Skill, SkillsCols, skillsList } from '../../../utils';
 import { deleteSkill } from '../../../store/skill';
 import { Pagination } from '../../organisms';
-import ModalConfirm from './ModalConfirm';
 import Form from './Form';
 import '../../../utils/index.css';
 
@@ -66,6 +65,8 @@ const Skills = ({name}:Props) =>
     const emptyFilter = () =>
     {
         setSkillTypeSearch('');
+        setIsFilterUsed(false);
+
         dispatch(fetchSkills(
             {
                 search: '',
@@ -73,8 +74,6 @@ const Skills = ({name}:Props) =>
                 take: take,
             }
         ));
-
-        setIsFilterUsed(false);
     }
 
     const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) =>
@@ -146,9 +145,6 @@ const Skills = ({name}:Props) =>
         ));
         
     },[]);
-
-    // console.log(Math.floor(totalPages))
-    // console.log(totalPages)
 
     return (
         <PageLayout name={name}>

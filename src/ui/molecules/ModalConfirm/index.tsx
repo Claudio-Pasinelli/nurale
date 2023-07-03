@@ -1,8 +1,8 @@
 import { Flex, Modal, ModalBody, ModalContent, ModalOverlay, Stack } from '@chakra-ui/react';
-import { ButtonForm } from '../../../atoms'
-import { darkModePalette } from '../../../themes/colors';
+import { ButtonForm } from '../../atoms'
+import { darkModePalette } from '../../themes/colors';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { theme } from '../../../themes';
+import { theme } from '../../themes';
 
 interface Props
 {

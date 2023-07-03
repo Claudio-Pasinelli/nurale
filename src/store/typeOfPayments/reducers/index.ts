@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsers } from '../actions/fetchUsers';
-import { initialStateUsers } from '../types';
+import { fetchTypeOfPayments } from '../actions/fetchTypeOfPayments';
+import { initialStateTypeOfPayments } from '../types';
 
-const initialState : initialStateUsers =
+const initialState : initialStateTypeOfPayments =
 {
     data: [],
     pagination: 0,
@@ -10,31 +10,31 @@ const initialState : initialStateUsers =
     error: null,
 };
 
-export const usersReduxer = createSlice(
+export const typeOfPaymentsReduxer = createSlice(
     {
-        name: 'users',
+        name: 'type-of-payments',
         initialState,
         reducers:{},
 
         extraReducers: (builder) =>
         {
             builder
-                .addCase(fetchUsers.fulfilled, (state, action) =>
+                .addCase(fetchTypeOfPayments.fulfilled, (state, action) =>
                 {
                     state.data = action.payload.data;
                     state.pagination = action.payload.pagination.totalCount;
                     state.loading = false;
                     state.error = null;
                 })
-                .addCase(fetchUsers.pending, (state) =>
+                .addCase(fetchTypeOfPayments.pending, (state) =>
                 {
                     state.loading = true;
                     state.error = null;
                 })
-                .addCase(fetchUsers.rejected, (state) =>
+                .addCase(fetchTypeOfPayments.rejected, (state) =>
                 {
                     state.loading = false;
-                    state.error = 'Error fetching users';
+                    state.error = 'Error fetching type of payments';
                 })
         }
     }

@@ -8,3 +8,6 @@ export { default as Table} from './Table';
 export { default as PageLayout} from './PageLayout';
 export { default as SelectForm} from './SelectForm';
 export { default as SelectFilter} from './SelectFilter';
+export { default as TextAreaForm} from './TextAreaForm';
+export { default as ModalConfirm} from './ModalConfirm';
+export { default as SwitchForm} from './SwitchForm';

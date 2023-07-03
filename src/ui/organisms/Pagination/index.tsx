@@ -9,7 +9,7 @@ interface Props
 {
     show: boolean;
     take: number;
-    totalPages: any;
+    totalPages: number;
     skip: number;
     setSkip: (skip: number) => void;
 
@@ -39,21 +39,13 @@ const Pagination = ({show, take, totalPages, skip, setSkip, fetch, fetchFiltered
 
             setSkip(skipValueIncrement);
             setMinReached(false);
-            
-            if(page === maxNumPage)
-            {
-                setMaxReached(true);
-            }
 
-            else
-            {
-                setMaxReached(false);
-            }
+            (page === maxNumPage) ? setMaxReached(true) : setMaxReached(false);
         
             if(fetchFiltered)
             {
                 return fetchFiltered();
-            }
+            }fetchFiltered
 
             dispatch(fetch(
                 {
@@ -84,15 +76,7 @@ const Pagination = ({show, take, totalPages, skip, setSkip, fetch, fetchFiltered
             setSkip(skipValueDecrement);
             setMaxReached(false);
 
-            if(page === 1)
-            {
-                setMinReached(true);
-            }
-
-            else
-            {
-                setMinReached(false);
-            }
+            (page === 1) ? setMinReached(true) : setMinReached(false);
 
             if(fetchFiltered)
             {
@@ -130,7 +114,7 @@ const Pagination = ({show, take, totalPages, skip, setSkip, fetch, fetchFiltered
     },[totalPages]);
 
     return(
-        <Flex justifyContent='right' style={{margin: '5% 0 0 0' , height: 'fit-content'}} display={show ? 'none' : 'flex'}>
+        <Flex justifyContent='right' style={{margin: '5% 0' , height: 'fit-content'}} display={show ? 'none' : 'flex'}>
             <InputPage containerWidth='10%' value={numPage} type='number' label='Pagina' name='Pagina' placeholder='Num. pagina' fontWeight={theme.fontWeights.bold}/>
             <p style={{fontWeight: theme.fontWeights.bold, alignSelf: 'center'}}> di {maxNumPage}</p>
             <ButtonForm background={minReached ? darkModePalette.gray : darkModePalette.pink100} margin='0 5px 0 15px' padding='0' width='fit-content' onClick={handleDecreasePage}>

@@ -12,7 +12,7 @@ const initialState : initialStateSkills =
 
 export const skillsReduxer = createSlice(
     {
-        name: 'login',
+        name: 'skills',
         initialState,
         reducers:{},
 
@@ -34,13 +34,8 @@ export const skillsReduxer = createSlice(
                 .addCase(fetchSkills.rejected, (state) =>
                 {
                     state.loading = false;
-                    // state.error = 'Error during login';
+                    state.error = 'Error fetching skills';
                 })
-
-                // .addCase(resetCard, (state) =>
-                // {
-                //     return initialState;
-                // })
         }
     }
 )

@@ -11,13 +11,14 @@ interface Props extends HTMLAttributes<HTMLSelectElement>
     fontWeight: string;
     fontSize?: string;
     error?: string;
+    containerWidth?: string;
 }
 
-const SelectForm = ({options, name, label, fontWeight, fontSize, error, ...rest}: Props) =>
+const SelectForm = ({options, name, label, fontWeight, fontSize, error, containerWidth, ...rest}: Props) =>
 {
     const { register } = useFormContext();
     
-    return <div>
+    return <div style={{width: containerWidth? containerWidth : 'fit-content'}}>
         <label style={{fontWeight: fontWeight ? fontWeight : '100px'}}>{label}</label>
         <Select {...register(name)} style={{fontSize: theme.fontSizes.xxs}} {...rest}>
             {options.map((selectOption) =>

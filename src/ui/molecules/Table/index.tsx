@@ -28,7 +28,7 @@ const TableComponent = ({data, columns, display = 'block', handleDelete, handleE
     return (
         <TableContainer width='100%' borderRadius='10px' border='1px solid #857dac' overflow='hidden' display={display}>
             <Table variant='striped' colorScheme='gray'>
-                <Thead>
+                <Thead whiteSpace='normal'>
                     {ColumnModel.map((headerGroup) => 
                     (
                         <Tr key={headerGroup.id}>

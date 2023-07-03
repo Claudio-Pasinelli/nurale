@@ -1,16 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import apiClient from '../../../utils/helpers/apiClient';
-import { BASE, API, V1, SKILLS } from '../../../utils/costants/urls';
+import { BASE, API, V1, TYPE_OF_PAYMENTS } from '../../../utils/costants/urls';
 import { QueryParams } from '../../../utils';
 
-export const fetchSkills = createAsyncThunk(
-    'fetch/users',
+export const fetchTypeOfPayments = createAsyncThunk(
+    'fetch/type-of-payments',
     async (params: QueryParams | undefined, thunkAPI) => {
       // thunkAPI.getState
       try {
         const response = await apiClient.get<AxiosResponse>({
-          url: `${BASE}${API}${V1}${SKILLS}`,
+          url: `${BASE}${API}${V1}${TYPE_OF_PAYMENTS}`,
           params,
         });
   

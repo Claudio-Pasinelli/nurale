@@ -180,6 +180,33 @@ export const SkillsCols = [
       })
 ];
 
+export const TypeOfPaymentsCols = [
+      COLUMNHELPER.accessor('name', {
+          cell: (props:any) => props.getValue(),
+          header: 'Nome',
+      }),
+      COLUMNHELPER.accessor('daysToFirstPayment', {
+          cell: (props:any) => props.getValue(),
+          header: 'Giorni al primo pagamento',
+      }),
+      COLUMNHELPER.accessor('daysBetweenPayments', {
+          cell: (props:any) => props.getValue(),
+          header: 'Giorni tra i pagamenti',
+      }),
+      COLUMNHELPER.accessor('numberOfPayments', {
+          cell: (props:any) => props.getValue(),
+          header: 'Numero di pagamenti',
+      }),
+      COLUMNHELPER.accessor('movePaymentsToTheEndOfMonth', {
+          cell: (props:any) => props.getValue(),
+          header: 'Spostare i pagamenti alla fine del mese',
+      }),
+      COLUMNHELPER.accessor('note', {
+          cell: (props:any) => props.getValue(),
+          header: 'Note',
+      }),
+];
+
 
 // export const SIDEBAR =
 // [

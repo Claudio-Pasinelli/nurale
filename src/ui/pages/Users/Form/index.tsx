@@ -124,6 +124,26 @@ const Form = ({show, selectList, skip, take, user, modalConfirmButton, handleSho
         setValue('confirmPwd', getValues('password'));
     }
 
+    const handleResetPassword = () =>
+    {
+        return;
+    }
+
+    const handleDeleteFirstName = () =>
+    {
+        setValue('nome', '');
+    }
+
+    const handleDeleteLastName = () =>
+    {
+        setValue('cognome', '');
+    }
+    
+    const handleDeletePhone = () =>
+    {
+        setValue('phone', '');
+    }
+
     useEffect(()=>
     {
         if(user)
@@ -146,47 +166,40 @@ const Form = ({show, selectList, skip, take, user, modalConfirmButton, handleSho
 
     return(
         <Modal show={show}>
-        <Flex width='100%' direction='row'>
+        <Flex width='100%' direction='column'>
             <FormProvider {...methods}>
-                <Flex width='100%' direction='column'>
-                    <Flex>
-                        <InputForm disabled={user ? true : false} label='Email' name='email' placeholder='Email' containerWidth='90%' fontWeight={theme.fontWeights.bold} error={errors?.email?.message}/>
-                    </Flex>
-                    <Flex>
-                        <InputForm label='Nome' name='nome' placeholder='Nome' containerWidth='90%' fontWeight={theme.fontWeights.bold} error={errors?.nome?.message}/>
-                    </Flex>
+                <Flex justifyContent='space-between'>
+                    <InputForm disabled={user? true : false} label='Email' name='email' placeholder='Email' containerWidth='48%' fontWeight={theme.fontWeights.bold} error={errors?.email?.message}/>
+                    <SelectForm options={selectList} name='risorsa' label='Risorsa' fontWeight={theme.fontWeights.bold} containerWidth='48%' error={errors?.risorsa?.message}/>
+                </Flex>
+                <Flex justifyContent='space-between'>
+                    <InputForm deletable={user ? true : false} handleDelete={handleDeleteFirstName} label='Nome' name='nome' placeholder='Nome' containerWidth={user ? '33%' : '48%'} fontWeight={theme.fontWeights.bold} error={errors?.nome?.message}/>
+                    <InputForm deletable={user ? true : false} handleDelete={handleDeleteLastName} label='Cognome' name='cognome' placeholder='Cognome' containerWidth={user ? '33%' : '48%'} fontWeight={theme.fontWeights.bold} error={errors?.cognome?.message}/>
                     {
-                        user ? null : 
-                        <Flex justifyContent='space-around'>
-                            <InputForm label='Password' name='password' placeholder='Password' containerWidth='65%' fontWeight={theme.fontWeights.bold} error={errors?.password?.message}/>
-                            <ButtonForm margin='auto' width='fit-content' onClick={generatePassword} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Genera</ButtonForm>
-                        </Flex>
+                        user ? <InputForm deletable={user ? true : false} handleDelete={handleDeletePhone} label='Telefono' name='phone' placeholder='Telefono' containerWidth={user ? '33%' : '48%'} fontWeight={theme.fontWeights.bold} error={errors?.phone?.message}/>
+                        : null
                     }
                 </Flex>
-                <Flex width='100%' direction='column'>
-                    <Flex>
-                        <SelectForm options={selectList} name='risorsa' label='Risorsa' fontWeight={theme.fontWeights.bold} error={errors?.risorsa?.message}/>
+                {
+                    user ? null : 
+                    <Flex justifyContent='space-between'>
+                        <InputForm label='Password' name='password' placeholder='Password' containerWidth='25%' fontWeight={theme.fontWeights.bold} error={errors?.password?.message}/>
+                        <ButtonForm margin='auto 0' width='fit-content' onClick={generatePassword} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Genera</ButtonForm>
+                        <InputForm label='Conferma Password' name='confirmPwd' placeholder='Conferma Password' containerWidth='48%' fontWeight={theme.fontWeights.bold} error={errors?.confirmPwd?.message}/>
                     </Flex>
-                    <Flex>
-                        <InputForm label='Cognome' name='cognome' placeholder='Cognome' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.cognome?.message}/>
-                        {
-                            user ? <InputForm label='Telefono' name='phone' placeholder='Telefono' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.phone?.message}/>
-                            : null
-                        }
-                    </Flex>
-                    {
-                        user ? null : 
-                        <Flex alignItems='center'>
-                            <InputForm label='Conferma Password' name='confirmPwd' placeholder='Conferma Password' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.confirmPwd?.message}/>
-                        </Flex>
-                    }
-                </Flex>
+                }
+                {
+                    user ? <ButtonForm width='fit-content' onClick={handleResetPassword} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                                Reset Password
+                            </ButtonForm>
+                    : null
+                }
             </FormProvider>
         </Flex>
         <Flex width='100%' justifyContent='right'>
             <Flex>
                 <Stack spacing={3} direction='row'>
-                    <ButtonForm backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} leftIcon={<CloseIcon />} width='fit-content' onClick={handleShow}_hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>
+                    <ButtonForm backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} leftIcon={<CloseIcon />} width='fit-content' onClick={handleShow} _hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>
                         Annulla
                     </ButtonForm>
                     <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>

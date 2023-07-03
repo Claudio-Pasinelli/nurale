@@ -1,6 +1,6 @@
 import { Flex, Stack } from '@chakra-ui/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { InputForm, SelectForm } from '../../../molecules';
+import { InputForm, SelectForm, TextAreaForm } from '../../../molecules';
 import { ButtonForm, Modal } from '../../../atoms';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { darkModePalette } from '../../../themes/colors';
@@ -54,7 +54,7 @@ const Form = ({show, selectList, skip, take, skill, modalConfirmButton, handleSh
 
         if (!hasErrors)
         {
-          return;
+          return hasErrors;
         }
 
         if(skill)
@@ -120,12 +120,12 @@ const Form = ({show, selectList, skip, take, skill, modalConfirmButton, handleSh
                         </Flex>
                     </Flex>
                     <Flex width='100%' direction='column'>
-                        <SelectForm options={selectList} name='skillType' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
+                        <SelectForm containerWidth='100%' options={selectList} name='skillType' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
                     </Flex>
                 </Flex>
                 <Flex width='100%'>
-                    <Flex >
-                        <InputForm label='Note' name='note' placeholder='Note' containerWidth='100%' fontWeight={theme.fontWeights.bold} error={errors?.note?.message}/>
+                    <Flex width='100%'>
+                        <TextAreaForm label='Note' name='note' placeholder='Note' containerWidth='100%' error={errors?.note?.message}/>
                     </Flex>
                 </Flex>
             </FormProvider>

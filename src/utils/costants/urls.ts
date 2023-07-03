@@ -6,6 +6,7 @@ export const API = '/api';
 export const V1 = '/v1';
 export const USERS = '/users';
 export const SKILLS = '/skills';
+export const TYPE_OF_PAYMENTS = '/type-of-payments';
 export const ME = '/me';
 
 // Auth

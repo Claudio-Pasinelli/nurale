@@ -23,7 +23,7 @@ const Filter = ({show, showFilters, isFilterUsed, children, handleFilters}: Prop
                 <Flex zIndex={100} borderRadius='1rem' boxShadow={`1px 1px 4px 4px ${darkModePalette.purpleShadow}`} direction='column' padding='2rem 1.7rem' position='absolute' backgroundColor='white' width='21.25rem' height='42.75rem' top='25%' right='2%'>
                     <Flex justifyContent='space-between' border='solid rgba(123, 97, 255, 0.05)' borderWidth='0 0 0.2rem 0'>
                         <h2 style={{fontWeight: theme.fontWeights.bold, fontSize: theme.fontSizes.sm}}>Filtri</h2>
-                        <ButtonForm  background='transparent' padding='0' width='fit-content' onClick={handleFilters}>
+                        <ButtonForm  background='transparent' padding='0' width='fit-content' onClick={handleFilters} _hover={{bg: 'transparent'}}>
                             <Icons name='xCloseIcon' size={1.5}/>
                         </ButtonForm>
                     </Flex>

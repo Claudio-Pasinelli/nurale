@@ -71,12 +71,12 @@ const Sidebar = () =>
                     <Flex cursor='pointer' placeContent={open ? 'center' : 'none'}>
                         <Icons name='darkMode' size={1.5}/>
                         {open ? null :
-                            <Flex>
-                                <span style={{padding:'0 1.3rem', fontWeight: theme.fontWeights.bold}}>Dark Mode</span>
-                                <Stack align='center' direction='row'>
-                                    <Switch size='md' />
-                                </Stack>
-                            </Flex>
+                        <Flex>
+                            <span style={{padding:'0 1.3rem', fontWeight: theme.fontWeights.bold}}>Dark Mode</span>
+                            <Stack align='center' direction='row'>
+                                <Switch size='md' />
+                            </Stack>
+                        </Flex>
                         }
                     </Flex>
                 </div>
