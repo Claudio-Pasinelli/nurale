@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { fetchUsers, getUsers, getUsersPagination } from '../../../store';
 import { useEffect, useState } from 'react';
-import { User, UsersCols, usersList } from '../../../utils';
+import { User, usersList } from '../../../utils';
 import { ModalConfirm, PageLayout, Table } from '../../molecules';
 import { Flex } from '@chakra-ui/react';
 import { ButtonForm } from '../../atoms';
@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../store/applicationStore';
 import { Pagination } from '../../organisms';
 import Form from './Form';
 import { deleteUser } from '../../../store/user';
+import { COLUMNS } from './columns';
 interface Props
 {
     name?: string;
@@ -98,7 +99,7 @@ const Users = ({name}:Props) =>
         <PageLayout name={name}>
             <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} leftIcon={<AddIcon />} width='fit-content' onClick={handleShow} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>Aggiungi nuovo</ButtonForm>
             <Flex direction='column'>
-                <Table data={users} columns={UsersCols} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
+                <Table data={users} columns={COLUMNS} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
                 <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>
                     {modalTitle}
                 </p>

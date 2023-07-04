@@ -132,7 +132,7 @@ const Form = ({show, selectList, skip, take, skill, modalConfirmButton, handleSh
             <Flex width='100%' justifyContent='right'>
                 <Flex>
                     <Stack spacing={3} direction='row'>
-                        <ButtonForm leftIcon={<CloseIcon />} backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} width='fit-content' onClick={handleShow}_hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>Annulla</ButtonForm>
+                        <ButtonForm leftIcon={<CloseIcon />} backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} width='fit-content' onClick={() => {handleShow();handleReset()}} _hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>Annulla</ButtonForm>
                         <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>{modalConfirmButton}</ButtonForm>
                     </Stack>
                 </Flex>

@@ -8,11 +8,12 @@ import { theme } from '../../themes';
 import { AddIcon } from '@chakra-ui/icons';
 import { useAppDispatch } from '../../../store/applicationStore';
 import { fetchSkills, getSkills, getSkillsPagination } from '../../../store/skills';
-import { Skill, SkillsCols, skillsList } from '../../../utils';
+import { Skill, skillsList } from '../../../utils';
 import { deleteSkill } from '../../../store/skill';
 import { Pagination } from '../../organisms';
 import Form from './Form';
 import '../../../utils/index.css';
+import { COLUMNS } from './columns';
 
 interface Props
 {
@@ -167,7 +168,7 @@ const Skills = ({name}:Props) =>
                 </Filter>
             </Flex>
             <Flex direction='column'>
-                <Table data={skills} columns={SkillsCols} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
+                <Table data={skills} columns={COLUMNS} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
                 <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>
                     {modalTitle}
                 </p>

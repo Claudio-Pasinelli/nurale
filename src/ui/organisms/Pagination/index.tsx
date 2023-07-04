@@ -101,7 +101,8 @@ const Pagination = ({show, take, totalPages, skip, setSkip, fetch, fetchFiltered
     
     useEffect(()=>
     {
-        (totalPages === 0) ? setMaxNumPage(totalPages + 1) :  (totalPages % take === 0) ? setMaxNumPage(totalPages) : setMaxNumPage(totalPages + 1)
+        console.log(totalPages);
+        (totalPages === 0) ? setMaxNumPage(totalPages + 1) : (totalPages % take === 0) ? setMaxNumPage(totalPages) : setMaxNumPage(totalPages + 1)
         
         if(numPage === 1 && maxNumPage === 1)
         {

@@ -27,8 +27,8 @@ interface Props
 const defaultValues = {
     name: '',
     daysBetweenPayments: 30,
-    daysOffsetPayments: undefined,
-    daysToFirstPayment: undefined,
+    daysOffsetPayments: NaN,
+    daysToFirstPayment: NaN,
     movePaymentsToTheEndOfMonth: false,
     numberOfPayments: 1,
     note: '',
@@ -44,29 +44,34 @@ const Form = ({show, skip, take, typeOfPayment, modalConfirmButton, handleShow}:
       });
       const {
         formState: { errors },
-        trigger,
         reset,
+        trigger,
         setValue,
         getValues,
         setError,
         
     } = methods;
 
+    const handleReset = () =>
+    {
+        reset(defaultValues);
+    };
+
     const handleNew= async () =>
     {
-        console.log(getValues('daysToFirstPayment'));
-        console.log(typeof(getValues('daysToFirstPayment')));
+        // converto a numero i valori (stringa) ottenuti dagli input
+        setValue('daysBetweenPayments', Number(getValues('daysBetweenPayments')));
+        setValue('daysOffsetPayments', Number(getValues('daysOffsetPayments')));
+        setValue('daysToFirstPayment', Number(getValues('daysToFirstPayment')));
+        setValue('numberOfPayments', Number(getValues('numberOfPayments')));
 
         (getValues('daysToFirstPayment')) ? null : setValue('daysToFirstPayment', 0);
         (getValues('daysOffsetPayments')) ? null : setValue('daysOffsetPayments', 0);
-        const hasErrors = await trigger();
         
-        console.log(getValues('daysToFirstPayment'));
-        console.log(typeof(getValues('daysToFirstPayment')));
+        const hasErrors = await trigger();
 
         if (!hasErrors)
         {
-            console.log(errors)
           return hasErrors;
         }
 
@@ -114,14 +119,11 @@ const Form = ({show, skip, take, typeOfPayment, modalConfirmButton, handleShow}:
         return;
     }
 
-    const handleReset = () => {
-        reset(defaultValues);
-    };
-
-    const handleClick = () =>
+    const handleGenerateName = () =>
     {
-        return
+        return setValue('name', '30 gg d.f.');
     }
+
     useEffect(()=>
     {
         if(typeOfPayment)
@@ -137,7 +139,9 @@ const Form = ({show, skip, take, typeOfPayment, modalConfirmButton, handleShow}:
 
         return handleReset();
 
-    },[typeOfPayment])
+    },[typeOfPayment]);
+
+    // DA RIVEDERE LO SWITCH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     return(
         <Modal show={show}>
@@ -146,7 +150,7 @@ const Form = ({show, skip, take, typeOfPayment, modalConfirmButton, handleShow}:
                     <Flex width='100%' direction='column'>
                         <Flex justifyContent='space-between'>
                             <InputForm label='Nome' name='name' placeholder='Nome' containerWidth='70%' fontWeight={theme.fontWeights.bold} error={errors?.name?.message}/>
-                            <ButtonForm margin='auto 0' width='25%' onClick={handleClick} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                            <ButtonForm margin='auto 0' width='25%' onClick={handleGenerateName} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
                                 Genera nome
                             </ButtonForm>
                         </Flex>
@@ -171,15 +175,19 @@ const Form = ({show, skip, take, typeOfPayment, modalConfirmButton, handleShow}:
                 </Flex>
                 <Flex width='100%'>
                     <Flex width='100%'>
-                        <SwitchForm label='Spostare i pagamenti alla fine del mese' name='movePaymentsToTheEndOfMonth' />
+                        <SwitchForm defaultChecked={false} label='Spostare i pagamenti alla fine del mese' name='movePaymentsToTheEndOfMonth'/>
                     </Flex>
                 </Flex>
             </FormProvider>
             <Flex width='100%' justifyContent='right'>
                 <Flex>
                     <Stack spacing={3} direction='row'>
-                        <ButtonForm leftIcon={<CloseIcon />} backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} width='fit-content' onClick={handleShow}_hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>Annulla</ButtonForm>
-                        <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>{modalConfirmButton}</ButtonForm>
+                        <ButtonForm leftIcon={<CloseIcon />} backgroundColor={darkModePalette.purple40} color={darkModePalette.purple} width='fit-content' onClick={() => {handleShow();handleReset()}} _hover={{bg: darkModePalette.violet10}} fontSize={theme.fontSizes.xxs}>
+                            Annulla
+                        </ButtonForm>
+                        <ButtonForm leftIcon={<CheckIcon />} width='fit-content' onClick={handleNew} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                            {modalConfirmButton}
+                        </ButtonForm>
                     </Stack>
                 </Flex>
             </Flex> 

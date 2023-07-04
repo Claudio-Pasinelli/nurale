@@ -5,6 +5,7 @@ interface Props extends ButtonProps
 {
     children?: any;
     backgroundColor?: string;
+    // backgroundColor?: string;
     color?: string;
     borderRadius?: string;
     variant?: 'solid' | 'ghost' | 'outline' | 'link';

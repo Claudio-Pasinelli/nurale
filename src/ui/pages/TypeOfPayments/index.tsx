@@ -1,36 +1,41 @@
 import { useSelector } from 'react-redux';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { ModalConfirm, PageLayout, SelectFilter, Table } from '../../molecules';
+import { useEffect, useState } from 'react';
+import { ModalConfirm, PageLayout, Table } from '../../molecules';
 import { Flex } from '@chakra-ui/react';
 import { ButtonForm, Filter } from '../../atoms';
 import { darkModePalette } from '../../themes/colors';
 import { theme } from '../../themes';
 import { AddIcon } from '@chakra-ui/icons';
 import { useAppDispatch } from '../../../store/applicationStore';
-import { TypeOfPayment, TypeOfPaymentsCols } from '../../../utils';
+import { TypeOfPayment } from '../../../utils';
 import { Pagination } from '../../organisms';
 import Form from './Form';
 import '../../../utils/index.css';
 import { fetchTypeOfPayments, getTypeOfPayments, getTypeOfPaymentsPagination } from '../../../store/typeOfPayments';
 import { deleteTypeOfPayment } from '../../../store';
+import { COLUMNS } from './columns';
 
 interface Props
 {
     name?: string;
 }
 
-const Skills = ({name}:Props) =>
+const TypeOfPayments = ({name}:Props) =>
 {
     const dispatch = useAppDispatch();
 
-    const skills = useSelector(getTypeOfPayments);
+    const typesOfPayments = useSelector(getTypeOfPayments);
     
     const [show, setShow] = useState(false);
     const [openConfirm, setOpenConfirm] = useState(false);
     
     const [showFilters, setShowFilters] = useState(false);
     const [isFilterUsed, setIsFilterUsed] = useState(false);
-    const [typeOfPaymentTypeSearch, setTypeOfPaymentTypeSearch] = useState('');
+    const [typeOfPaymentTypeSearch, setTypeOfPaymentTypeSearch] = useState(false);
+    const [isFilterAll, setIsFilterAll] = useState(false);
+    const [isFilterYes, setIsFilterYes] = useState(false);
+    const [isFilterNo, setIsFilterNo] = useState(false);
+
     const [typeOfPayment, setTypeOfPayment] = useState<TypeOfPayment| null>(null)
     const [skillName, setTypeOfPaymentName] = useState('')
     const [id, setId] = useState<number| null | undefined>(null);
@@ -64,40 +69,75 @@ const Skills = ({name}:Props) =>
 
     const emptyFilter = () =>
     {
-        setTypeOfPaymentTypeSearch('');
+        setTypeOfPaymentTypeSearch(false);
         setIsFilterUsed(false);
+
+        setIsFilterAll(false);
+        setIsFilterNo(false);
+        setIsFilterYes(false);
 
         dispatch(fetchTypeOfPayments(
             {
-                search: '',
                 skip: skip,
                 take: take,
             }
         ));
     }
 
-    const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) =>
+    const fetchTypeOfPaymentsFiltered = async() =>
     {
-        setTypeOfPaymentTypeSearch(event.target.value);
+        isFilterAll ? await dispatch(fetchTypeOfPayments(
+            {
+                skip: skip,
+                take: take,
+            }
+        )) :
+        await dispatch(fetchTypeOfPayments(
+            {
+                hasEndOfMonth: typeOfPaymentTypeSearch,
+                skip: skip,
+                take: take,
+            }
+        ));
     }
 
-    // const fetchTypeOfPaymentsFiltered = async() =>
-    // {
-    //     await dispatch(fetchTypeOfPayments(
-    //         {
-    //             skillType: typeOfPaymentTypeSearch,
-    //             skip: skip,
-    //             take: take,
-    //         }
-    //     ));
-    // }
+    const searchTypesOfPayments = ()=>
+    {
+        if(isFilterAll || isFilterYes || isFilterNo)
+        {
+            fetchTypeOfPaymentsFiltered();
+    
+            setIsFilterUsed(true);
+        }
+    }
 
-    // const fetchTypeOfPaymentsFiltered = ()=>
-    // {
-    //     fetchTypeOfPaymentsFiltered();
+    const handleAll = () =>
+    {
+        setTypeOfPaymentTypeSearch(false);
+        setIsFilterUsed(false);
 
-    //     setIsFilterUsed(true);
-    // }
+        setIsFilterAll(true);
+        setIsFilterNo(false);
+        setIsFilterYes(false);
+    }
+
+    const handleSearchYes = () =>
+    {
+        setTypeOfPaymentTypeSearch(true);
+
+        setIsFilterAll(false);
+        setIsFilterNo(false);
+        setIsFilterYes(true);
+    }
+
+    const handleSearchNo = () =>
+    {
+        setTypeOfPaymentTypeSearch(false);
+
+        setIsFilterAll(false);
+        setIsFilterNo(true);
+        setIsFilterYes(false);
+    }
 
     const handleEdit = (item: TypeOfPayment)=>
     {
@@ -143,7 +183,6 @@ const Skills = ({name}:Props) =>
                 take: take,
             }
         ));
-        
     },[]);
 
     return (
@@ -152,34 +191,47 @@ const Skills = ({name}:Props) =>
                 <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} leftIcon={<AddIcon />} width='fit-content' onClick={handleShow} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
                     Aggiungi nuovo
                 </ButtonForm>
-                {/* <Filter isFilterUsed={isFilterUsed} show={show} showFilters={showFilters} handleFilters={handleFilters}>
+                <Filter isFilterUsed={isFilterUsed} show={show} showFilters={showFilters} handleFilters={handleFilters}>
                     <Flex width='100%' direction='column' marginTop={'1.7rem'}>
-                        <SelectFilter options={skillsList} value={skillTypeSearch} onChange={handleChangeFilter} name='skillTypeSearch' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
+                        <Flex width='100%' justifyContent='space-between' direction='column'>
+                            <p style={{fontWeight:theme.fontWeights.bold}}>Pagamenti alla fine del mese</p>
+                            <Flex width='100%' justifyContent='space-between' marginTop='0.5rem'>
+                                <ButtonForm onClick={handleAll} width='calc(30%)' marginBottom='1rem' display={show ? 'none' : 'block'} backgroundColor={isFilterAll? '#514689b3' : darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                                    Tutti
+                                </ButtonForm>
+                                <ButtonForm onClick={handleSearchYes} width='calc(30%)' marginBottom='1rem' display={show ? 'none' : 'block'} backgroundColor={isFilterYes? '#514689b3' : darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                                    Si
+                                </ButtonForm>
+                                <ButtonForm onClick={handleSearchNo} width='calc(30%)' marginBottom='1rem' display={show ? 'none' : 'block'} backgroundColor={isFilterNo? '#514689b3' : darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                                    No
+                                </ButtonForm>
+                            </Flex>
+                        </Flex> 
                         <Flex justifyContent='space-around'>
                             <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={emptyFilter} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
                                 Svuota filtri
                             </ButtonForm>
-                            <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={searchSkills} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
+                            <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={searchTypesOfPayments} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
                                 Conferma
                             </ButtonForm>
                         </Flex>
                     </Flex>
-                </Filter> */}
+                </Filter>
             </Flex>
             <Flex direction='column'>
-                <Table data={skills} columns={TypeOfPaymentsCols} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
+                <Table data={typesOfPayments} columns={COLUMNS} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
                 <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>
                     {modalTitle}
                 </p>
                 <Form show={show} skip={skip} take={take} handleShow={handleShow} typeOfPayment={typeOfPayment} modalConfirmButton={modalConfirmButton}/>
-                {/* {
+                {
                     isFilterUsed ? <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchTypeOfPayments} fetchFiltered={fetchTypeOfPaymentsFiltered} show={show} totalPages={totalPages}/>
                     : <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchTypeOfPayments} show={show} totalPages={totalPages}/>
-                } */}
+                }
                 <ModalConfirm handleDelete={handleDeleteConfirm} handleClose={handleCloseConfirm} open={openConfirm} objectName={skillName}/>
             </Flex>
         </PageLayout>
     )
 }
 
-export default Skills;
+export default TypeOfPayments;

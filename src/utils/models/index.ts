@@ -1,3 +1,10 @@
+export interface Column
+{
+  id: string;
+  name: string;
+  transform?: (value: any) => any;
+}
+
 export interface User
 {
     email: string,
@@ -41,6 +48,7 @@ export interface QueryParams
     skip?: number;
     take?: number;
     skillType?: string;
+    hasEndOfMonth?: boolean;
 }
 export interface LoginResponse {
   user:
