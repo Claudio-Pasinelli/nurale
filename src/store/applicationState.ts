@@ -6,19 +6,21 @@ import { skillsReduxer } from './skills';
 import { skillReduxer } from './skill';
 import { typeOfPaymentsReduxer } from './typeOfPayments';
 import { typeOfPaymentReduxer } from './typeOfPayment';
+import { customersReduxer } from './Customers';
 
-const rootReducer = combineReducers(
-{
-    login: loginReduxer.reducer,
+const rootReducer = combineReducers({
+  login: loginReduxer.reducer,
 
-    users: usersReduxer.reducer,
-    user: userReduxer.reducer,
+  users: usersReduxer.reducer,
+  user: userReduxer.reducer,
 
-    skills: skillsReduxer.reducer,
-    skill: skillReduxer.reducer,
+  skills: skillsReduxer.reducer,
+  skill: skillReduxer.reducer,
 
-    typeOfPayments: typeOfPaymentsReduxer.reducer,
-    typeOfPayment: typeOfPaymentReduxer.reducer,
-})
+  typeOfPayments: typeOfPaymentsReduxer.reducer,
+  typeOfPayment: typeOfPaymentReduxer.reducer,
 
-export default rootReducer
+  customers: customersReduxer.reducer,
+});
+
+export default rootReducer;

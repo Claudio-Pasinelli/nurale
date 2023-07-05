@@ -1,9 +1,8 @@
 import { User } from '../../../utils';
 
-export interface initialStateUsers
-{
-    data: User[];
-    pagination: number;
-    loading: boolean;
-    error: null | string;
+export interface initialStateUsers {
+  data: User[];
+  totalCount : number;
+  loading: boolean;
+  error: null | string;
 }

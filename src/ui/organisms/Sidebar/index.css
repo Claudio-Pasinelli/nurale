@@ -1,9 +1,9 @@
 .sidebarList::-webkit-scrollbar {
-    width: 5px;
+  width: 5px;
 }
 .sidebarList::-webkit-scrollbar-thumb {
-    background: rgb(136, 136, 136);
+  background: rgb(136, 136, 136);
 }
 .sidebarList::-webkit-scrollbar-track {
-    background: rgb(241, 241, 241);
+  background: rgb(241, 241, 241);
 }

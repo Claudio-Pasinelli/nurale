@@ -1,6 +1,5 @@
-export interface SettingsSkill
-{
-    name: string,
-    skillType: string,
-    note: string,
+export interface SettingsSkill {
+  name: string;
+  skillType: string;
+  note: string;
 }

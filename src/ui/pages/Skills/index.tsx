@@ -7,7 +7,7 @@ import { darkModePalette } from '../../themes/colors';
 import { theme } from '../../themes';
 import { AddIcon } from '@chakra-ui/icons';
 import { useAppDispatch } from '../../../store/applicationStore';
-import { fetchSkills, getSkills, getSkillsPagination } from '../../../store/skills';
+import { fetchSkills, getSkills, getSkillsTotalCount } from '../../../store/skills';
 import { Skill, skillsList } from '../../../utils';
 import { deleteSkill } from '../../../store/skill';
 import { Pagination } from '../../organisms';
@@ -15,172 +15,238 @@ import Form from './Form';
 import '../../../utils/index.css';
 import { COLUMNS } from './columns';
 
-interface Props
-{
-    name?: string;
+interface Props {
+  name?: string;
 }
 
-const Skills = ({name}:Props) =>
-{
-    const dispatch = useAppDispatch();
+const Skills = ({ name }: Props) => {
+  const dispatch = useAppDispatch();
 
-    const skills = useSelector(getSkills);
-    
-    const [show, setShow] = useState(false);
-    const [openConfirm, setOpenConfirm] = useState(false);
-    
-    const [showFilters, setShowFilters] = useState(false);
-    const [isFilterUsed, setIsFilterUsed] = useState(false);
-    const [skillTypeSearch, setSkillTypeSearch] = useState('');
-    const [skill, setSkill] = useState<Skill| null>(null)
-    const [skillName, setSkillName] = useState('')
-    const [id, setId] = useState<number| null | undefined>(null);
-    const [modalTitle, setModalTitle] = useState('');
-    const [modalConfirmButton, setModalConfirmButton] = useState('');
+  const skills = useSelector(getSkills);
 
-    const [skip, setSkip] = useState<number>(0);
-    const take = 5;
+  const [show, setShow] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
-    const totalRows = useSelector(getSkillsPagination);
-    const totalPages = Math.floor(totalRows/take);
+  const [showFilters, setShowFilters] = useState(false);
+  const [isFilterUsed, setIsFilterUsed] = useState(false);
+  const [skillTypeSearch, setSkillTypeSearch] = useState('');
+  const [skill, setSkill] = useState<Skill | null>(null);
+  const [skillName, setSkillName] = useState('');
+  const [id, setId] = useState<number | null | undefined>(null);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalConfirmButton, setModalConfirmButton] = useState('');
 
-    const handleShow = () =>
-    {
-        setShow(!show);
-        handleFilters;
+  const [skip, setSkip] = useState<number>(0);
+  const take = 5;
 
-        if(skill)
-        {
-            setSkill(null);
-        }
+  const totalRows = useSelector(getSkillsTotalCount);
+  const totalPages = Math.floor(totalRows / take);
 
-        setModalTitle('Aggiungi nuova Skill');
-        setModalConfirmButton('Conferma');
+  const handleShow = () => {
+    setShow(!show);
+    handleFilters;
+
+    if (skill) {
+      setSkill(null);
     }
 
-    const handleFilters = () =>
-    {
-        setShowFilters(!showFilters);
-    }
+    setModalTitle('Aggiungi nuova Skill');
+    setModalConfirmButton('Conferma');
+  };
 
-    const emptyFilter = () =>
-    {
-        setSkillTypeSearch('');
-        setIsFilterUsed(false);
+  const handleFilters = () => {
+    setShowFilters(!showFilters);
+  };
 
-        dispatch(fetchSkills(
-            {
-                search: '',
-                skip: skip,
-                take: take,
-            }
-        ));
-    }
+  const emptyFilter = () => {
+    setSkillTypeSearch('');
+    setIsFilterUsed(false);
 
-    const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) =>
-    {
-        setSkillTypeSearch(event.target.value);
-    }
+    dispatch(
+      fetchSkills({
+        search: '',
+        skip: skip,
+        take: take,
+      }),
+    );
+  };
 
-    const fetchSkillsFiltered = async() =>
-    {
-        await dispatch(fetchSkills(
-            {
-                skillType: skillTypeSearch,
-                skip: skip,
-                take: take,
-            }
-        ));
-    }
+  const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSkillTypeSearch(event.target.value);
+  };
 
-    const searchSkills = ()=>
-    {
-        fetchSkillsFiltered();
+  const fetchSkillsFiltered = async () => {
+    await dispatch(
+      fetchSkills({
+        skillType: skillTypeSearch,
+        skip: skip,
+        take: take,
+      }),
+    );
+  };
 
-        setIsFilterUsed(true);
-    }
+  const searchSkills = () => {
+    fetchSkillsFiltered();
 
-    const handleEdit = (item: Skill)=>
-    {
-        setSkill(item);
-        setShow(true);
-        setModalTitle('Modifica Skill');
-        setModalConfirmButton('Salva');
-    }
+    setIsFilterUsed(true);
+  };
 
-    const handleDelete = (object: Skill)=>
-    {
-        setId(object.id);
-        setSkillName(object.name)
-        setOpenConfirm(true);
-    }
+  const handleEdit = (item: Skill) => {
+    setSkill(item);
+    setShow(true);
+    setModalTitle('Modifica Skill');
+    setModalConfirmButton('Salva');
+  };
 
-    const handleCloseConfirm = async ()=>
-    {
-        setId(null);
-        setSkillName('');
-        setOpenConfirm(false);
-    }
+  const handleDelete = (object: Skill) => {
+    setId(object.id);
+    setSkillName(object.name);
+    setOpenConfirm(true);
+  };
 
-    const handleDeleteConfirm= async ()=>
-    {
-        await dispatch(deleteSkill(id));
-        await dispatch(fetchSkills(
-            {
-                search: '',
-                skip: skip,
-                take: take,
-            }
-        ));
-        return handleCloseConfirm();
-    }
+  const handleCloseConfirm = async () => {
+    setId(null);
+    setSkillName('');
+    setOpenConfirm(false);
+  };
 
-    useEffect(()=>
-    {
-        dispatch(fetchSkills(
-            {
-                search: '',
-                skip: skip,
-                take: take,
-            }
-        ));
-        
-    },[]);
+  const handleDeleteConfirm = async () => {
+    await dispatch(deleteSkill(id));
+    await dispatch(
+      fetchSkills({
+        search: '',
+        skip: skip,
+        take: take,
+      }),
+    );
+    return handleCloseConfirm();
+  };
 
-    return (
-        <PageLayout name={name}>
-            <Flex placeContent='space-between'>
-                <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} leftIcon={<AddIcon />} width='fit-content' onClick={handleShow} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
-                    Aggiungi nuovo
-                </ButtonForm>
-                <Filter isFilterUsed={isFilterUsed} show={show} showFilters={showFilters} handleFilters={handleFilters}>
-                    <Flex width='100%' direction='column' marginTop={'1.7rem'}>
-                        <SelectFilter options={skillsList} value={skillTypeSearch} onChange={handleChangeFilter} name='skillTypeSearch' label='Tipo di skill' fontWeight={theme.fontWeights.bold}/>
-                        <Flex justifyContent='space-around'>
-                            <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={emptyFilter} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
-                                Svuota filtri
-                            </ButtonForm>
-                            <ButtonForm marginTop='4rem' marginBottom='1rem' display={show ? 'none' : 'block'} width='fit-content' onClick={searchSkills} backgroundColor={darkModePalette.pink100} _hover={{bg: darkModePalette.pink70}} fontSize={theme.fontSizes.xxs}>
-                                Conferma
-                            </ButtonForm>
-                        </Flex>
-                    </Flex>
-                </Filter>
+  useEffect(() => {
+    dispatch(
+      fetchSkills({
+        search: '',
+        skip: skip,
+        take: take,
+      }),
+    );
+  }, []);
+
+  return (
+    <PageLayout name={name}>
+      <Flex placeContent='space-between'>
+        <ButtonForm
+          marginTop='4rem'
+          marginBottom='1rem'
+          display={show ? 'none' : 'block'}
+          leftIcon={<AddIcon />}
+          width='fit-content'
+          onClick={handleShow}
+          backgroundColor={darkModePalette.pink100}
+          _hover={{ bg: darkModePalette.pink70 }}
+          fontSize={theme.fontSizes.xxs}
+        >
+          Aggiungi nuovo
+        </ButtonForm>
+        <Filter
+          isFilterUsed={isFilterUsed}
+          show={show}
+          showFilters={showFilters}
+          handleFilters={handleFilters}
+        >
+          <Flex width='100%' direction='column' marginTop={'1.7rem'}>
+            <SelectFilter
+              options={skillsList}
+              value={skillTypeSearch}
+              onChange={handleChangeFilter}
+              name='skillTypeSearch'
+              label='Tipo di skill'
+              fontWeight={theme.fontWeights.bold}
+            />
+            <Flex justifyContent='space-around'>
+              <ButtonForm
+                marginTop='4rem'
+                marginBottom='1rem'
+                display={show ? 'none' : 'block'}
+                width='fit-content'
+                onClick={emptyFilter}
+                backgroundColor={darkModePalette.pink100}
+                _hover={{ bg: darkModePalette.pink70 }}
+                fontSize={theme.fontSizes.xxs}
+              >
+                Svuota filtri
+              </ButtonForm>
+              <ButtonForm
+                marginTop='4rem'
+                marginBottom='1rem'
+                display={show ? 'none' : 'block'}
+                width='fit-content'
+                onClick={searchSkills}
+                backgroundColor={darkModePalette.pink100}
+                _hover={{ bg: darkModePalette.pink70 }}
+                fontSize={theme.fontSizes.xxs}
+              >
+                Conferma
+              </ButtonForm>
             </Flex>
-            <Flex direction='column'>
-                <Table data={skills} columns={COLUMNS} display={show ? 'none' : 'block'} handleDelete={handleDelete} handleEdit={handleEdit}/>
-                <p style={{display: show ? 'block' : 'none', color: `${darkModePalette.pink100}`, fontSize: theme.fontSizes.lg }}>
-                    {modalTitle}
-                </p>
-                <Form show={show} selectList={skillsList} skip={skip} take={take} handleShow={handleShow} skill={skill} modalConfirmButton={modalConfirmButton}/>
-                {
-                    isFilterUsed ? <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} fetchFiltered={fetchSkillsFiltered} show={show} totalPages={totalPages}/>
-                    : <Pagination skip={skip} setSkip={setSkip} take={take} fetch={fetchSkills} show={show} totalPages={totalPages}/>
-                }
-                <ModalConfirm handleDelete={handleDeleteConfirm} handleClose={handleCloseConfirm} open={openConfirm} objectName={skillName}/>
-            </Flex>
-        </PageLayout>
-    )
-}
+          </Flex>
+        </Filter>
+      </Flex>
+      <Flex direction='column'>
+        <Table
+          data={skills}
+          columns={COLUMNS}
+          display={show ? 'none' : 'block'}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
+        <p
+          style={{
+            display: show ? 'block' : 'none',
+            color: `${darkModePalette.pink100}`,
+            fontSize: theme.fontSizes.lg,
+          }}
+        >
+          {modalTitle}
+        </p>
+        <Form
+          show={show}
+          selectList={skillsList}
+          skip={skip}
+          take={take}
+          handleShow={handleShow}
+          skill={skill}
+          modalConfirmButton={modalConfirmButton}
+        />
+        {isFilterUsed ? (
+          <Pagination
+            skip={skip}
+            setSkip={setSkip}
+            take={take}
+            fetch={fetchSkills}
+            fetchFiltered={fetchSkillsFiltered}
+            show={show}
+            totalPages={totalPages}
+          />
+        ) : (
+          <Pagination
+            skip={skip}
+            setSkip={setSkip}
+            take={take}
+            fetch={fetchSkills}
+            show={show}
+            totalPages={totalPages}
+          />
+        )}
+        <ModalConfirm
+          handleDelete={handleDeleteConfirm}
+          handleClose={handleCloseConfirm}
+          open={openConfirm}
+          objectName={skillName}
+        />
+      </Flex>
+    </PageLayout>
+  );
+};
 
 export default Skills;

@@ -4,12 +4,12 @@ import Sidebar from '../../organisms/Sidebar';
 
 const Layout = () => {
   return (
-      <Flex width='100vw' height='100vh'>
-        <Flex width='100%' height='100%'>
-          <Sidebar />
-          <Outlet />
-        </Flex>
+    <Flex width='100vw' height='100vh'>
+      <Flex width='100%' height='100%'>
+        <Sidebar />
+        <Outlet />
       </Flex>
+    </Flex>
   );
 };
 

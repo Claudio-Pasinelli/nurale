@@ -8,7 +8,7 @@ function RequireAuth(): JSX.Element {
   const location = useLocation();
 
   if (!token) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to='/' state={{ from: location }} replace />;
   }
 
   return <Outlet />;
