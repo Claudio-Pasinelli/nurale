@@ -1,5 +1,5 @@
-import { RootState } from '../../applicationStore';
 import { createSelector } from 'reselect';
+import { RootState } from 'store';
 
 export const getCustomersState = (state: RootState) => state.customers;
 

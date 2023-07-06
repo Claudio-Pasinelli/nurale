@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import apiClient from '../../../utils/helpers/apiClient';
-import { API, AUTH, BASE, LOGIN, V1 } from '../../../utils/costants/urls';
-import { removeTokenCookies } from '../../../utils';
+import { removeTokenCookies } from 'utils';
+import { BASE, API, V1, AUTH, LOGIN } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
 
 export const refreshToken = createAsyncThunk('auth/refreshToken', async (data: any, thunkAPI) => {
   try {

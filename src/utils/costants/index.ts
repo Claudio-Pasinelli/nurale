@@ -164,6 +164,6 @@ export const customersList = [
   { value: '' },
   { value: '30 gg d.f.' },
   { value: '30 gg f.m.' },
-  { value: '30-60 gg d.f. ' },
-  { value: 'A vista ' },
+  { value: '30-60 gg d.f.' },
+  { value: 'A vista' },
 ];

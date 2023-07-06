@@ -1,6 +1,6 @@
 import { Select } from '@chakra-ui/react';
 import { HTMLAttributes } from 'react';
-import { theme } from '../../themes';
+import { theme } from 'ui';
 
 interface Props extends HTMLAttributes<HTMLSelectElement> {
   options: any[];
@@ -9,7 +9,7 @@ interface Props extends HTMLAttributes<HTMLSelectElement> {
   fontWeight: string;
   fontSize?: string;
   error?: string;
-  value?: string;
+  value?: string | number;
 }
 
 const SelectFilter = ({

@@ -1,7 +1,7 @@
 import { Select } from '@chakra-ui/react';
 import { HTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { theme } from '../../themes';
+import { theme } from 'ui';
 
 interface Props extends HTMLAttributes<HTMLSelectElement> {
   options: any[];

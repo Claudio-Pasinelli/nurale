@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { initialStateUser } from '../types';
+import { initialStateCustomer } from '../types';
 import { createCustomer, deleteCustomer, editCustomer } from '../actions';
 
-const initialState: initialStateUser = {
+const initialState: initialStateCustomer = {
   data: null,
   loading: false,
   error: null,

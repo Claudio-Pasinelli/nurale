@@ -1,4 +1,4 @@
-import { User } from '../../../utils';
+import { User } from 'utils';
 
 export interface initialStateUser {
   data: User | null;

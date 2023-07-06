@@ -1,7 +1,7 @@
-import { Skill } from '../../../utils';
+import { Customer } from 'utils';
 
-export interface initialStateUser {
-  data: Skill | null;
+export interface initialStateCustomer {
+  data: Customer | null;
   loading: boolean;
   error: string | null;
 }

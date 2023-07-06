@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import apiClient from '../../../utils/helpers/apiClient';
-import { API, AUTH, BASE, LOGIN, V1 } from '../../../utils/costants/urls';
-import { User, addTokenCookies } from '../../../utils';
+import { API, AUTH, BASE, LOGIN, V1 } from 'utils/costants/urls';
 import { Userlogin } from '../types';
+import { User, addTokenCookies } from 'utils';
+import apiClient from 'utils/helpers/apiClient';
 
 interface LoginResponse {
   user: Userlogin;

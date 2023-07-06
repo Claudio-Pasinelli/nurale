@@ -1,18 +1,17 @@
-import { CloseIcon } from '@chakra-ui/icons';
-import { Input, InputGroup, InputProps, InputRightElement } from '@chakra-ui/react';
+import { CloseIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { Button, Input, InputGroup, InputProps, InputRightElement } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-
 interface Props extends InputProps {
   placeholder: string;
   label: string;
   fontWeight?: string;
   fontSize?: string;
   name: string;
-  type?: string;
   containerWidth?: string;
-  error?: string;
-  disabled?: boolean;
-  deletable?: boolean;
+  error?: string | any;
+  showEye?: boolean;
+  isInputForAForm?: boolean;
   handleDelete?: () => void;
 }
 
@@ -22,43 +21,48 @@ const InputForm = ({
   fontWeight,
   fontSize,
   name,
-  type,
+  type = 'text',
   error,
+  showEye = true,
+  isInputForAForm = true,
   containerWidth,
-  disabled,
-  deletable,
   handleDelete,
   ...rest
 }: Props) => {
   const { register } = useFormContext();
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
   return (
-    <div style={{ width: containerWidth ? containerWidth : 'fit-content' }}>
+    <div style={{ width: containerWidth ? containerWidth : '100%' }}>
       <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
-      {deletable ? (
-        <InputGroup>
-          <Input
-            disabled={disabled}
-            placeholder={placeholder}
-            fontSize={fontSize ? fontSize : '18px'}
-            type={type ? type : 'text'}
-            {...register(name)}
-            {...rest}
-          />
-          <InputRightElement>
-            <CloseIcon width='0.8rem' onClick={handleDelete} cursor='pointer' />
-          </InputRightElement>
-        </InputGroup>
-      ) : (
+      <InputGroup>
         <Input
-          disabled={disabled}
           placeholder={placeholder}
           fontSize={fontSize ? fontSize : '18px'}
-          type={type ? type : 'text'}
+          type={show ? 'password' : 'text'}
+          cursor={rest.isDisabled ? 'not-allowed' : 'pointer'}
           {...register(name)}
           {...rest}
         />
-      )}
+        {handleDelete ? (
+          <InputRightElement>
+            <CloseIcon width='0.8rem' onClick={handleDelete} cursor='pointer' />
+          </InputRightElement>
+        ) : null}
+        {type === 'password' && (
+          <InputRightElement>
+            {showEye ? (
+              <Button
+                onClick={handleClick}
+                leftIcon={show ? <ViewIcon /> : <ViewOffIcon />}
+                variant='ghost'
+                _hover={{ bg: 'none' }}
+              />
+            ) : null}
+          </InputRightElement>
+        )}
+      </InputGroup>
       <div style={{ color: 'red', height: fontSize ? fontSize : '24px' }}>{error}</div>
     </div>
   );

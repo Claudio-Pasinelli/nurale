@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { BASE, API, V1, TYPE_OF_PAYMENTS } from '../../../utils/costants/urls';
-import apiClient from '../../../utils/helpers/apiClient';
+import { BASE, API, V1, TYPE_OF_PAYMENTS } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
 
 export const deleteTypeOfPayment = createAsyncThunk(
   'delete/User',

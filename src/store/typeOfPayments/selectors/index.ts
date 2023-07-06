@@ -1,4 +1,4 @@
-import { RootState } from '../../applicationStore';
+import { RootState } from 'store/applicationStore';
 import { createSelector } from 'reselect';
 
 export const getTypeOfPaymentsState = (state: RootState) => state.typeOfPayments;

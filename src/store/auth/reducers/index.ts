@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser } from '../actions';
 import { initialStateLogin } from '../types';
+import { loginUser } from '../actions';
 
 const initialState: initialStateLogin = {
   data: [],

@@ -1,5 +1,6 @@
-import { RootState } from '../../applicationStore';
+
 import { createSelector } from 'reselect';
+import { RootState } from 'store/applicationStore';
 
 export const getSkillsState = (state: RootState) => state.skills;
 

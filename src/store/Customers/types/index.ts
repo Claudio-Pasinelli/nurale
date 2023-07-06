@@ -1,5 +1,4 @@
-import { Customer } from '../../../utils';
-
+import { Customer } from 'utils';
 export interface initialStateCustomers {
   data: Customer[];
   totalCount: number;

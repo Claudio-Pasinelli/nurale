@@ -1,10 +1,9 @@
 import { Button, Flex } from '@chakra-ui/react';
-import TextElement from '../../molecules/TextElement';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { icons } from '../../atoms/Icons';
-import MenuList from '../../molecules/MenuList';
-import { SIDEBAR } from '../../../utils';
+import { icons } from 'ui/atoms/Icons';
+import { SIDEBAR } from 'utils';
+import { MenuList, TextElement } from 'ui';
 
 interface Props {
   nameIcon?: string;

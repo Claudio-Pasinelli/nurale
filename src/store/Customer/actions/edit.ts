@@ -1,22 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { BASE, API, V1, SKILLS } from '../../../utils/costants/urls';
-import apiClient from '../../../utils/helpers/apiClient';
-import { Customer } from '../../../utils';
+import { Customer } from 'utils';
+import { BASE, API, V1, CUSTOMERS } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
 
 export const editCustomer = createAsyncThunk(
   'edit/Customer',
   async (params: Customer | undefined, thunkAPI) => {
     try {
-      // const body = {
-      //   name: params?.name,
-      //   note: params?.note,
-      //   skillType: params?.skillType,
-      // };
+      console.log(params?.typeOfPaymentId);
+      const body = {
+        name: params?.name,
+        note: params?.note,
+        typeOfPaymentId: params?.typeOfPaymentId,
+      };
 
       const response = await apiClient.patch<AxiosResponse>({
-        url: `${BASE}${API}${V1}${SKILLS}/${params?.id}`,
-        // body: body,
+        url: `${BASE}${API}${V1}${CUSTOMERS}/${params?.id}`,
+        body: body,
       });
 
       if (response.status === 200 || response.status === 201) {

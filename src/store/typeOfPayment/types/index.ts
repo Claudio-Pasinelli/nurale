@@ -1,4 +1,4 @@
-import { TypeOfPayment } from '../../../utils';
+import { TypeOfPayment } from 'utils';
 
 export interface initialStateTypeOfPayment {
   data: TypeOfPayment | null;

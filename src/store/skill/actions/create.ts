@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import apiClient from '../../../utils/helpers/apiClient';
-import { BASE, API, V1, SKILLS } from '../../../utils/costants/urls';
-import { Skill } from '../../../utils';
+import apiClient from 'utils/helpers/apiClient';
+import { Skill } from 'utils';
+import { API, BASE, SKILLS, V1 } from 'utils/costants/urls';
 
 export const createSkill = createAsyncThunk('user', async (params: Skill | undefined, thunkAPI) => {
   try {

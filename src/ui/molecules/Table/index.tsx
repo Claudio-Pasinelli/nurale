@@ -5,9 +5,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { theme } from '../../themes';
+import { ButtonForm, Icons, theme } from 'ui';
 import './index.css';
-import { ButtonForm, Icons } from '../../atoms';
 
 interface Props {
   data: any;
@@ -64,7 +63,7 @@ const TableComponent = ({ data, columns, display = 'block', handleDelete, handle
                 color='black'
                 fontSize={theme.fontSizes.xxs}
                 textTransform='none'
-                textAlign='right'
+                textAlign='center'
               >
                 Azioni
               </Th>
@@ -85,7 +84,7 @@ const TableComponent = ({ data, columns, display = 'block', handleDelete, handle
                   )}
                 </Td>
               ))}
-              <Td textAlign='right'>
+              <Td textAlign='center'>
                 <ButtonForm
                   padding='0'
                   onClick={() => handleEdit(row.original)}

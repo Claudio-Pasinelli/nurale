@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { BASE, API, V1, USERS } from '../../../utils/costants/urls';
-import apiClient from '../../../utils/helpers/apiClient';
+import { BASE, API, V1, USERS } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
 
 export const deleteUser = createAsyncThunk(
   'delete/User',

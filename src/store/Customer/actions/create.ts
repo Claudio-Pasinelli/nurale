@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import apiClient from '../../../utils/helpers/apiClient';
-import { BASE, API, V1, CUSTOMERS } from '../../../utils/costants/urls';
-import { Customer } from '../../../utils';
+import { Customer } from 'utils';
+import { BASE, API, V1, CUSTOMERS } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
 
 export const createCustomer = createAsyncThunk(
   'customer',

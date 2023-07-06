@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
-import { Header } from '../../organisms';
+import { Header } from 'ui';
 
 interface Props {
-  children: any;
+  children: React.ReactNode;
   name?: string;
 }
 
@@ -10,7 +10,7 @@ const PageLayout = ({ children, name }: Props) => {
   return (
     <div style={{ width: '100%' }}>
       <Flex width='100%' direction='column'>
-        <Header name={name} />
+        <Header />
       </Flex>
       <div
         style={{

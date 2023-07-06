@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { SIDEBAR } from '../../../utils';
-import Li from '../../atoms/Li';
-import TextElement from '../TextElement';
+import { Li, TextElement } from 'ui';
+import { SIDEBAR } from 'utils';
 interface Props {
   name: string;
 }

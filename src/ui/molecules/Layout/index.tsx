@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Flex } from '@chakra-ui/react';
-import Sidebar from '../../organisms/Sidebar';
+import { Sidebar } from 'ui/organisms';
 
 const Layout = () => {
   return (

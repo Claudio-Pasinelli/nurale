@@ -1,8 +1,8 @@
-import { User } from '../../../utils';
+import { User } from 'utils';
 
 export interface initialStateUsers {
   data: User[];
-  totalCount : number;
+  totalCount: number;
   loading: boolean;
   error: null | string;
 }

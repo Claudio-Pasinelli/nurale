@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { BASE, API, V1, SKILLS } from '../../../utils/costants/urls';
-import apiClient from '../../../utils/helpers/apiClient';
-import { Skill } from '../../../utils';
+import { BASE, API, V1, SKILLS } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
+import { Skill } from 'utils';
 
 export const editSkill = createAsyncThunk(
   'edit/Skill',

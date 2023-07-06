@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSkill, editSkill, deleteSkill } from '../actions';
-import { initialStateUser } from '../types';
+import { initialStateSkill } from '../types';
 
-const initialState: initialStateUser = {
+const initialState: initialStateSkill = {
   data: null,
   loading: false,
   error: null,

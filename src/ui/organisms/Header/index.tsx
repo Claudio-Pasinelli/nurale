@@ -1,25 +1,21 @@
-import { Flex } from '@chakra-ui/react';
-import { Icons, Spacer } from '../../atoms';
-import { theme } from '../../themes';
-import { useEffect, useState } from 'react';
-import { darkModePalette } from '../../themes/colors';
-import { ROUTES } from '../../../utils';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { EMAIL } from '../../../utils/costants/auth';
-import { useAppDispatch } from '../../../store/applicationStore';
-import { fetchMe, getUserFirstName, getUserLastName } from '../../../store/user';
+import { Flex, Spacer } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { getUserFirstName, getUserLastName, fetchMe, useAppDispatch } from 'store';
+import { Icons } from 'ui/atoms';
+import { ROUTES, SIDEBAR, removeTokenCookies } from 'utils';
+import useOnClickOutside from 'utils/hooks/useOnClickOutside';
+import { darkModePalette } from 'ui/themes/colors';
+import { theme } from 'ui/themes';
 
-interface Props {
-  name?: string;
-}
+const Header = () => {
+  const location = useLocation();
 
-const Header = ({ name }: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const ref = useRef<any>();
 
-  const [profileIconColor, setProfileIconColor] = useState('rgba(81, 70, 137, 0.7)');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const firstName = useSelector(getUserFirstName);
@@ -27,18 +23,14 @@ const Header = ({ name }: Props) => {
 
   const handleClick = async () => {
     setIsProfileOpen(!isProfileOpen);
-
-    if (profileIconColor === 'rgba(81, 70, 137, 0.7)') {
-      return setProfileIconColor(darkModePalette.pink100);
-    }
-
-    return setProfileIconColor('rgba(81, 70, 137, 0.7)');
   };
 
   const logOut = () => {
+    removeTokenCookies();
     navigate(ROUTES.login);
-    return Cookies.remove(EMAIL);
   };
+
+  useOnClickOutside(ref, handleClick);
 
   useEffect(() => {
     dispatch(fetchMe());
@@ -70,7 +62,13 @@ const Header = ({ name }: Props) => {
               fontWeight: theme.fontWeights.bold,
             }}
           >
-            {name}
+            {SIDEBAR.map((sidebarLink) =>
+              sidebarLink.href === location.pathname
+                ? sidebarLink.name
+                : sidebarLink.path?.map((sidebarSubLink) =>
+                    sidebarSubLink.href === location.pathname ? sidebarSubLink.name : null,
+                  ),
+            )}
           </p>
         </Flex>
       </Flex>
@@ -79,7 +77,11 @@ const Header = ({ name }: Props) => {
           <Icons name='notifiche' size={1.75} color='rgba(81, 70, 137, 0.7)' />
         </div>
         <div onClick={handleClick}>
-          <Icons name='profilo' size={1.75} color={profileIconColor} />
+          <Icons
+            name='profilo'
+            size={1.75}
+            color={isProfileOpen ? darkModePalette.pink100 : 'rgba(81, 70, 137, 0.7)'}
+          />
         </div>
         {isProfileOpen ? (
           <Flex
@@ -95,6 +97,7 @@ const Header = ({ name }: Props) => {
             zIndex={100000}
             marginRight='0.5rem'
             overflow='hidden'
+            ref={ref}
           >
             <Flex>
               <Flex

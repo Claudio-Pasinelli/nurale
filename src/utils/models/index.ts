@@ -28,8 +28,8 @@ export interface Skill {
 }
 export interface TypeOfPayment {
   daysBetweenPayments: number;
-  daysOffsetPayments: number;
-  daysToFirstPayment: number;
+  daysOffsetPayments: number | undefined;
+  daysToFirstPayment: number | undefined;
   movePaymentsToTheEndOfMonth: boolean;
   name: string;
   note: string;
@@ -49,6 +49,7 @@ export interface QueryParams {
   take?: number;
   skillType?: string;
   hasEndOfMonth?: boolean;
+  typeOfPaymentId?: string | number;
 }
 export interface LoginResponse {
   user: {

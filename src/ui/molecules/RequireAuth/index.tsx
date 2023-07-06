@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { getTokenCookies } from '../../../utils';
+import { getTokenCookies } from 'utils';
 // import { getTokenCookies } from '../../../store';
 // import { getTokenCookies } from 'store';
 

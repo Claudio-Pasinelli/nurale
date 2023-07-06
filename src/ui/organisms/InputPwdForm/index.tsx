@@ -1,7 +1,7 @@
 import { Button, InputGroup, InputProps, InputRightElement } from '@chakra-ui/react';
 import { useState } from 'react';
-import { InputForm } from '../../molecules';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { InputForm } from 'ui';
 
 interface Props extends InputProps {
   placeholder: string;

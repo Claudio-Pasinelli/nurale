@@ -1,79 +1,61 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ROUTES } from '../utils/costants';
 import {
-  Activities,
-  Customers,
-  Home,
-  Jobs,
+  LoginPage,
+  QuickInsertPage,
+  JobsPage,
+  OrdersPage,
+  ActivitiesPage,
+  CustomersPage,
+  SuppliersPage,
+  ResourcesPage,
+  ResourceSkillsPage,
+  PurchaseInvoicePage,
+  PurchaseInvoiceActivityPage,
+  SalesInvoicesPage,
+  ScheduledPaymentsPage,
+  ScheduledValuesPage,
+  SkillsPage,
+  TypeOfPaymentsPage,
+  UsersPage,
+  TimesheetPage,
+  ReportPage,
   Layout,
-  Login,
-  Orders,
-  PurchaseInvoice,
-  PurchaseInvoiceActivity,
-  QuickInsert,
-  RecuperoPassword,
-  ResourceSkills,
-  Resources,
-  SalesInvoices,
-  ScheduledPayments,
-  ScheduledValues,
-  Skills,
-  Suppliers,
-  Timesheet,
-  TypeOfPayments,
-  Users,
-  Report,
   RequireAuth,
-} from '../ui';
+  RecuperoPasswordPage,
+  HomePage,
+} from 'ui';
+import { ROUTES } from 'utils';
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.login} element={<Login />} />
+        <Route path={ROUTES.login} element={<LoginPage />} />
         <Route element={<RequireAuth />}>
-          <Route path={ROUTES.recuperoPassword} element={<RecuperoPassword />} />
+          <Route path={ROUTES.recuperoPassword} element={<RecuperoPasswordPage />} />
           <Route element={<Layout />}>
-            <Route path={ROUTES.home} element={<Home />} />
-            <Route path={ROUTES.quickInsert} element={<QuickInsert />} />
-            <Route path={ROUTES.jobs} element={<Jobs name='Commesse' />} />
-            <Route path={ROUTES.orders} element={<Orders name='Ordini' />} />
-            <Route path={ROUTES.activities} element={<Activities name='Attività' />} />
-            <Route path={ROUTES.customers} element={<Customers name='Clienti' />} />
-            <Route path={ROUTES.suppliers} element={<Suppliers name='Fornitori' />} />
-            <Route path={ROUTES.resources} element={<Resources name='Risorse' />} />
-            <Route
-              path={ROUTES.resourceSkills}
-              element={<ResourceSkills name='Skills delle Risorse' />}
-            />
-            <Route
-              path={ROUTES.purchaseInvoice}
-              element={<PurchaseInvoice name='Fattura di acquisto' />}
-            />
+            <Route path={ROUTES.home} element={<HomePage />} />
+            <Route path={ROUTES.quickInsert} element={<QuickInsertPage />} />
+            <Route path={ROUTES.jobs} element={<JobsPage />} />
+            <Route path={ROUTES.orders} element={<OrdersPage />} />
+            <Route path={ROUTES.activities} element={<ActivitiesPage />} />
+            <Route path={ROUTES.customers} element={<CustomersPage />} />
+            <Route path={ROUTES.suppliers} element={<SuppliersPage />} />
+            <Route path={ROUTES.resources} element={<ResourcesPage />} />
+            <Route path={ROUTES.resourceSkills} element={<ResourceSkillsPage />} />
+            <Route path={ROUTES.purchaseInvoice} element={<PurchaseInvoicePage />} />
             <Route
               path={ROUTES.purchaseInvoiceActivity}
-              element={<PurchaseInvoiceActivity name='Fattura di acquisto attività' />}
+              element={<PurchaseInvoiceActivityPage />}
             />
-            <Route
-              path={ROUTES.salesInvoices}
-              element={<SalesInvoices name='Fatture di vendita' />}
-            />
-            <Route
-              path={ROUTES.scheduledPayments}
-              element={<ScheduledPayments name='Scadenze' />}
-            />
-            <Route
-              path={ROUTES.scheduledValues}
-              element={<ScheduledValues name='Pianificazione' />}
-            />
-            <Route path={ROUTES.skills} element={<Skills name='Skills' />} />
-            <Route
-              path={ROUTES.typeOfPayments}
-              element={<TypeOfPayments name='Tipi di pagamento' />}
-            />
-            <Route path={ROUTES.users} element={<Users name='Utenti' />} />
-            <Route path={ROUTES.timesheet} element={<Timesheet name='Timesheet' />} />
-            <Route path={ROUTES.report} element={<Report name='Report' />} />
+            <Route path={ROUTES.salesInvoices} element={<SalesInvoicesPage />} />
+            <Route path={ROUTES.scheduledPayments} element={<ScheduledPaymentsPage />} />
+            <Route path={ROUTES.scheduledValues} element={<ScheduledValuesPage />} />
+            <Route path={ROUTES.skills} element={<SkillsPage />} />
+            <Route path={ROUTES.typeOfPayments} element={<TypeOfPaymentsPage />} />
+            <Route path={ROUTES.users} element={<UsersPage />} />
+            <Route path={ROUTES.timesheet} element={<TimesheetPage />} />
+            <Route path={ROUTES.report} element={<ReportPage />} />
           </Route>
         </Route>
       </Routes>

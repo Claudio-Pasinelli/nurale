@@ -1,7 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { Icons } from '../../atoms';
-import { icons } from '../../atoms/Icons';
-import { theme } from '../../themes';
+import Icons, { icons } from 'ui/atoms/Icons';
 
 interface Props {
   name?: string;

@@ -1,15 +1,10 @@
 import { Flex, Stack, Switch } from '@chakra-ui/react';
 import SidebarLink from '../SidebarLink';
-import { Icons, Spacer } from '../../atoms';
 import { useState } from 'react';
-import { ROUTES, SIDEBAR } from '../../../utils';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
-import { theme } from '../../themes';
-import Cookies from 'js-cookie';
-import { EMAIL } from '../../../utils/costants/auth';
-
-// manca il colore ai link selezionati
+import { Icons, Spacer, theme } from 'ui';
+import { ROUTES, SIDEBAR, removeTokenCookies } from 'utils';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
@@ -20,6 +15,7 @@ const Sidebar = () => {
   };
 
   const logOut = () => {
+    removeTokenCookies();
     navigate(ROUTES.login);
   };
 

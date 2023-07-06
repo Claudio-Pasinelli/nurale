@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { BASE, API, V1, USERS } from '../../../utils/costants/urls';
-import apiClient from '../../../utils/helpers/apiClient';
-import { User } from '../../../utils';
+import { BASE, API, V1, USERS } from 'utils/costants/urls';
+import apiClient from 'utils/helpers/apiClient';
+import { User } from 'utils';
 
 export const editUser = createAsyncThunk(
   'edit/User',

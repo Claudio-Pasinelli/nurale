@@ -7,6 +7,7 @@ interface Props extends SwitchProps {
   fontSize?: string;
   name: string;
   containerWidth?: string;
+  defaultChecked: boolean;
   error?: string;
 }
 
@@ -17,6 +18,7 @@ const SwitchForm = ({
   name,
   error,
   containerWidth,
+  defaultChecked,
   ...rest
 }: Props) => {
   const { register } = useFormContext();
@@ -24,7 +26,7 @@ const SwitchForm = ({
   return (
     <div style={{ width: containerWidth ? containerWidth : 'fit-content' }}>
       <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
-      <Stack align='center' direction='row'>
+      <Stack align='center' direction='row' defaultChecked={defaultChecked}>
         <Switch size='md' {...register(name)} {...rest} />
       </Stack>
       <div style={{ color: 'red', height: fontSize ? fontSize : '24px' }}>{error}</div>

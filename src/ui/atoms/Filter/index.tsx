@@ -1,7 +1,7 @@
+import { theme } from 'ui/themes';
 import { ButtonForm, Icons } from '..';
-import { darkModePalette } from '../../themes/colors';
-import { theme } from '../../themes';
 import { Flex } from '@chakra-ui/react';
+import { darkModePalette } from 'ui/themes/colors';
 
 interface Props {
   show: boolean;

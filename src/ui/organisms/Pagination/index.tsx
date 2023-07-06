@@ -1,10 +1,8 @@
 import { Flex } from '@chakra-ui/react';
-import { ButtonForm, Icons } from '../../atoms';
-import { darkModePalette } from '../../themes/colors';
-import { theme } from '../../themes';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../store/applicationStore';
-import { InputPage } from '../../molecules';
+import { useAppDispatch } from 'store';
+import { ButtonForm, Icons, InputPagination, theme } from 'ui';
+import { darkModePalette } from 'ui/themes/colors';
 interface Props {
   show: boolean;
   take: number;
@@ -41,7 +39,6 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
       if (fetchFiltered) {
         return fetchFiltered();
       }
-      fetchFiltered;
 
       dispatch(
         fetch({
@@ -91,7 +88,6 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
   };
 
   useEffect(() => {
-    console.log(totalPages);
     totalPages === 0
       ? setMaxNumPage(totalPages + 1)
       : totalPages % take === 0
@@ -113,7 +109,7 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
       style={{ margin: '5% 0', height: 'fit-content' }}
       display={show ? 'none' : 'flex'}
     >
-      <InputPage
+      <InputPagination
         containerWidth='10%'
         value={numPage}
         type='number'
