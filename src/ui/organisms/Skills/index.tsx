@@ -5,7 +5,14 @@ import { AddIcon } from '@chakra-ui/icons';
 import Form from './Form';
 import '../../../utils/index.css';
 import { COLUMNS } from './columns';
-import { deleteSkill, fetchSkills, getSkills, getSkillsTotalCount, useAppDispatch } from 'store';
+import {
+  deleteSkill,
+  fetchSkills,
+  getSkills,
+  getSkillsTotalCount,
+  sendSkipAndTake,
+  useAppDispatch,
+} from 'store';
 import { Skill, skillsList } from 'utils';
 import {
   ButtonForm,
@@ -62,33 +69,28 @@ const Skills = () => {
     setSkillTypeSearch('');
     setIsFilterUsed(false);
 
-    dispatch(
-      fetchSkills({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    dispatch(fetchSkills());
   };
 
   const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
     setSkillTypeSearch(event.target.value);
   };
 
-  const fetchSkillsFiltered = async () => {
-    await dispatch(
+  const fetchSkillsFiltered = () => {
+    dispatch(
       fetchSkills({
         skillType: skillTypeSearch,
-        skip: skip,
-        take: take,
       }),
     );
   };
 
   const searchSkills = () => {
+    setSkip(0);
+
+    dispatch(sendSkipAndTake(0, take));
     fetchSkillsFiltered();
 
-    setIsFilterUsed(true);
+    skillTypeSearch === '' ? setIsFilterUsed(false) : setIsFilterUsed(true);
   };
 
   const handleEdit = (item: Skill) => {
@@ -112,24 +114,15 @@ const Skills = () => {
 
   const handleDeleteConfirm = async () => {
     await dispatch(deleteSkill(id));
-    await dispatch(
-      fetchSkills({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+
+    isFilterUsed
+      ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchSkillsFiltered())
+      : await dispatch(fetchSkills());
     return handleCloseConfirm();
   };
 
   useEffect(() => {
-    dispatch(
-      fetchSkills({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    dispatch(fetchSkills());
   }, []);
 
   return (

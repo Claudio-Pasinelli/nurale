@@ -6,8 +6,27 @@ import { QueryParams } from 'utils';
 
 export const fetchSkills = createAsyncThunk(
   'fetch/users',
-  async (params: QueryParams | undefined, thunkAPI) => {
-    // thunkAPI.getState
+  async (fetchParams: QueryParams | undefined, thunkAPI) => {
+    const skipAndTakeObj: any = thunkAPI.getState();
+
+    const skipAndTake = skipAndTakeObj.skipAndTake.data;
+
+    const skip = skipAndTake.skip;
+    const take = skipAndTake.take;
+
+    let params;
+
+    fetchParams?.skillType
+      ? (params = {
+          skillType: fetchParams?.skillType,
+          skip: skip,
+          take: take,
+        })
+      : (params = {
+          skip: skip,
+          take: take,
+        });
+
     try {
       const response = await apiClient.get<AxiosResponse>({
         url: `${BASE}${API}${V1}${SKILLS}`,

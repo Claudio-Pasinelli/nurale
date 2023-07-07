@@ -6,8 +6,26 @@ import apiClient from 'utils/helpers/apiClient';
 
 export const fetchCustomers = createAsyncThunk(
   'fetch/customers',
-  async (params: QueryParams | undefined, thunkAPI) => {
-    // thunkAPI.getState
+  async (fetchParams: QueryParams | undefined, thunkAPI) => {
+    const skipAndTakeObj: any = thunkAPI.getState();
+
+    const skipAndTake = skipAndTakeObj.skipAndTake.data;
+
+    const skip = skipAndTake.skip;
+    const take = skipAndTake.take;
+
+    let params;
+
+    fetchParams?.typeOfPaymentId
+      ? (params = {
+          typeOfPaymentId: fetchParams?.typeOfPaymentId,
+          skip: skip,
+          take: take,
+        })
+      : (params = {
+          skip: skip,
+          take: take,
+        });
 
     try {
       const response = await apiClient.get<AxiosResponse>({

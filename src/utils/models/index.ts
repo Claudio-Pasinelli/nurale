@@ -4,6 +4,12 @@ export interface Column {
   transform?: (value: any) => any;
 }
 
+export interface skipAndTake
+{
+  skip: number;
+  take: number;
+}
+
 export interface User {
   email: string;
   password?: string;

@@ -63,11 +63,6 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
       return hasErrors;
     }
 
-    // if (getValues('password') !== getValues('passwordConfirm') && !user) {
-    //   setError('passwordConfirm', { message: 'Le password non corrispondono' });
-    //   return null;
-    // }
-
     if (user) {
       await dispatch(
         editUser({

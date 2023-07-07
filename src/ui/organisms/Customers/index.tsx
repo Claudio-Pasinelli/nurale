@@ -10,6 +10,7 @@ import {
   fetchCustomers,
   getCustomers,
   getCustomerstTotalCount,
+  sendSkipAndTake,
   useAppDispatch,
 } from 'store';
 import {
@@ -70,13 +71,7 @@ const Customers = () => {
     setTypeOfPaymentId('');
     setIsFilterUsed(false);
 
-    dispatch(
-      fetchCustomers({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    dispatch(fetchCustomers());
   };
 
   const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -90,24 +85,27 @@ const Customers = () => {
       ? setTypeOfPaymentIdSearch(3)
       : event.target.value === '30 gg f.m.'
       ? setTypeOfPaymentIdSearch(4)
-      : null;
-    console.log(typeOfPaymentIdSearch);
+      : setTypeOfPaymentIdSearch(0);
   };
 
-  const fetchCustomersFiltered = async () => {
-    await dispatch(
-      fetchCustomers({
-        typeOfPaymentId: typeOfPaymentIdSearch,
-        skip: skip,
-        take: take,
-      }),
-    );
+  const fetchCustomersFiltered = () => {
+    typeOfPaymentIdSearch === 0 || typeOfPaymentIdSearch === undefined
+      ? dispatch(fetchCustomers())
+      : dispatch(
+          fetchCustomers({
+            typeOfPaymentId: typeOfPaymentIdSearch,
+          }),
+        );
   };
 
   const searchCustomers = () => {
+    setSkip(0);
+    dispatch(sendSkipAndTake(0, take));
     fetchCustomersFiltered();
 
-    setIsFilterUsed(true);
+    typeOfPaymentIdSearch != 0 && typeOfPaymentIdSearch != undefined
+      ? setIsFilterUsed(true)
+      : setIsFilterUsed(false);
   };
 
   const handleEdit = (item: Customer) => {
@@ -131,24 +129,15 @@ const Customers = () => {
 
   const handleDeleteConfirm = async () => {
     await dispatch(deleteCustomer(id));
-    await dispatch(
-      fetchCustomers({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+
+    isFilterUsed
+      ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchCustomersFiltered())
+      : await dispatch(fetchCustomers());
     return handleCloseConfirm();
   };
 
   useEffect(() => {
-    dispatch(
-      fetchCustomers({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    dispatch(fetchCustomers());
   }, []);
 
   return (

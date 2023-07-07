@@ -1,6 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+import { getSkip, getSkipAndTake, sendSkipAndTake, useAppDispatch } from 'store';
 import { ButtonForm, Icons, InputPagination, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
 interface Props {
@@ -10,20 +11,22 @@ interface Props {
   skip: number;
   setSkip: (skip: number) => void;
 
-  // eslint-disable-next-line no-empty-pattern
-  fetch: ({}) => void;
+  fetch: () => void;
   fetchFiltered?: () => void;
 }
 
 const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltered }: Props) => {
   const dispatch = useAppDispatch();
 
+  const skipAndTakeState = useSelector(getSkipAndTake);
+  const skipState = useSelector(getSkip);
+
   const [maxNumPage, setMaxNumPage] = useState<number>(1);
   const [numPage, setNumPage] = useState<number>(1);
   const [minReached, setMinReached] = useState(true);
   const [maxReached, setMaxReached] = useState(false);
 
-  const handleIncreasePage = async () => {
+  const handleIncreasePage = () => {
     let page = numPage;
     page++;
 
@@ -32,6 +35,7 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
       const skipValueIncrement = skip + take;
 
       setSkip(skipValueIncrement);
+      dispatch(sendSkipAndTake(skipValueIncrement, take));
       setMinReached(false);
 
       page === maxNumPage ? setMaxReached(true) : setMaxReached(false);
@@ -40,13 +44,7 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
         return fetchFiltered();
       }
 
-      dispatch(
-        fetch({
-          search: '',
-          skip: skipValueIncrement,
-          take: take,
-        }),
-      );
+      dispatch(fetch());
     }
 
     if (page > maxNumPage) {
@@ -64,6 +62,7 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
       const skipValueDecrement = skip - take;
 
       setSkip(skipValueDecrement);
+      dispatch(sendSkipAndTake(skipValueDecrement, take));
       setMaxReached(false);
 
       page === 1 ? setMinReached(true) : setMinReached(false);
@@ -72,13 +71,7 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
         return fetchFiltered();
       }
 
-      dispatch(
-        fetch({
-          search: '',
-          skip: skipValueDecrement,
-          take: take,
-        }),
-      );
+      dispatch(fetch());
     }
 
     if (page === 1) {
@@ -88,11 +81,17 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
   };
 
   useEffect(() => {
+    fetchFiltered ? setNumPage(1) : dispatch(sendSkipAndTake(skip, take));
+
     totalPages === 0
       ? setMaxNumPage(totalPages + 1)
       : totalPages % take === 0
       ? setMaxNumPage(totalPages)
       : setMaxNumPage(totalPages + 1);
+
+    maxNumPage === 1
+      ? (setMinReached(true), setMaxReached(true))
+      : (setMinReached(true), setMaxReached(false));
 
     if (numPage === 1 && maxNumPage === 1) {
       setMinReached(true);
@@ -102,6 +101,10 @@ const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltere
     setMaxReached(false);
     return setMinReached(true);
   }, [totalPages]);
+
+  useEffect(() => {
+    skipState === 0 ? (setNumPage(1), setMinReached(true)) : null;
+  }, [skipState]);
 
   return (
     <Flex

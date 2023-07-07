@@ -7,5 +7,6 @@ export * from './typeOfPayments';
 export * from './typeOfPayment';
 export * from './Customers';
 export * from './Customer';
+export * from './skipAndTake';
 export * from './applicationState';
 export * from './applicationStore';

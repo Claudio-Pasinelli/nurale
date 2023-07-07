@@ -10,6 +10,7 @@ import {
   fetchTypeOfPayments,
   getTypeOfPayments,
   getTypeOfPaymentsTotalCount,
+  sendSkipAndTake,
   useAppDispatch,
 } from 'store';
 import { TypeOfPayment } from 'utils';
@@ -26,7 +27,7 @@ const TypeOfPayments = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [isFilterUsed, setIsFilterUsed] = useState(false);
-  const [typeOfPaymentTypeSearch, setTypeOfPaymentTypeSearch] = useState(false);
+  const [hasEndOfMonthSearch, setHasEndOfMonthSearch] = useState(false);
   const [isFilterAll, setIsFilterAll] = useState(false);
   const [isFilterYes, setIsFilterYes] = useState(false);
   const [isFilterNo, setIsFilterNo] = useState(false);
@@ -60,49 +61,39 @@ const TypeOfPayments = () => {
   };
 
   const emptyFilter = () => {
-    setTypeOfPaymentTypeSearch(false);
+    setHasEndOfMonthSearch(false);
     setIsFilterUsed(false);
 
     setIsFilterAll(false);
     setIsFilterNo(false);
     setIsFilterYes(false);
 
-    dispatch(
-      fetchTypeOfPayments({
-        skip: skip,
-        take: take,
-      }),
-    );
+    dispatch(fetchTypeOfPayments());
   };
 
-  const fetchTypeOfPaymentsFiltered = async () => {
+  const fetchTypeOfPaymentsFiltered = () => {
     isFilterAll
-      ? await dispatch(
+      ? dispatch(fetchTypeOfPayments())
+      : dispatch(
           fetchTypeOfPayments({
-            skip: skip,
-            take: take,
-          }),
-        )
-      : await dispatch(
-          fetchTypeOfPayments({
-            hasEndOfMonth: typeOfPaymentTypeSearch,
-            skip: skip,
-            take: take,
+            hasEndOfMonth: hasEndOfMonthSearch,
           }),
         );
   };
 
   const searchTypesOfPayments = () => {
     if (isFilterAll || isFilterYes || isFilterNo) {
+      setSkip(0);
+      dispatch(sendSkipAndTake(0, take));
       fetchTypeOfPaymentsFiltered();
 
-      setIsFilterUsed(true);
+      return setIsFilterUsed(true);
     }
+    setIsFilterUsed(false);
   };
 
   const handleAll = () => {
-    setTypeOfPaymentTypeSearch(false);
-    setIsFilterUsed(false);
+    setHasEndOfMonthSearch(false);
 
     setIsFilterAll(true);
     setIsFilterNo(false);
@@ -110,7 +101,7 @@ const TypeOfPayments = () => {
   };
 
   const handleSearchYes = () => {
-    setTypeOfPaymentTypeSearch(true);
+    setHasEndOfMonthSearch(true);
 
     setIsFilterAll(false);
     setIsFilterNo(false);
@@ -118,7 +109,7 @@ const TypeOfPayments = () => {
   };
 
   const handleSearchNo = () => {
-    setTypeOfPaymentTypeSearch(false);
+    setHasEndOfMonthSearch(false);
 
     setIsFilterAll(false);
     setIsFilterNo(true);
@@ -146,24 +137,15 @@ const TypeOfPayments = () => {
 
   const handleDeleteConfirm = async () => {
     await dispatch(deleteTypeOfPayment(id));
-    await dispatch(
-      fetchTypeOfPayments({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+
+    isFilterUsed
+      ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchTypeOfPaymentsFiltered())
+      : await dispatch(fetchTypeOfPayments());
     return handleCloseConfirm();
   };
 
   useEffect(() => {
-    dispatch(
-      fetchTypeOfPayments({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    dispatch(fetchTypeOfPayments());
   }, []);
 
   return (

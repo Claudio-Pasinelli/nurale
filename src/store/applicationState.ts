@@ -7,6 +7,8 @@ import { skillReduxer } from './skill';
 import { typeOfPaymentsReduxer } from './typeOfPayments';
 import { typeOfPaymentReduxer } from './typeOfPayment';
 import { customersReduxer } from './Customers';
+import { customerReduxer } from './Customer';
+import { skipAndTakeReducer } from './skipAndTake';
 
 const rootReducer = combineReducers({
   login: loginReduxer.reducer,
@@ -21,6 +23,9 @@ const rootReducer = combineReducers({
   typeOfPayment: typeOfPaymentReduxer.reducer,
 
   customers: customersReduxer.reducer,
+  customer: customerReduxer.reducer,
+
+  skipAndTake: skipAndTakeReducer.reducer,
 });
 
 export default rootReducer;
