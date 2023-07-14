@@ -16,8 +16,10 @@ import {
 import { TypeOfPayment } from 'utils';
 import { ButtonForm, Filter, ModalConfirm, PageLayout, Pagination, Table, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 
 const TypeOfPayments = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const typesOfPayments = useSelector(getTypeOfPayments);
@@ -33,10 +35,8 @@ const TypeOfPayments = () => {
   const [isFilterNo, setIsFilterNo] = useState(false);
 
   const [typeOfPayment, setTypeOfPayment] = useState<TypeOfPayment | null>(null);
-  const [skillName, setTypeOfPaymentName] = useState('');
+  const [typeOfPaymentName, setTypeOfPaymentName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalConfirmButton, setModalConfirmButton] = useState('');
 
   const [skip, setSkip] = useState<number>(0);
   const take = 5;
@@ -50,10 +50,10 @@ const TypeOfPayments = () => {
 
     if (typeOfPayment) {
       setTypeOfPayment(null);
+      isFilterUsed
+        ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchTypeOfPaymentsFiltered())
+        : null;
     }
-
-    setModalTitle('Aggiungi nuovo Tipo di Pagamento');
-    setModalConfirmButton('Conferma');
   };
 
   const handleFilters = () => {
@@ -104,23 +104,21 @@ const TypeOfPayments = () => {
     setHasEndOfMonthSearch(true);
 
     setIsFilterAll(false);
-    setIsFilterNo(false);
     setIsFilterYes(true);
+    setIsFilterNo(false);
   };
 
   const handleSearchNo = () => {
     setHasEndOfMonthSearch(false);
 
     setIsFilterAll(false);
-    setIsFilterNo(true);
     setIsFilterYes(false);
+    setIsFilterNo(true);
   };
 
   const handleEdit = (item: TypeOfPayment) => {
     setTypeOfPayment(item);
     setShow(true);
-    setModalTitle('Modifica Tipo di Pagamento');
-    setModalConfirmButton('Salva');
   };
 
   const handleDelete = (object: TypeOfPayment) => {
@@ -162,7 +160,7 @@ const TypeOfPayments = () => {
           _hover={{ bg: darkModePalette.pink70 }}
           fontSize={theme.fontSizes.xxs}
         >
-          Aggiungi nuovo
+          {t('pagina.aggiungi-nuovo')}
         </ButtonForm>
         <Filter
           isFilterUsed={isFilterUsed}
@@ -172,7 +170,9 @@ const TypeOfPayments = () => {
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <Flex width='100%' justifyContent='space-between' direction='column'>
-              <p style={{ fontWeight: theme.fontWeights.bold }}>Pagamenti alla fine del mese</p>
+              <p style={{ fontWeight: theme.fontWeights.bold }}>
+                {t('filtri.tipi-di-pagamento.titolo')}
+              </p>
               <Flex width='100%' justifyContent='space-between' marginTop='0.5rem'>
                 <ButtonForm
                   onClick={handleAll}
@@ -183,7 +183,7 @@ const TypeOfPayments = () => {
                   _hover={{ bg: darkModePalette.pink70 }}
                   fontSize={theme.fontSizes.xxs}
                 >
-                  Tutti
+                  {t('filtri.tipi-di-pagamento.tutti')}
                 </ButtonForm>
                 <ButtonForm
                   onClick={handleSearchYes}
@@ -194,7 +194,7 @@ const TypeOfPayments = () => {
                   _hover={{ bg: darkModePalette.pink70 }}
                   fontSize={theme.fontSizes.xxs}
                 >
-                  Si
+                  {t('filtri.tipi-di-pagamento.si')}
                 </ButtonForm>
                 <ButtonForm
                   onClick={handleSearchNo}
@@ -205,7 +205,7 @@ const TypeOfPayments = () => {
                   _hover={{ bg: darkModePalette.pink70 }}
                   fontSize={theme.fontSizes.xxs}
                 >
-                  No
+                  {t('filtri.tipi-di-pagamento.no')}
                 </ButtonForm>
               </Flex>
             </Flex>
@@ -220,7 +220,7 @@ const TypeOfPayments = () => {
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Svuota filtri
+                {t('filtri.svuota-filtri')}
               </ButtonForm>
               <ButtonForm
                 marginTop='4rem'
@@ -232,7 +232,7 @@ const TypeOfPayments = () => {
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Conferma
+                {t('filtri.conferma')}
               </ButtonForm>
             </Flex>
           </Flex>
@@ -253,7 +253,9 @@ const TypeOfPayments = () => {
             fontSize: theme.fontSizes.lg,
           }}
         >
-          {modalTitle}
+          {typeOfPayment
+            ? t('typeOfPayments.modifica-tipo-di-pagamento')
+            : t('typeOfPayments.aggiungi-nuovo-tipo-di-pagamento')}
         </p>
         <Form
           show={show}
@@ -261,7 +263,6 @@ const TypeOfPayments = () => {
           take={take}
           handleShow={handleShow}
           typeOfPayment={typeOfPayment}
-          modalConfirmButton={modalConfirmButton}
         />
         {isFilterUsed ? (
           <Pagination
@@ -287,7 +288,7 @@ const TypeOfPayments = () => {
           handleDelete={handleDeleteConfirm}
           handleClose={handleCloseConfirm}
           open={openConfirm}
-          objectName={skillName}
+          objectName={typeOfPaymentName}
         />
       </Flex>
     </PageLayout>

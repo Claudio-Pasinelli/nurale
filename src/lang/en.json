@@ -1,5 +1,319 @@
 {
-  "common": {
-    "email": "Email"
+  "pagination": {
+    "pagina": "Page",
+    "pagina-placeholder": "Page num.",
+    "di": "of"
+  },
+
+  "filtri": {
+    "filtri": "Filter",
+    "svuota-filtri": "Empty filters",
+    "conferma": "Confirm",
+    "skills": "Type of skill",
+    "tipi-di-pagamento": {
+      "titolo": "Payments at the end of the month",
+      "tutti": "All",
+      "si": "Yes",
+      "no": "No"
+    },
+    "customers": "Type of payment",
+    "suppliers": "Type of payment",
+    "resources": {
+      "select": "Supplier",
+      "titolo": "Resources with CV",
+      "tutti": "All",
+      "si": "Yes",
+      "no": "No"
+    }
+  },
+
+  "form": {
+    "conferma": "Confirm",
+    "salva": "Save",
+    "annulla": "Cancel"
+  },
+
+  "pagina": {
+    "aggiungi-nuovo": "Add new"
+  },
+
+  "login": {
+    "email": "Email",
+    "inserisci-email": "Enter your Email",
+    "password": "Password",
+    "inserisci-password": "Enter your Password",
+    "hai-dimenticato-la-password": "Did you forget your password?",
+    "ricordami": "Remember me",
+    "accedi": "Access"
+  },
+
+  "recupero-password": {
+    "email": "Email",
+    "inserisci-email": "Enter your Email",
+    "recupera-password": "Recover password",
+    "torna-al-login": "Go back to login"
+  },
+
+  "modal-confirm": {
+    "messaggio": "Are you sure you want to delete"
+  },
+
+  "sidebar": {
+    "home": "Home",
+    "inserimento-veloce": "Quick insert",
+    "commesse-dropdown": {
+      "commesse": "jobs",
+      "ordini": "orders",
+      "attivita": "activities"
+    },
+    "anagrafiche-dropdown": {
+      "anagrafiche": "Personal data",
+      "clienti": "Customers",
+      "fornitori": "Suppliers",
+      "risorse": "Resources",
+      "risorseSkills": "Resource skills"
+    },
+    "acquisti-dropdown": {
+      "acquisti": "Purchases",
+      "fattura-di-acquisto": "Purchase invoice",
+      "fattura-di-acquisto-attivita": "Purchase invoice activity"
+    },
+    "vendite-dropdown": {
+      "vendite": "Sales",
+      "fattura-di-vendita": "Sales invoices"
+    },
+    "scadenziario-dropdown": {
+      "scadenziario": "Timetable",
+      "scadenze": "Scheduled payments",
+      "pianificazione": "Scheduled values"
+    },
+    "settings-dropdown": {
+      "settings": "Settings",
+      "skills": "Skills",
+      "tipi-di-pagamento": "Type of payments",
+      "utenti": "Users"
+    },
+    "timesheet-dropdown": {
+      "timesheet": "Timesheet",
+      "report": "Report"
+    }
+  },
+
+  "users": {
+    "aggiungi-nuovo-utente": "Add new User",
+    "modifica-utente": "Modify User",
+    "form": {
+      "aggiungi": {
+        "email": "Email",
+        "email-placeholder": "Email",
+        "nome": "Name",
+        "nome-placeholder": "Name",
+        "cognome": "Surname",
+        "cognome-placeholder": "Surname",
+        "password": "Password",
+        "password-placeholder": "Password",
+        "conferma-password": "Confirm password",
+        "conferma-password-placeholder": "Confirm password",
+        "risorsa": "Resource",
+        "genera": "Generate",
+        "conferma": "Confirm"
+      },
+      "modifica": {
+        "telefono": "Phone",
+        "telefono-placeholder": "Phone",
+        "reset-password": "Reset Password"
+      }
+    },
+    "validation": {
+      "email": "Invalid email",
+      "risorsa": {
+        "corta": "Resource too short",
+        "lunga": "Resource too long"
+      },
+      "nome": {
+        "corto": "Name too short",
+        "lungo": "Name too long"
+      },
+      "cognome": {
+        "corto": "Surname too short",
+        "lungo": "Surname too long"
+      },
+      "password": {
+        "corta": "Password too short"
+      },
+      "passwordConfirm": {
+        "corta": "Password too short"
+      },
+      "phone": {
+        "corto": "Phone number too short",
+        "lungo": "Phone number too long"
+      }
+    }
+  },
+
+  "skills": {
+    "aggiungi-nuova-skill": "Add new Skill",
+    "modifica-skill": "Modify Skill",
+    "form": {
+      "nome": "Name",
+      "nome-placeholder": "Name",
+      "tipo-di-skill": "Type of skill",
+      "note": "Notes",
+      "note-placeholder": "Notes"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Name too short",
+        "lungo": "Name too long"
+      },
+      "note": {
+        "corto": "Notes too short",
+        "lungo": "Notes too long"
+      },
+      "tipo-di-skill": {
+        "corto": "Invalid type of skill",
+        "lungo": "Type of skill too long"
+      }
+    }
+  },
+
+  "typeOfPayments": {
+    "aggiungi-nuovo-tipo-di-pagamento": "Add new Type of Payment",
+    "modifica-tipo-di-pagamento": "Modifica Type of Payment",
+    "genera-nome": "Generate name",
+    "form": {
+      "nome": "Name",
+      "nome-placeholder": "Name",
+      "tipo-di-skill": "Type of payment",
+      "note": "Notes",
+      "note-placeholder": "Notes",
+      "giorni-al-primo-pagamento": "Days to first payment",
+      "giorni-al-primo-pagamento-placeholder": "Days to first payment",
+      "giorni-tra-i-pagamenti": "Days between payments",
+      "giorni-tra-i-pagamenti-placeholder": "Days between payments",
+      "numero-di-pagamenti": "Number of payments",
+      "numero-di-pagamenti-placeholder": "Number of payments",
+      "giorni-scostamento-pagamento": "Days offset payments",
+      "giorni-scostamento-pagamento-placeholder": "Days offset payments",
+      "spostare-i-pagamenti-alla-fine-del-mese": "Move payments to the end of month"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Name too short",
+        "lungo": "Name too long"
+      },
+      "note": {
+        "corto": "Notes too short",
+        "lungo": "Notes too long"
+      },
+      "giorni-al-primo-pagamento": {
+        "richiesto": "Obligatory",
+        "invalido": "Invalid insert numeric value"
+      },
+      "giorni-tra-i-pagamenti": {
+        "richiesto": "Obligatory",
+        "invalido": "Invalid insert numeric value"
+      },
+      "numero-di-pagamenti": {
+        "richiesto": "Obligatory",
+        "invalido": "Invalid insert numeric value"
+      },
+      "giorni-scostamento-pagamento": {
+        "richiesto": "Obligatory",
+        "invalido": "Invalid insert numeric value"
+      }
+    }
+  },
+
+  "customers": {
+    "aggiungi-nuovo-cliente": "Add new Customer",
+    "modifica-cliente": "Modify Customer",
+    "genera-nome": "Generate name",
+    "form": {
+      "nome": "Name",
+      "nome-placeholder": "Name",
+      "note": "Notes",
+      "note-placeholder": "Notes",
+      "tipo-di-pagamento": "Type of payment"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Name too short",
+        "nome-lungo": "Name too long"
+      },
+      "note": {
+        "corto": "Notes too short",
+        "lungo": "Notes too long"
+      },
+      "tipo-di-pagamento": {
+        "richiesto": "Obligatory",
+        "invalido": "Invalid type of payment"
+      }
+    }
+  },
+
+  "suppliers": {
+    "aggiungi-nuovo-cliente": "Add new Supplier",
+    "modifica-cliente": "Modify Supplier",
+    "form": {
+      "nome": "Name",
+      "nome-placeholder": "Name",
+      "note": "Notes",
+      "note-placeholder": "Notes",
+      "tipo-di-pagamento": "Type of payment"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Name too short",
+        "nome-lungo": "Name too long"
+      },
+      "note": {
+        "corto": "Notes too short",
+        "lungo": "Notes too long"
+      },
+      "tipo-di-pagamento": {
+        "tipo-di-pagamento-richiesto": "Obligatory",
+        "tipo-di-pagamento-invalido": "Invalid type of payment"
+      }
+    }
+  },
+
+  "resources": {
+    "aggiungi-nuovo-risorsa": "Add new Resource",
+    "modifica-risorsa": "Modify Resource",
+    "form": {
+      "nome": "Name",
+      "nome-placeholder": "Name",
+      "cognome": "Surname",
+      "cognome-placeholder": "Surname",
+      "cv": "CV",
+      "cv-placeholder": "Insert your Curriculum Vitae",
+      "note": "Notes",
+      "note-placeholder": "Notes",
+      "costo-orario": "Hourly Cost",
+      "costo-orario-placeholder": "Insert your Hourly Cost",
+      "costo-giornaliero": "Daily Cost",
+      "costo-giornaliero-placeholder": "Insert your Daily Cost",
+      "ricavo-orario": "Hourly Revenue",
+      "ricavo-orario-placeholder": "Insert your Hourly Revenue",
+      "ricavo-giornaliero": "Daily Revenue",
+      "ricavo-giornaliero-placeholder": "Insert your Daily Revenue",
+      "fornitore": "Supplier",
+      "fornitore-placeholder": "Supplier"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Name too short",
+        "lungo": "Name too lungo"
+      },
+      "cognome": {
+        "corto": "Surname too short",
+        "lungo": "Surname too long"
+      },
+      "note": {
+        "corto": "Notes too short",
+        "lungo": "Notes too long"
+      }
+    }
   }
 }

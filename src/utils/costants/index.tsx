@@ -1,3 +1,4 @@
+import { Supplier } from 'utils/models';
 import { icons } from '../../ui/atoms/Icons';
 
 export const ROUTES = {
@@ -160,10 +161,12 @@ export const skillsList = [
   { value: 'Other' },
 ];
 
-export const customersList = [
+export const typeOfPaymentsList = [
   { value: '' },
   { value: '30 gg d.f.' },
   { value: '30 gg f.m.' },
   { value: '30-60 gg d.f.' },
   { value: 'A vista' },
 ];
+
+export const suppliersList: Supplier[] = [];

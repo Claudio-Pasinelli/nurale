@@ -1,5 +1,317 @@
 {
-  "common": {
-    "email": "Email"
+  "pagination": {
+    "pagina": "Pagina",
+    "pagina-placeholder": "Num pagina",
+    "di": "di"
+  },
+
+  "filtri": {
+    "filtri": "Filtri",
+    "svuota-filtri": "Svuota filtri",
+    "conferma": "Conferma",
+    "skills": "Tipo di skill",
+    "tipi-di-pagamento": {
+      "titolo": "Pagamenti alla fine del mese",
+      "tutti": "Tutti",
+      "si": "Si",
+      "no": "No"
+    },
+    "customers": "Tipo di pagamento",
+    "suppliers": "Tipo di pagamento",
+    "resources": {
+      "select": "Fornitore",
+      "titolo": "Risorse con CV",
+      "tutti": "Tutti",
+      "si": "Si",
+      "no": "No"
+    }
+  },
+
+  "form": {
+    "conferma": "Conferma",
+    "salva": "Salva",
+    "annulla": "Annulla"
+  },
+
+  "pagina": {
+    "aggiungi-nuovo": "Aggiungi nuovo"
+  },
+
+  "login": {
+    "email": "Email",
+    "inserisci-email": "Inserisci Email",
+    "password": "Password",
+    "inserisci-password": "Inserisci Password",
+    "hai-dimenticato-la-password": "Hai dimenticato la password?",
+    "ricordami": "Ricordami",
+    "accedi": "Accedi"
+  },
+
+  "recupero-password": {
+    "email": "Email",
+    "inserisci-email": "Inserisci Email",
+    "recupera-password": "Recupera password",
+    "torna-al-login": "Torna al login"
+  },
+
+  "modal-confirm": {
+    "messaggio": "Sei sicuro di voler eliminare"
+  },
+
+  "sidebar": {
+    "home": "Home",
+    "inserimento-veloce": "Inserimento veloce",
+    "commesse-dropdown": {
+      "commesse": "Commesse",
+      "ordini": "Ordini",
+      "attivita": "Attività"
+    },
+    "anagrafiche-dropdown": {
+      "anagrafiche": "Anagrafiche",
+      "clienti": "Clienti",
+      "fornitori": "Fornitori",
+      "risorse": "Risorse",
+      "risorseSkills": "Skills delle Risorse"
+    },
+    "acquisti-dropdown": {
+      "acquisti": "Acquisti",
+      "fattura-di-acquisto": "Fattura di acquisto",
+      "fattura-di-acquisto-attivita": "Fattura di acquisto attività"
+    },
+    "vendite-dropdown": {
+      "vendite": "Vendite",
+      "fattura-di-vendita": "Fatture di vendita"
+    },
+    "scadenziario-dropdown": {
+      "scadenziario": "Scadenziario",
+      "scadenze": "Scadenze",
+      "pianificazione": "Pianificazione"
+    },
+    "settings-dropdown": {
+      "settings": "Settings",
+      "skills": "Skills",
+      "tipi-di-pagamento": "Tipi di pagamento",
+      "utenti": "Utenti"
+    },
+    "timesheet-dropdown": {
+      "timesheet": "Timesheet",
+      "report": "Report"
+    }
+  },
+
+  "users": {
+    "aggiungi-nuovo-utente": "Aggiungi nuovo Utente",
+    "modifica-utente": "Modifica Utente",
+    "form": {
+      "aggiungi": {
+        "email": "Email",
+        "email-placeholder": "Email",
+        "nome": "Nome",
+        "nome-placeholder": "Nome",
+        "cognome": "Cognome",
+        "cognome-placeholder": "Cognome",
+        "password": "Password",
+        "password-placeholder": "Password",
+        "conferma-password": "Conferma password",
+        "conferma-password-placeholder": "Conferma password",
+        "risorsa": "Risorsa",
+        "genera": "Genera",
+        "conferma": "Conferma"
+      },
+      "modifica": {
+        "telefono": "Telefono",
+        "telefono-placeholder": "Telefono",
+        "reset-password": "Reset Password"
+      }
+    },
+    "validation": {
+      "email": "Email non valida",
+      "risorsa": {
+        "corta": "Risorsa troppo corta",
+        "lunga": "Risorsa troppo lunga"
+      },
+      "nome": {
+        "corto": "Nome troppo corto",
+        "lungo": "Nome troppo lungo"
+      },
+      "cognome": {
+        "corto": "Cognome troppo corto",
+        "lungo": "Cognome troppo lungo"
+      },
+      "password": {
+        "corta": "Password troppo corta"
+      },
+      "passwordConfirm": {
+        "corta": "Password troppo corta"
+      },
+      "phone": {
+        "corto": "Numero di telefono troppo corto",
+        "lungo": "Numero di telefono troppo lungo"
+      }
+    }
+  },
+
+  "skills": {
+    "aggiungi-nuova-skill": "Aggiungi nuova Skill",
+    "modifica-skill": "Modifica Skill",
+    "form": {
+      "nome": "Nome",
+      "nome-placeholder": "Nome",
+      "tipo-di-skill": "Tipo di skill",
+      "note": "Note",
+      "note-placeholder": "Note"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Nome troppo corto",
+        "lungo": "Nome troppo lungo"
+      },
+      "note": {
+        "corto": "Nota troppo corta",
+        "lungo": "Nota troppo lunga"
+      },
+      "tipo-di-skill": {
+        "corto": "Tipo di skill non valido",
+        "lungo": "Tipo di skill troppo lungo"
+      }
+    }
+  },
+
+  "typeOfPayments": {
+    "aggiungi-nuovo-tipo-di-pagamento": "Aggiungi nuovo Tipo di Pagamento",
+    "modifica-tipo-di-pagamento": "Modifica Tipo di Pagamento",
+    "genera-nome": "Genera nome",
+    "form": {
+      "nome": "Nome",
+      "nome-placeholder": "Nome",
+      "tipo-di-skill": "Tipo di pagamento",
+      "note": "Note",
+      "note-placeholder": "Note",
+      "giorni-al-primo-pagamento": "Giorni al primo pagamento",
+      "giorni-al-primo-pagamento-placeholder": "Giorni al primo pagamento",
+      "giorni-tra-i-pagamenti": "Giorni tra i pagamenti",
+      "giorni-tra-i-pagamenti-placeholder": "Giorni tra i pagamenti",
+      "numero-di-pagamenti": "Numero di pagamenti",
+      "numero-di-pagamenti-placeholder": "Numero di pagamenti",
+      "giorni-scostamento-pagamento": "Giorni scostamento pagamento",
+      "giorni-scostamento-pagamento-placeholder": "Giorni scostamento pagamento",
+      "spostare-i-pagamenti-alla-fine-del-mese": "Spostare i pagamenti alla fine del mese"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Nome troppo corto",
+        "lungo": "Nome troppo lungo"
+      },
+      "note": {
+        "corto": "Nota troppo corta",
+        "lungo": "Nota troppo lunga"
+      },
+      "giorni-al-primo-pagamento": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Valore numerico inserito non valido"
+      },
+      "giorni-tra-i-pagamenti": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Valore numerico inserito non valido"
+      },
+      "numero-di-pagamenti": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Valore numerico inserito non valido"
+      },
+      "giorni-scostamento-pagamento": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Valore numerico inserito non valido"
+      }
+    }
+  },
+  "customers": {
+    "aggiungi-nuovo-cliente": "Aggiungi nuovo Cliente",
+    "modifica-cliente": "Modifica Cliente",
+    "form": {
+      "nome": "Nome",
+      "nome-placeholder": "Nome",
+      "note": "Note",
+      "note-placeholder": "Note",
+      "tipo-di-pagamento": "Tipo di pagamento"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Nome troppo corto",
+        "lungo": "Nome troppo lungo"
+      },
+      "note": {
+        "corto": "Nota troppo corta",
+        "lungo": "Nota troppo lunga"
+      },
+      "tipo-di-pagamento": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Tipo di pagamento non valido"
+      }
+    }
+  },
+
+  "suppliers": {
+    "aggiungi-nuovo-fortnitore": "Aggiungi nuovo Fornitore",
+    "modifica-fortnitore": "Modifica Fornitore",
+    "form": {
+      "nome": "Nome",
+      "nome-placeholder": "Nome",
+      "note": "Note",
+      "note-placeholder": "Note",
+      "tipo-di-pagamento": "Tipo di pagamento"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Nome troppo corto",
+        "nome-lungo": "Nome troppo lungo"
+      },
+      "note": {
+        "corto": "Nota troppo corta",
+        "lungo": "Nota troppo lunga"
+      },
+      "tipo-di-pagamento": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Tipo di pagamento non valido"
+      }
+    }
+  },
+
+  "resources": {
+    "aggiungi-nuovo-risorsa": "Aggiungi nuova Risorsa",
+    "modifica-risorsa": "Modifica Risorsa",
+    "form": {
+      "nome": "Nome",
+      "nome-placeholder": "Nome",
+      "cognome": "Cognome",
+      "cognome-placeholder": "Cognome",
+      "cv": "CV",
+      "cv-placeholder": "Inserisci Curriculum Vitae",
+      "note": "Note",
+      "note-placeholder": "Note",
+      "costo-orario": "Costo Or.",
+      "costo-orario-placeholder": "Inserisci Costo Orario",
+      "costo-giornaliero": "Costo Giorn.",
+      "costo-giornaliero-placeholder": "Inserisci Costo Giornaliero",
+      "ricavo-orario": "Ricavo Or.",
+      "ricavo-orario-placeholder": "Inserisci Ricavo Orario",
+      "ricavo-giornaliero": "Ricavo Giorn.",
+      "ricavo-giornaliero-placeholder": "Inserisci Ricavo Giornaliero",
+      "fornitore": "Fornitore",
+      "fornitore-placeholder": "Fornitore"
+    },
+    "validation": {
+      "nome": {
+        "corto": "Nome troppo corto",
+        "lungo": "Nome troppo lungo"
+      },
+      "cognome": {
+        "corto": "Cognome troppo corto",
+        "lungo": "Cognome troppo lungo"
+      },
+      "note": {
+        "corto": "Nota troppo corta",
+        "lungo": "Nota troppo lunga"
+      }
+    }
   }
 }

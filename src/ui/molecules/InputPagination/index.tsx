@@ -37,6 +37,7 @@ const InputPagination = ({
           {...rest}
           marginLeft='5px'
           padding='5px'
+          readOnly={true}
         />
       </Flex>
     </div>

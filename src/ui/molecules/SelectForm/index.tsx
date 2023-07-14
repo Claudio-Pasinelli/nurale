@@ -1,5 +1,5 @@
 import { Select } from '@chakra-ui/react';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { theme } from 'ui';
 
@@ -29,15 +29,25 @@ const SelectForm = ({
     <div style={{ width: containerWidth ? containerWidth : 'fit-content' }}>
       <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
       <Select {...register(name)} style={{ fontSize: theme.fontSizes.xxs }} {...rest}>
-        {options.map((selectOption) => (
-          <option
-            value={selectOption.value}
-            key={selectOption.value}
-            style={{ fontSize: theme.fontSizes.xxs }}
-          >
-            {selectOption.value}
-          </option>
-        ))}
+        {options.map((selectOption) =>
+          selectOption.value ? (
+            <option
+              value={selectOption.value}
+              key={selectOption.value}
+              style={{ fontSize: theme.fontSizes.xxs }}
+            >
+              {selectOption.value}
+            </option>
+          ) : (
+            <option
+              value={selectOption.name}
+              key={selectOption.name + selectOption.id}
+              style={{ fontSize: theme.fontSizes.xxs }}
+            >
+              {selectOption.name}
+            </option>
+          ),
+        )}
       </Select>
       <div style={{ color: 'red', height: fontSize ? fontSize : '24px' }}>{error}</div>
     </div>

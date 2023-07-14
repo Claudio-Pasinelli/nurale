@@ -9,8 +9,11 @@ import { COLUMNS } from './columns';
 import { deleteUser, fetchUsers, getUsers, getUsersTotalCount, useAppDispatch } from 'store';
 import { ButtonForm, ModalConfirm, PageLayout, Pagination, Table, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 
 const Users = () => {
+  const { t } = useTranslation();
+
   const take = 10;
   const dispatch = useAppDispatch();
   const users = useSelector(getUsers);
@@ -19,8 +22,6 @@ const Users = () => {
   const [userName, setUserName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalConfirmButton, setModalConfirmButton] = useState('');
   const [skip, setSkip] = useState<number>(0);
 
   const totalRows = useSelector(getUsersTotalCount);
@@ -32,16 +33,11 @@ const Users = () => {
     if (user) {
       setUser(null);
     }
-
-    setModalTitle('Aggiungi nuovo utente');
-    setModalConfirmButton('Conferma');
   };
 
   const handleEdit = (item: User) => {
     setUser(item);
     setShow(true);
-    setModalTitle('Modifica Utente');
-    setModalConfirmButton('Salva');
   };
 
   const handleDelete = (object: User) => {
@@ -60,7 +56,6 @@ const Users = () => {
     await dispatch(deleteUser(id));
     await dispatch(
       fetchUsers({
-        search: '',
         skip: skip,
         take: take,
       }),
@@ -71,7 +66,6 @@ const Users = () => {
   useEffect(() => {
     dispatch(
       fetchUsers({
-        search: '',
         skip: skip,
         take: take,
       }),
@@ -91,7 +85,7 @@ const Users = () => {
         _hover={{ bg: darkModePalette.pink70 }}
         fontSize={theme.fontSizes.xxs}
       >
-        Aggiungi nuovo
+        {t('pagina.aggiungi-nuovo')}
       </ButtonForm>
       <Flex direction='column'>
         <Table
@@ -108,7 +102,7 @@ const Users = () => {
             fontSize: theme.fontSizes.lg,
           }}
         >
-          {modalTitle}
+          {user ? t('users.modifica-utente') : t('users.aggiungi-nuovo-utente')}
         </p>
         <Form
           show={show}
@@ -117,7 +111,6 @@ const Users = () => {
           take={take}
           handleShow={handleShow}
           user={user}
-          modalConfirmButton={modalConfirmButton}
         />
         <Pagination
           skip={skip}

@@ -9,13 +9,11 @@ import { createCustomer, editCustomer, fetchCustomers, useAppDispatch } from 'st
 import { SettingsCustomer } from '../Types';
 import { Customer } from 'utils';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 interface Props {
   show: boolean;
   selectList: any[];
-  skip: number;
-  take: number;
   customer: Customer | null;
-  modalConfirmButton: string;
   handleShow: () => void;
 }
 
@@ -25,15 +23,9 @@ const defaultValues = {
   note: '',
 };
 
-const Form = ({
-  show,
-  selectList,
-  skip,
-  take,
-  customer,
-  modalConfirmButton,
-  handleShow,
-}: Props) => {
+const Form = ({ show, selectList, customer, handleShow }: Props) => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
 
   const methods = useForm<SettingsCustomer>({
@@ -90,13 +82,7 @@ const Form = ({
       );
     }
 
-    await dispatch(
-      fetchCustomers({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    await dispatch(fetchCustomers());
 
     handleReset();
     handleShow();
@@ -104,6 +90,7 @@ const Form = ({
   };
 
   const handleReset = () => {
+    setValue('typeOfPaymentId', '');
     reset(defaultValues);
   };
 
@@ -124,12 +111,12 @@ const Form = ({
           <Flex width='100%' direction='column'>
             <Flex>
               <InputForm
-                label='Nome'
+                label={t('customers.form.nome')}
                 name='name'
-                placeholder='Nome'
+                placeholder={t('customers.form.nome-placeholder')}
                 containerWidth='90%'
                 fontWeight={theme.fontWeights.bold}
-                error={errors?.name?.message}
+                error={errors?.name?.message && t(`${errors?.name?.message}`)}
               />
             </Flex>
           </Flex>
@@ -138,20 +125,21 @@ const Form = ({
               containerWidth='100%'
               options={selectList}
               name='typeOfPaymentId'
-              label='Tipo di pagamento'
+              label={t('customers.form.tipo-di-pagamento')}
               fontWeight={theme.fontWeights.bold}
-              error={errors?.typeOfPaymentId?.message}
+              error={errors?.typeOfPaymentId?.message && t(`${errors?.typeOfPaymentId?.message}`)}
             />
           </Flex>
         </Flex>
         <Flex width='100%'>
           <Flex width='100%'>
             <TextAreaForm
-              label='Note'
+              label={t('customers.form.note')}
               name='note'
-              placeholder='Note'
+              placeholder={t('customers.form.note-placeholder')}
+              fontWeight={theme.fontWeights.bold}
               containerWidth='100%'
-              error={errors?.note?.message}
+              error={errors?.note?.message && t(`${errors?.note?.message}`)}
             />
           </Flex>
         </Flex>
@@ -171,7 +159,7 @@ const Form = ({
               _hover={{ bg: darkModePalette.violet10 }}
               fontSize={theme.fontSizes.xxs}
             >
-              Annulla
+              {t('form.annulla')}
             </ButtonForm>
             <ButtonForm
               leftIcon={<CheckIcon />}
@@ -181,7 +169,7 @@ const Form = ({
               _hover={{ bg: darkModePalette.pink70 }}
               fontSize={theme.fontSizes.xxs}
             >
-              {modalConfirmButton}
+              {customer ? t('form.salva') : t('form.conferma')}
             </ButtonForm>
           </Stack>
         </Flex>

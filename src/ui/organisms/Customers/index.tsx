@@ -9,7 +9,7 @@ import {
   deleteCustomer,
   fetchCustomers,
   getCustomers,
-  getCustomerstTotalCount,
+  getCustomersTotalCount,
   sendSkipAndTake,
   useAppDispatch,
 } from 'store';
@@ -24,9 +24,12 @@ import {
   theme,
 } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
-import { Customer, customersList } from 'utils';
+import { Customer, typeOfPaymentsList } from 'utils';
+import { useTranslation } from 'react-i18next';
 
 const Customers = () => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
 
   const customers = useSelector(getCustomers);
@@ -41,13 +44,11 @@ const Customers = () => {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [customerName, setCustomerName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalConfirmButton, setModalConfirmButton] = useState('');
 
   const [skip, setSkip] = useState<number>(0);
   const take = 5;
 
-  const totalRows = useSelector(getCustomerstTotalCount);
+  const totalRows = useSelector(getCustomersTotalCount);
   const totalPages = Math.floor(totalRows / take);
 
   const handleShow = () => {
@@ -56,10 +57,10 @@ const Customers = () => {
 
     if (customer) {
       setCustomer(null);
+      isFilterUsed
+        ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchCustomersFiltered())
+        : null;
     }
-
-    setModalTitle('Aggiungi nuovo cliente');
-    setModalConfirmButton('Conferma');
   };
 
   const handleFilters = () => {
@@ -111,8 +112,6 @@ const Customers = () => {
   const handleEdit = (item: Customer) => {
     setCustomer(item);
     setShow(true);
-    setModalTitle('Modifica cliente');
-    setModalConfirmButton('Salva');
   };
 
   const handleDelete = (object: Customer) => {
@@ -154,7 +153,7 @@ const Customers = () => {
           _hover={{ bg: darkModePalette.pink70 }}
           fontSize={theme.fontSizes.xxs}
         >
-          Aggiungi nuovo
+          {t('pagina.aggiungi-nuovo')}
         </ButtonForm>
         <Filter
           isFilterUsed={isFilterUsed}
@@ -164,11 +163,11 @@ const Customers = () => {
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <SelectFilter
-              options={customersList}
+              options={typeOfPaymentsList}
               value={typeOfPaymentId}
               onChange={handleChangeFilter}
               name='typeOfPaymentId'
-              label='Tipo di pagamento'
+              label={t('filtri.customers')}
               fontWeight={theme.fontWeights.bold}
             />
             <Flex justifyContent='space-around'>
@@ -182,7 +181,7 @@ const Customers = () => {
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Svuota filtri
+                {t('filtri.svuota-filtri')}
               </ButtonForm>
               <ButtonForm
                 marginTop='4rem'
@@ -194,7 +193,7 @@ const Customers = () => {
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Conferma
+                {t('filtri.conferma')}
               </ButtonForm>
             </Flex>
           </Flex>
@@ -215,16 +214,13 @@ const Customers = () => {
             fontSize: theme.fontSizes.lg,
           }}
         >
-          {modalTitle}
+          {customer ? t('customers.modifica-cliente') : t('customers.aggiungi-nuovo-cliente')}
         </p>
         <Form
           show={show}
-          selectList={customersList}
-          skip={skip}
-          take={take}
+          selectList={typeOfPaymentsList}
           handleShow={handleShow}
           customer={customer}
-          modalConfirmButton={modalConfirmButton}
         />
         {isFilterUsed ? (
           <Pagination

@@ -2,6 +2,7 @@ import { Flex, Modal, ModalBody, ModalContent, ModalOverlay, Stack } from '@chak
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { ButtonForm, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   open: boolean;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const ModalConfirm = ({ open, objectName, handleClose, handleDelete }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <Modal isOpen={open} onClose={handleClose}>
       <ModalOverlay bgColor={'rgba(3, 30, 66, 0.5)'} />
@@ -24,7 +27,7 @@ const ModalConfirm = ({ open, objectName, handleClose, handleDelete }: Props) =>
                 fontWeight: theme.fontWeights.bold,
               }}
             >
-              Sei sicuro di voler eliminare
+              {t('modal-confirm.messaggio')}
               <span style={{ color: darkModePalette.pink100 }}> {objectName}</span>
               <span>?</span>
             </p>

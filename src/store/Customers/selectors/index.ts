@@ -9,7 +9,7 @@ export const getCustomersLoading = createSelector(getCustomersState, (state) => 
 
 export const getCustomersError = createSelector(getCustomersState, (state) => state.error);
 
-export const getCustomerstTotalCount = createSelector(
+export const getCustomersTotalCount = createSelector(
   getCustomersState,
   (state) => state.totalCount,
 );

@@ -25,8 +25,11 @@ import {
   theme,
 } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 
 const Skills = () => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
 
   const skills = useSelector(getSkills);
@@ -40,8 +43,6 @@ const Skills = () => {
   const [skill, setSkill] = useState<Skill | null>(null);
   const [skillName, setSkillName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalConfirmButton, setModalConfirmButton] = useState('');
 
   const [skip, setSkip] = useState<number>(0);
   const take = 5;
@@ -55,10 +56,8 @@ const Skills = () => {
 
     if (skill) {
       setSkill(null);
+      isFilterUsed ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchSkillsFiltered()) : null;
     }
-
-    setModalTitle('Aggiungi nuova Skill');
-    setModalConfirmButton('Conferma');
   };
 
   const handleFilters = () => {
@@ -96,8 +95,6 @@ const Skills = () => {
   const handleEdit = (item: Skill) => {
     setSkill(item);
     setShow(true);
-    setModalTitle('Modifica Skill');
-    setModalConfirmButton('Salva');
   };
 
   const handleDelete = (object: Skill) => {
@@ -139,7 +136,7 @@ const Skills = () => {
           _hover={{ bg: darkModePalette.pink70 }}
           fontSize={theme.fontSizes.xxs}
         >
-          Aggiungi nuovo
+          {t('pagina.aggiungi-nuovo')}
         </ButtonForm>
         <Filter
           isFilterUsed={isFilterUsed}
@@ -153,7 +150,7 @@ const Skills = () => {
               value={skillTypeSearch}
               onChange={handleChangeFilter}
               name='skillTypeSearch'
-              label='Tipo di skill'
+              label={t('filtri.skills')}
               fontWeight={theme.fontWeights.bold}
             />
             <Flex justifyContent='space-around'>
@@ -167,7 +164,7 @@ const Skills = () => {
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Svuota filtri
+                {t('filtri.svuota-filtri')}
               </ButtonForm>
               <ButtonForm
                 marginTop='4rem'
@@ -179,7 +176,7 @@ const Skills = () => {
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Conferma
+                {t('filtri.conferma')}
               </ButtonForm>
             </Flex>
           </Flex>
@@ -200,17 +197,9 @@ const Skills = () => {
             fontSize: theme.fontSizes.lg,
           }}
         >
-          {modalTitle}
+          {skill ? t('skills.modifica-skill') : t('skills.aggiungi-nuova-skill')}
         </p>
-        <Form
-          show={show}
-          selectList={skillsList}
-          skip={skip}
-          take={take}
-          handleShow={handleShow}
-          skill={skill}
-          modalConfirmButton={modalConfirmButton}
-        />
+        <Form show={show} selectList={skillsList} handleShow={handleShow} skill={skill} />
         {isFilterUsed ? (
           <Pagination
             skip={skip}

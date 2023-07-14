@@ -14,7 +14,7 @@ export const customerReduxer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // casi per la creazione della skill
+      // casi per la creazione del customer
       .addCase(createCustomer.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
@@ -28,7 +28,7 @@ export const customerReduxer = createSlice({
         state.loading = false;
       })
 
-      // casi per la cancellazione della skill
+      // casi per la cancellazione del customer
       .addCase(deleteCustomer.fulfilled, (state, action) => {
         state.loading = false;
       })
@@ -41,7 +41,7 @@ export const customerReduxer = createSlice({
         state.loading = false;
       })
 
-      // casi per la modifica della skill
+      // casi per la modifica del customer
       .addCase(editCustomer.fulfilled, (state, action) => {
         state.loading = false;
       })

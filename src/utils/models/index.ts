@@ -4,9 +4,8 @@ export interface Column {
   transform?: (value: any) => any;
 }
 
-export interface skipAndTake
-{
-  skip: number;
+export interface skipAndTake {
+  skip: number | undefined;
   take: number;
 }
 
@@ -49,13 +48,36 @@ export interface Customer {
   typeOfPaymentId: number | string;
   id?: number | null;
 }
+
+export interface Supplier {
+  name: string;
+  note: string | null;
+  typeOfPaymentId: number | string;
+  id?: number | null;
+}
+
+export interface Resource {
+  firstName: string;
+  lastName: string;
+  curriculumVitae: string;
+  hourCost: number | undefined;
+  hourRevenue: number | undefined;
+  dailyCost?: number | undefined;
+  dailyRevenue?: number | undefined;
+  note: string;
+  supplierId: number | undefined;
+  id?: number | null;
+}
+
 export interface QueryParams {
-  search?: string;
+  dispatch?: any;
   skip?: number;
   take?: number;
   skillType?: string;
   hasEndOfMonth?: boolean;
   typeOfPaymentId?: string | number;
+  supplierId?: number | null;
+  hasCV?: boolean;
 }
 export interface LoginResponse {
   user: {

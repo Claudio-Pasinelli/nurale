@@ -8,7 +8,6 @@ export const editCustomer = createAsyncThunk(
   'edit/Customer',
   async (params: Customer | undefined, thunkAPI) => {
     try {
-      console.log(params?.typeOfPaymentId);
       const body = {
         name: params?.name,
         note: params?.note,

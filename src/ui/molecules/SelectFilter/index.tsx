@@ -25,16 +25,26 @@ const SelectFilter = ({
   return (
     <div>
       <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
-      <Select name={name} style={{ fontSize: theme.fontSizes.xxs }} value={value} {...rest}>
-        {options.map((selectOption) => (
-          <option
-            value={selectOption.value}
-            key={selectOption.value}
-            style={{ fontSize: theme.fontSizes.xxs }}
-          >
-            {selectOption.value}
-          </option>
-        ))}
+      <Select style={{ fontSize: theme.fontSizes.xxs }} {...rest}>
+        {options.map((selectOption) =>
+          selectOption.value ? (
+            <option
+              value={selectOption.value}
+              key={selectOption.value}
+              style={{ fontSize: theme.fontSizes.xxs }}
+            >
+              {selectOption.value}
+            </option>
+          ) : (
+            <option
+              value={selectOption.name}
+              key={selectOption.name + selectOption.id}
+              style={{ fontSize: theme.fontSizes.xxs }}
+            >
+              {selectOption.name}
+            </option>
+          ),
+        )}
       </Select>
       <div style={{ color: 'red', height: fontSize ? fontSize : '24px' }}>{error}</div>
     </div>

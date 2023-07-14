@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { Icons, Spacer, theme } from 'ui';
 import { ROUTES, SIDEBAR, removeTokenCookies } from 'utils';
+import i18n from 'i18n.config';
 
 const Sidebar = () => {
+  const [isItalianOn, setIsItalianOn] = useState(true);
+
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -17,6 +20,22 @@ const Sidebar = () => {
   const logOut = () => {
     removeTokenCookies();
     navigate(ROUTES.login);
+  };
+
+  const handleChangeLanguage = () => {
+    let lang;
+
+    if (localStorage.getItem('lang') === 'it') {
+      lang = 'en';
+      localStorage.setItem('lang', lang);
+      setIsItalianOn(false);
+      return i18n.changeLanguage(lang);
+    } else if (localStorage.getItem('lang') === 'en') {
+      lang = 'it';
+      localStorage.setItem('lang', lang);
+      setIsItalianOn(true);
+      return i18n.changeLanguage(lang);
+    }
   };
 
   return (
@@ -92,6 +111,18 @@ const Sidebar = () => {
                 </span>
                 <Stack align='center' direction='row'>
                   <Switch size='md' />
+                </Stack>
+              </Flex>
+            )}
+          </Flex>
+          <Flex cursor='pointer' placeContent={open ? 'center' : 'none'}>
+            {open ? null : (
+              <Flex>
+                <span style={{ padding: '0 1.3rem 0 0', fontWeight: theme.fontWeights.bold }}>
+                  {isItalianOn ? 'Italiano' : 'English'}
+                </span>
+                <Stack align='center' direction='row' justifyContent='space-between'>
+                  <Switch size='md' onChange={handleChangeLanguage} />
                 </Stack>
               </Flex>
             )}

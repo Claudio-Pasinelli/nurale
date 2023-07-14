@@ -9,13 +9,13 @@ import { createTypeOfPayment, editTypeOfPayment, fetchTypeOfPayments, useAppDisp
 import { ButtonForm, InputForm, Modal, SwitchForm, TextAreaForm, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
 import { TypeOfPayment } from 'utils';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   show: boolean;
   skip: number;
   take: number;
   typeOfPayment: TypeOfPayment | null;
-  modalConfirmButton: string;
   handleShow: () => void;
 }
 
@@ -29,7 +29,9 @@ const defaultValues = {
   note: '',
 };
 
-const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow }: Props) => {
+const Form = ({ show, skip, take, typeOfPayment, handleShow }: Props) => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
 
   const methods = useForm<SettingsTypeOfPayment>({
@@ -46,6 +48,8 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
   } = methods;
 
   const handleReset = () => {
+    setValue('daysOffsetPayments', undefined);
+    setValue('daysToFirstPayment', undefined);
     reset(defaultValues);
   };
 
@@ -56,8 +60,8 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
     setValue('daysToFirstPayment', Number(getValues('daysToFirstPayment')));
     setValue('numberOfPayments', Number(getValues('numberOfPayments')));
 
-    getValues('daysToFirstPayment') ? null : setValue('daysToFirstPayment', 0);
     getValues('daysOffsetPayments') ? null : setValue('daysOffsetPayments', 0);
+    getValues('daysToFirstPayment') ? null : setValue('daysToFirstPayment', 0);
 
     const hasErrors = await trigger();
 
@@ -96,14 +100,13 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
 
     await dispatch(
       fetchTypeOfPayments({
-        search: '',
         skip: skip,
         take: take,
       }),
     );
 
-    setValue('daysToFirstPayment', undefined);
     setValue('daysOffsetPayments', undefined);
+    setValue('daysToFirstPayment', undefined);
 
     handleReset();
     handleShow();
@@ -138,12 +141,12 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
           <Flex width='100%' direction='column'>
             <Flex justifyContent='space-between'>
               <InputForm
-                label='Nome'
+                label={t('typeOfPayments.form.nome')}
                 name='name'
-                placeholder='Nome'
+                placeholder={t('typeOfPayments.form.nome-placeholder')}
                 containerWidth='70%'
                 fontWeight={theme.fontWeights.bold}
-                error={errors?.name?.message}
+                error={errors?.name?.message && t(`${errors?.name?.message}`)}
               />
               <ButtonForm
                 margin='auto 0'
@@ -153,7 +156,7 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Genera nome
+                {t('typeOfPayments.genera-nome')}
               </ButtonForm>
             </Flex>
           </Flex>
@@ -162,21 +165,25 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
           <Flex justifyContent='space-between'>
             <InputForm
               type='number'
-              label='Giorni al primo pagamento'
+              label={t('typeOfPayments.form.giorni-al-primo-pagamento')}
               name='daysToFirstPayment'
-              placeholder='Giorni al primo pagamento'
+              placeholder={t('typeOfPayments.form.giorni-al-primo-pagamento-placeholder')}
               containerWidth='49%'
               fontWeight={theme.fontWeights.bold}
-              error={errors?.daysToFirstPayment?.message}
+              error={
+                errors?.daysToFirstPayment?.message && t(`${errors?.daysToFirstPayment?.message}`)
+              }
             />
             <InputForm
               type='number'
-              label='Giorni tra i pagamenti'
+              label={t('typeOfPayments.form.giorni-tra-i-pagamenti')}
               name='daysBetweenPayments'
-              placeholder='Giorni tra i pagamenti'
+              placeholder={t('typeOfPayments.form.giorni-tra-i-pagamenti-placeholder')}
               containerWidth='49%'
               fontWeight={theme.fontWeights.bold}
-              error={errors?.daysBetweenPayments?.message}
+              error={
+                errors?.daysBetweenPayments?.message && t(`${errors?.daysBetweenPayments?.message}`)
+              }
             />
           </Flex>
         </Flex>
@@ -184,32 +191,34 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
           <Flex justifyContent='space-between'>
             <InputForm
               type='number'
-              label='Numero di pagamenti'
+              label={t('typeOfPayments.form.numero-di-pagamenti')}
               name='numberOfPayments'
-              placeholder='Giorni al primo pagamento'
+              placeholder={t('typeOfPayments.form.numero-di-pagamenti-placeholder')}
               containerWidth='49%'
               fontWeight={theme.fontWeights.bold}
-              error={errors?.numberOfPayments?.message}
+              error={errors?.numberOfPayments?.message && t(`${errors?.numberOfPayments?.message}`)}
             />
             <InputForm
               type='number'
-              label='Giorni scostamento pagamento'
+              label={t('typeOfPayments.form.giorni-scostamento-pagamento')}
               name='daysOffsetPayments'
-              placeholder='Giorni scostamento pagamento'
+              placeholder={t('typeOfPayments.form.giorni-scostamento-pagamento-placeholder')}
               containerWidth='49%'
               fontWeight={theme.fontWeights.bold}
-              error={errors?.daysOffsetPayments?.message}
+              error={
+                errors?.daysOffsetPayments?.message && t(`${errors?.daysOffsetPayments?.message}`)
+              }
             />
           </Flex>
         </Flex>
         <Flex width='100%'>
           <Flex width='100%'>
             <TextAreaForm
-              label='Note'
+              label={t('typeOfPayments.form.note')}
               name='note'
-              placeholder='Note'
+              placeholder={t('typeOfPayments.form.note-placeholder')}
               containerWidth='100%'
-              error={errors?.note?.message}
+              error={errors?.note?.message && t(`${errors?.note?.message}`)}
             />
           </Flex>
         </Flex>
@@ -217,7 +226,7 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
           <Flex width='100%'>
             <SwitchForm
               defaultChecked={false}
-              label='Spostare i pagamenti alla fine del mese'
+              label={t('typeOfPayments.form.spostare-i-pagamenti-alla-fine-del-mese')}
               name='movePaymentsToTheEndOfMonth'
             />
           </Flex>
@@ -238,7 +247,7 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
               _hover={{ bg: darkModePalette.violet10 }}
               fontSize={theme.fontSizes.xxs}
             >
-              Annulla
+              {t('form.annulla')}
             </ButtonForm>
             <ButtonForm
               leftIcon={<CheckIcon />}
@@ -248,7 +257,7 @@ const Form = ({ show, skip, take, typeOfPayment, modalConfirmButton, handleShow 
               _hover={{ bg: darkModePalette.pink70 }}
               fontSize={theme.fontSizes.xxs}
             >
-              {modalConfirmButton}
+              {typeOfPayment ? t('form.salva') : t('form.conferma')}
             </ButtonForm>
           </Stack>
         </Flex>

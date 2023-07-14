@@ -10,3 +10,7 @@ export * from './Customer';
 export * from './skipAndTake';
 export * from './applicationState';
 export * from './applicationStore';
+export * from './Suppliers';
+export * from './Supplier';
+export * from './Resources';
+export * from './Resource';

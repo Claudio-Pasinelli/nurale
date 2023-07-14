@@ -2,16 +2,19 @@ import { theme } from 'ui/themes';
 import { ButtonForm, Icons } from '..';
 import { Flex } from '@chakra-ui/react';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   show: boolean;
   showFilters: boolean;
   isFilterUsed: boolean;
-  children: any;
+  children: React.ReactNode;
   handleFilters: () => void;
 }
 
 const Filter = ({ show, showFilters, isFilterUsed, children, handleFilters }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <Flex direction='column' display={show ? 'none' : 'block'}>
       <ButtonForm
@@ -23,7 +26,7 @@ const Filter = ({ show, showFilters, isFilterUsed, children, handleFilters }: Pr
         _hover={{ bg: darkModePalette.pink70 }}
         fontSize={theme.fontSizes.xxs}
       >
-        Filtri
+        {t('filtri.filtri')}
       </ButtonForm>
       {showFilters ? (
         <Flex
@@ -45,7 +48,7 @@ const Filter = ({ show, showFilters, isFilterUsed, children, handleFilters }: Pr
             borderWidth='0 0 0.2rem 0'
           >
             <h2 style={{ fontWeight: theme.fontWeights.bold, fontSize: theme.fontSizes.sm }}>
-              Filtri
+              {t('filtri.filtri')}
             </h2>
             <ButtonForm
               background='transparent'

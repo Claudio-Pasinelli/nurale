@@ -5,12 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import schema from './validation';
 import { ROUTES, User } from 'utils';
 import { ButtonForm, InputForm, Spacer, theme } from 'ui';
+import { useTranslation } from 'react-i18next';
 
 const defaultValues = {
   email: '',
 };
 
 const RecuperoPassword = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const methods = useForm<Partial<User>>({
     defaultValues,
@@ -68,8 +70,8 @@ const RecuperoPassword = () => {
         <FormProvider {...methods}>
           <InputForm
             name='email'
-            placeholder='Inserisci Email'
-            label='Email'
+            placeholder={t('recupero-password.inserisci-email')}
+            label={t('recupero-password.email')}
             fontWeight={theme.fontWeights.bold}
             fontSize={theme.fontSizes.xs}
             error={errors?.email?.message}
@@ -82,7 +84,7 @@ const RecuperoPassword = () => {
             fontSize={theme.fontSizes.sm}
             _hover={{ bg: '#d73e65' }}
           >
-            Recupera password
+            {t('recupero-password.recupera-password')}
           </ButtonForm>
         </FormProvider>
         <a
@@ -95,7 +97,7 @@ const RecuperoPassword = () => {
           }}
           onClick={handleClickLogin}
         >
-          Torna al login
+          {t('recupero-password.torna-al-login')}
         </a>
       </Flex>
     </Flex>

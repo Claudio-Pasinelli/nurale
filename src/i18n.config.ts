@@ -21,7 +21,7 @@ const lng = localStorage.getItem('lang') || 'it';
 
 dayjs.extend(localizedFormat);
 
-export const changeLanguageSideEffects = (lng: string): any => {
+export const changeLanguageSideEffects = (lng: string | undefined): any => {
   dayjs.locale(lng);
 };
 changeLanguageSideEffects(lng);

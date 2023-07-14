@@ -31,8 +31,8 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path={ROUTES.login} element={<LoginPage />} />
+        <Route path={ROUTES.recuperoPassword} element={<RecuperoPasswordPage />} />
         <Route element={<RequireAuth />}>
-          <Route path={ROUTES.recuperoPassword} element={<RecuperoPasswordPage />} />
           <Route element={<Layout />}>
             <Route path={ROUTES.home} element={<HomePage />} />
             <Route path={ROUTES.quickInsert} element={<QuickInsertPage />} />

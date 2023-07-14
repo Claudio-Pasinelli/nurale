@@ -25,7 +25,7 @@ const SwitchForm = ({
 
   return (
     <div style={{ width: containerWidth ? containerWidth : 'fit-content' }}>
-      <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
+      <label style={{ fontWeight: fontWeight ? fontWeight : '700' }}>{label}</label>
       <Stack align='center' direction='row' defaultChecked={defaultChecked}>
         <Switch size='md' {...register(name)} {...rest} />
       </Stack>

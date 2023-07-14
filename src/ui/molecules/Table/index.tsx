@@ -72,7 +72,7 @@ const TableComponent = ({ data, columns, display = 'block', handleDelete, handle
         </Thead>
         <Tbody>
           {RowModel.rows.map((row) => (
-            <Tr key={row.index}>
+            <Tr key={row.index} whiteSpace='normal'>
               {row.getVisibleCells().map((cell) => (
                 <Td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext()) === false ? (

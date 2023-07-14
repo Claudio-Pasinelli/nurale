@@ -1,7 +1,7 @@
 import { CloseIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Button, Input, InputGroup, InputProps, InputRightElement } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useController, useFormContext } from 'react-hook-form';
 interface Props extends InputProps {
   placeholder: string;
   label: string;
@@ -10,8 +10,6 @@ interface Props extends InputProps {
   name: string;
   containerWidth?: string;
   error?: string | any;
-  showEye?: boolean;
-  isInputForAForm?: boolean;
   handleDelete?: () => void;
 }
 
@@ -23,15 +21,24 @@ const InputForm = ({
   name,
   type = 'text',
   error,
-  showEye = true,
-  isInputForAForm = true,
   containerWidth,
   handleDelete,
   ...rest
 }: Props) => {
-  const { register } = useFormContext();
+  const { register, control } = useFormContext();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  // const {
+  //   field: { value },
+  // } = useController({ control, name });
+
+  // const formatValue = (value: any) => {
+  //   return type === 'number' ? parseInt(value) : value;
+  // };
+
+  useEffect(() => {
+    type === 'password' ? setShow(true) : null;
+  }, [type]);
 
   return (
     <div style={{ width: containerWidth ? containerWidth : '100%' }}>
@@ -40,8 +47,11 @@ const InputForm = ({
         <Input
           placeholder={placeholder}
           fontSize={fontSize ? fontSize : '18px'}
+          // type={show ? 'password' : type}
           type={show ? 'password' : 'text'}
           cursor={rest.isDisabled ? 'not-allowed' : 'pointer'}
+          // value={formatValue(value)}
+          textAlign={type === 'number' ? 'right' : 'left'}
           {...register(name)}
           {...rest}
         />
@@ -52,14 +62,12 @@ const InputForm = ({
         ) : null}
         {type === 'password' && (
           <InputRightElement>
-            {showEye ? (
-              <Button
-                onClick={handleClick}
-                leftIcon={show ? <ViewIcon /> : <ViewOffIcon />}
-                variant='ghost'
-                _hover={{ bg: 'none' }}
-              />
-            ) : null}
+            <Button
+              onClick={handleClick}
+              leftIcon={show ? <ViewIcon /> : <ViewOffIcon />}
+              variant='ghost'
+              _hover={{ bg: 'none' }}
+            />
           </InputRightElement>
         )}
       </InputGroup>

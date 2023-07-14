@@ -9,14 +9,12 @@ import { createSkill, editSkill, fetchSkills, useAppDispatch } from 'store';
 import { Skill } from 'utils';
 import { ButtonForm, InputForm, Modal, SelectForm, TextAreaForm, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   show: boolean;
   selectList: any[];
-  skip: number;
-  take: number;
   skill: Skill | null;
-  modalConfirmButton: string;
   handleShow: () => void;
 }
 
@@ -26,7 +24,9 @@ const defaultValues = {
   note: '',
 };
 
-const Form = ({ show, selectList, skip, take, skill, modalConfirmButton, handleShow }: Props) => {
+const Form = ({ show, selectList, skill, handleShow }: Props) => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
 
   const methods = useForm<SettingsSkill>({
@@ -70,13 +70,7 @@ const Form = ({ show, selectList, skip, take, skill, modalConfirmButton, handleS
       );
     }
 
-    await dispatch(
-      fetchSkills({
-        search: '',
-        skip: skip,
-        take: take,
-      }),
-    );
+    await dispatch(fetchSkills());
 
     handleReset();
     handleShow();
@@ -104,12 +98,12 @@ const Form = ({ show, selectList, skip, take, skill, modalConfirmButton, handleS
           <Flex width='100%' direction='column'>
             <Flex>
               <InputForm
-                label='Nome'
+                label={t('skills.form.nome')}
                 name='name'
-                placeholder='Nome'
+                placeholder={t('skills.form.nome-placeholder')}
                 containerWidth='90%'
                 fontWeight={theme.fontWeights.bold}
-                error={errors?.name?.message}
+                error={errors?.name?.message && t(`${errors?.name?.message}`)}
               />
             </Flex>
           </Flex>
@@ -118,20 +112,21 @@ const Form = ({ show, selectList, skip, take, skill, modalConfirmButton, handleS
               containerWidth='100%'
               options={selectList}
               name='skillType'
-              label='Tipo di skill'
+              label={t('skills.form.tipo-di-skill')}
               fontWeight={theme.fontWeights.bold}
-              error={errors?.skillType?.message}
+              error={errors?.skillType?.message && t(`${errors?.skillType?.message}`)}
             />
           </Flex>
         </Flex>
         <Flex width='100%'>
           <Flex width='100%'>
             <TextAreaForm
-              label='Note'
+              label={t('skills.form.note')}
               name='note'
-              placeholder='Note'
+              placeholder={t('skills.form.note-placeholder')}
+              fontWeight={theme.fontWeights.bold}
               containerWidth='100%'
-              error={errors?.note?.message}
+              error={errors?.note?.message && t(`${errors?.note?.message}`)}
             />
           </Flex>
         </Flex>
@@ -151,7 +146,7 @@ const Form = ({ show, selectList, skip, take, skill, modalConfirmButton, handleS
               _hover={{ bg: darkModePalette.violet10 }}
               fontSize={theme.fontSizes.xxs}
             >
-              Annulla
+              {t('form.annulla')}
             </ButtonForm>
             <ButtonForm
               leftIcon={<CheckIcon />}
@@ -161,7 +156,7 @@ const Form = ({ show, selectList, skip, take, skill, modalConfirmButton, handleS
               _hover={{ bg: darkModePalette.pink70 }}
               fontSize={theme.fontSizes.xxs}
             >
-              {modalConfirmButton}
+              {skill ? t('form.salva') : t('form.conferma')}
             </ButtonForm>
           </Stack>
         </Flex>

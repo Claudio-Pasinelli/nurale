@@ -9,6 +9,7 @@ import { createUser, editUser, fetchUsers, useAppDispatch } from 'store';
 import { ButtonForm, InputForm, Modal, SelectForm, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
 import { User } from 'utils';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   show: boolean;
@@ -16,7 +17,6 @@ interface Props {
   take: number;
   skip: number;
   user: User | null;
-  modalConfirmButton: string;
   handleShow: () => void;
 }
 
@@ -30,7 +30,9 @@ const defaultValues = {
   phone: '',
 };
 
-const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleShow }: Props) => {
+const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
   const initialPwd = `Nurale${new Date().getFullYear()}!`;
   const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +92,6 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
     }
     await dispatch(
       fetchUsers({
-        search: '',
         skip: skip,
         take: take,
       }),
@@ -153,64 +154,62 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
           <Flex justifyContent='space-between'>
             <InputForm
               isDisabled={!!user}
-              label='Email'
+              label={t('users.form.aggiungi.email')}
               name='email'
-              placeholder='Email'
+              placeholder={t('users.form.aggiungi.email-placeholder')}
               containerWidth='48%'
               fontWeight={theme.fontWeights.bold}
-              error={errors?.email?.message}
+              error={errors?.email?.message && t(`${errors?.email?.message}`)}
             />
             <SelectForm
               options={selectList}
               name='risorsa'
-              label='Risorsa'
+              label={t('users.form.aggiungi.risorsa')}
               fontWeight={theme.fontWeights.bold}
               containerWidth='48%'
-              error={errors?.risorsa?.message}
+              error={errors?.risorsa?.message && t(`${errors?.risorsa?.message}`)}
             />
           </Flex>
           <Flex justifyContent='space-between'>
             <InputForm
               handleDelete={handleDeleteFirstName}
-              label='Nome'
+              label={t('users.form.aggiungi.nome')}
               name='nome'
-              placeholder='Nome'
+              placeholder={t('users.form.aggiungi.nome-placeholder')}
               containerWidth={user ? '33%' : '48%'}
               fontWeight={theme.fontWeights.bold}
-              error={errors?.nome?.message}
+              error={errors?.nome?.message && t(`${errors?.nome?.message}`)}
             />
             <InputForm
               handleDelete={handleDeleteLastName}
-              label='Cognome'
+              label={t('users.form.aggiungi.cognome')}
               name='cognome'
-              placeholder='Cognome'
+              placeholder={t('users.form.aggiungi.cognome-placeholder')}
               containerWidth={user ? '33%' : '48%'}
               fontWeight={theme.fontWeights.bold}
-              error={errors?.cognome?.message}
+              error={errors?.cognome?.message && t(`${errors?.cognome?.message}`)}
             />
             {user ? (
               <InputForm
                 handleDelete={handleDeletePhone}
-                label='Telefono'
+                label={t('users.form.modifica.telefono')}
                 name='phone'
-                placeholder='Telefono'
+                placeholder={t('users.form.modifica.telefono-placeholder')}
                 containerWidth={user ? '33%' : '48%'}
                 fontWeight={theme.fontWeights.bold}
-                error={errors?.phone?.message}
+                error={errors?.phone?.message && t(`${errors?.phone?.message}`)}
               />
             ) : null}
           </Flex>
           {user ? null : (
             <Flex justifyContent='space-between'>
               <InputForm
-                showEye={false}
-                label='Password'
+                label={t('users.form.aggiungi.password')}
                 name='password'
-                placeholder='Password'
-                type='password'
+                placeholder={t('users.form.aggiungi.password-placeholder')}
                 containerWidth='35%'
                 fontWeight={theme.fontWeights.bold}
-                error={errors?.password?.message}
+                error={errors?.password?.message && t(`${errors?.password?.message}`)}
               />
               <ButtonForm
                 margin='auto 0'
@@ -220,17 +219,15 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
                 _hover={{ bg: darkModePalette.pink70 }}
                 fontSize={theme.fontSizes.xxs}
               >
-                Genera
+                {t('users.form.aggiungi.genera')}
               </ButtonForm>
               <InputForm
-                showEye={false}
-                label='Conferma Password'
+                label={t('users.form.aggiungi.conferma-password')}
                 name='passwordConfirm'
-                placeholder='Conferma Password'
-                type='password'
+                placeholder={t('users.form.aggiungi.conferma-password-placeholder')}
                 containerWidth='48%'
                 fontWeight={theme.fontWeights.bold}
-                error={errors?.passwordConfirm?.message}
+                error={errors?.passwordConfirm?.message && t(`${errors?.passwordConfirm?.message}`)}
               />
             </Flex>
           )}
@@ -242,7 +239,7 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
               _hover={{ bg: darkModePalette.pink70 }}
               fontSize={theme.fontSizes.xxs}
             >
-              Reset Password
+              {t('users.form.modifica.reset-password')}
             </ButtonForm>
           ) : null}
         </FormProvider>
@@ -262,7 +259,7 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
               _hover={{ bg: darkModePalette.violet10 }}
               fontSize={theme.fontSizes.xxs}
             >
-              Annulla
+              {t('form.annulla')}
             </ButtonForm>
             <ButtonForm
               leftIcon={<CheckIcon />}
@@ -273,7 +270,7 @@ const Form = ({ show, selectList, skip, take, user, modalConfirmButton, handleSh
               fontSize={theme.fontSizes.xxs}
               isLoading={isLoading}
             >
-              {modalConfirmButton}
+              {user ? t('form.salva') : t('form.conferma')}
             </ButtonForm>
           </Stack>
         </Flex>
