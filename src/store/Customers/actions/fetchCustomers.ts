@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
+import { fetchTypeOfPayments } from 'store/typeOfPayments';
 import { QueryParams } from 'utils';
 import { BASE, API, V1, CUSTOMERS } from 'utils/costants/urls';
 import apiClient from 'utils/helpers/apiClient';
@@ -34,6 +35,10 @@ export const fetchCustomers = createAsyncThunk(
       });
 
       if (response.status === 200) {
+        if (fetchParams?.dispatch) {
+          const dispatch = fetchParams?.dispatch;
+          dispatch(fetchTypeOfPayments());
+        }
         return response.data;
       }
 

@@ -6,6 +6,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ButtonForm, Icons, theme } from 'ui';
+import { useTranslation } from 'react-i18next';
 import './index.css';
 
 interface Props {
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const TableComponent = ({ data, columns, display = 'block', handleDelete, handleEdit }: Props) => {
+  const { t } = useTranslation();
+
   const COLUMNHELPER: any = createColumnHelper<any>();
 
   const columnsHelpers = columns.map((col: any) => {
@@ -65,16 +68,16 @@ const TableComponent = ({ data, columns, display = 'block', handleDelete, handle
                 textTransform='none'
                 textAlign='center'
               >
-                Azioni
+                {t('tabella.azioni')}
               </Th>
             </Tr>
           ))}
         </Thead>
         <Tbody>
           {RowModel.rows.map((row) => (
-            <Tr key={row.index} whiteSpace='normal'>
+            <Tr key={row.index}>
               {row.getVisibleCells().map((cell) => (
-                <Td key={cell.id}>
+                <Td key={cell.id} whiteSpace='normal'>
                   {flexRender(cell.column.columnDef.cell, cell.getContext()) === false ? (
                     <Icons name='falseIcon' />
                   ) : flexRender(cell.column.columnDef.cell, cell.getContext()) === true ? (
@@ -84,7 +87,7 @@ const TableComponent = ({ data, columns, display = 'block', handleDelete, handle
                   )}
                 </Td>
               ))}
-              <Td textAlign='center'>
+              <Td textAlign='center' whiteSpace='unset'>
                 <ButtonForm
                   padding='0'
                   onClick={() => handleEdit(row.original)}

@@ -29,6 +29,7 @@ const SelectForm = ({
     <div style={{ width: containerWidth ? containerWidth : 'fit-content' }}>
       <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
       <Select {...register(name)} style={{ fontSize: theme.fontSizes.xxs }} {...rest}>
+        <option value='' style={{ fontSize: theme.fontSizes.xxs }}></option>
         {options.map((selectOption) =>
           selectOption.value ? (
             <option

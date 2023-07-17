@@ -3,10 +3,7 @@ import { z } from 'zod';
 const schema = z
   .object({
     email: z.coerce.string().email().min(5, { message: 'users.validation.email' }),
-    risorsa: z
-      .string()
-      .min(8, { message: 'users.validation.risorsa.corta' })
-      .max(25, { message: 'users.validation.risorsa.lunga' }),
+    risorsa: z.string(),
     nome: z
       .string()
       .min(3, { message: 'users.validation.nome.corto' })

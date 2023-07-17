@@ -75,7 +75,7 @@ export interface QueryParams {
   take?: number;
   skillType?: string;
   hasEndOfMonth?: boolean;
-  typeOfPaymentId?: string | number;
+  typeOfPaymentId?: string | number | null;
   supplierId?: number | null;
   hasCV?: boolean;
 }

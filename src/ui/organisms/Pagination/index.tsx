@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getSkip, getSkipAndTake, sendSkipAndTake, useAppDispatch } from 'store';
+import { getSkip, sendSkipAndTake, useAppDispatch } from 'store';
 import { ButtonForm, Icons, InputPagination, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
 interface Props {
@@ -18,7 +18,6 @@ interface Props {
 const Pagination = ({ show, take, totalPages, skip, setSkip, fetch, fetchFiltered }: Props) => {
   const dispatch = useAppDispatch();
 
-  const skipAndTakeState = useSelector(getSkipAndTake);
   const skipState = useSelector(getSkip);
 
   const [maxNumPage, setMaxNumPage] = useState<number>(1);

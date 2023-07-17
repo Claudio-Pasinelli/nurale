@@ -4,7 +4,7 @@ import { Flex } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import Form from './Form';
 import '../../../utils/index.css';
-import { COLUMNS } from './columns';
+import { handleColumns } from './columns';
 import {
   deleteSkill,
   fetchSkills,
@@ -185,7 +185,7 @@ const Skills = () => {
       <Flex direction='column'>
         <Table
           data={skills}
-          columns={COLUMNS}
+          columns={handleColumns()}
           display={show ? 'none' : 'block'}
           handleDelete={handleDelete}
           handleEdit={handleEdit}

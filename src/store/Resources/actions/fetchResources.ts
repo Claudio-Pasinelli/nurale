@@ -50,10 +50,10 @@ export const fetchResources = createAsyncThunk(
 
       if (response.status === 200) {
         if (fetchParams?.dispatch) {
-          const dispatchFetch = fetchParams?.dispatch;
-          dispatchFetch(sendSkipAndTake(0, 100));
-          await dispatchFetch(fetchSuppliers());
-          dispatchFetch(sendSkipAndTake(skip, take));
+          const dispatch = fetchParams?.dispatch;
+          dispatch(sendSkipAndTake(0, 100));
+          await dispatch(fetchSuppliers());
+          dispatch(sendSkipAndTake(skip, take));
         }
         return response.data;
       }

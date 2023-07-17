@@ -14,7 +14,7 @@ const schema = z.object({
     .nonnegative(),
   note: z
     .string()
-    .min(3, { message: 'Nota troppo corta' })
+    .min(0, { message: 'Nota troppo corta' })
     .max(300, { message: 'Nota troppo lunga' }),
 });
 

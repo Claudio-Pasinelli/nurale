@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { User, usersList } from '../../../utils';
+import { User } from '../../../utils';
 import { Flex } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import '../../../utils/index.css';
 import Form from './Form';
-import { COLUMNS } from './columns';
+import { handleColumns } from './columns';
 import { deleteUser, fetchUsers, getUsers, getUsersTotalCount, useAppDispatch } from 'store';
 import { ButtonForm, ModalConfirm, PageLayout, Pagination, Table, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
@@ -26,6 +26,8 @@ const Users = () => {
 
   const totalRows = useSelector(getUsersTotalCount);
   const totalPages = Math.floor(totalRows / take);
+
+  const [usersList, setUsersList] = useState<any[]>([{}]);
 
   const handleShow = () => {
     setShow(!show);
@@ -54,22 +56,31 @@ const Users = () => {
 
   const handleDeleteConfirm = async () => {
     await dispatch(deleteUser(id));
-    await dispatch(
-      fetchUsers({
-        skip: skip,
-        take: take,
-      }),
-    );
+    await dispatch(fetchUsers());
     return handleCloseConfirm();
   };
 
-  useEffect(() => {
-    dispatch(
-      fetchUsers({
-        skip: skip,
-        take: take,
-      }),
+  const removeDuplicates = () => {
+    setUsersList(
+      usersList.filter(
+        (ele, ind) =>
+          ind === usersList.findIndex((elem) => elem.id === ele.id && elem.value === ele.value),
+      ),
     );
+  };
+
+  useEffect(() => {
+    usersList.pop();
+    for (const user of users) {
+      user.firstName != undefined && user.lastName != undefined
+        ? usersList.push({ value: `${user.firstName} ${user.lastName}` })
+        : null;
+    }
+    removeDuplicates();
+  }, [users]);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
   }, []);
 
   return (
@@ -90,7 +101,7 @@ const Users = () => {
       <Flex direction='column'>
         <Table
           data={users}
-          columns={COLUMNS}
+          columns={handleColumns()}
           display={show ? 'none' : 'block'}
           handleDelete={handleDelete}
           handleEdit={handleEdit}

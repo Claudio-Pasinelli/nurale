@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Stack, Switch } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,6 +6,8 @@ import schema from './validation';
 import { ROUTES, User } from 'utils';
 import { ButtonForm, InputForm, Spacer, theme } from 'ui';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import i18n from 'i18n.config';
 
 const defaultValues = {
   email: '',
@@ -13,7 +15,11 @@ const defaultValues = {
 
 const RecuperoPassword = () => {
   const { t } = useTranslation();
+
   const navigate = useNavigate();
+
+  const [isItalianOn, setIsItalianOn] = useState(true);
+
   const methods = useForm<Partial<User>>({
     defaultValues,
     resolver: zodResolver(schema),
@@ -38,7 +44,26 @@ const RecuperoPassword = () => {
   const handleClickLogin = () => {
     return navigate(ROUTES.login);
   };
-  // fontWeight={theme.fontWeights.bold} fontSize={theme.fontSizes.xs}
+
+  const handleChangeLanguage = () => {
+    let lang;
+
+    if (localStorage.getItem('lang') === 'it') {
+      lang = 'en';
+      localStorage.setItem('lang', lang);
+      setIsItalianOn(false);
+      return i18n.changeLanguage(lang);
+    } else if (localStorage.getItem('lang') === 'en') {
+      lang = 'it';
+      localStorage.setItem('lang', lang);
+      setIsItalianOn(true);
+      return i18n.changeLanguage(lang);
+    }
+  };
+
+  useEffect(() => {
+    localStorage.getItem('lang') === 'it' ? setIsItalianOn(true) : setIsItalianOn(false);
+  }, []);
 
   return (
     <Flex
@@ -99,6 +124,16 @@ const RecuperoPassword = () => {
         >
           {t('recupero-password.torna-al-login')}
         </a>
+        <Flex cursor='pointer' margin='24px 0 0 0'>
+          <Flex>
+            <span style={{ padding: '0 1.3rem 0 0', fontWeight: theme.fontWeights.bold }}>
+              {isItalianOn ? 'Italiano' : 'English'}
+            </span>
+            <Stack align='center' direction='row' justifyContent='space-between'>
+              <Switch size='md' onChange={handleChangeLanguage} />
+            </Stack>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

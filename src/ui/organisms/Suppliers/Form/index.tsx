@@ -44,15 +44,12 @@ const Form = ({ show, selectList, supplier, handleShow }: Props) => {
   const handleNew = async () => {
     if (getValues('typeOfPaymentId')) {
       const typeOfPayment = getValues('typeOfPaymentId');
-      typeOfPayment === '30 gg d.f.'
-        ? setValue('typeOfPaymentId', 1)
-        : typeOfPayment === 'A vista'
-        ? setValue('typeOfPaymentId', 2)
-        : typeOfPayment === '30-60 gg d.f.'
-        ? setValue('typeOfPaymentId', 3)
-        : typeOfPayment === '30 gg f.m.'
-        ? setValue('typeOfPaymentId', 4)
-        : null;
+
+      for (const typeOfPaymentObj of selectList) {
+        typeOfPayment === typeOfPaymentObj.name
+          ? setValue('typeOfPaymentId', typeOfPaymentObj.id)
+          : null;
+      }
     }
 
     const hasErrors = await trigger();

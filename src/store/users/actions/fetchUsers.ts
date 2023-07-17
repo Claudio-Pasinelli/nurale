@@ -6,7 +6,19 @@ import { QueryParams } from 'utils';
 
 export const fetchUsers = createAsyncThunk(
   'fetch/users',
-  async (params: QueryParams | undefined, thunkAPI) => {
+  async (fetchParams: QueryParams | undefined, thunkAPI) => {
+    const skipAndTakeObj: any = thunkAPI.getState();
+
+    const skipAndTake = skipAndTakeObj.skipAndTake.data;
+
+    const skip = skipAndTake.skip;
+    const take = skipAndTake.take;
+
+    const params = {
+      skip: skip,
+      take: take,
+    };
+
     try {
       const response = await apiClient.get<AxiosResponse>({
         url: `${BASE}${API}${V1}${USERS}`,

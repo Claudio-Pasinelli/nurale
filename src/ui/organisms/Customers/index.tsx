@@ -4,12 +4,12 @@ import { Flex } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import Form from './Form';
 import '../../../utils/index.css';
-import { COLUMNS } from './columns';
 import {
   deleteCustomer,
   fetchCustomers,
   getCustomers,
   getCustomersTotalCount,
+  getTypeOfPayments,
   sendSkipAndTake,
   useAppDispatch,
 } from 'store';
@@ -24,8 +24,9 @@ import {
   theme,
 } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
-import { Customer, typeOfPaymentsList } from 'utils';
+import { Customer } from 'utils';
 import { useTranslation } from 'react-i18next';
+import { handleColumns } from './columns';
 
 const Customers = () => {
   const { t } = useTranslation();
@@ -33,14 +34,14 @@ const Customers = () => {
   const dispatch = useAppDispatch();
 
   const customers = useSelector(getCustomers);
+  const typesOfPayments = useSelector(getTypeOfPayments);
 
   const [show, setShow] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const [showFilters, setShowFilters] = useState(false);
   const [isFilterUsed, setIsFilterUsed] = useState(false);
-  const [typeOfPaymentIdSearch, setTypeOfPaymentIdSearch] = useState<string | number>();
-  const [typeOfPaymentId, setTypeOfPaymentId] = useState('');
+  const [typeOfPaymentIdSearch, setTypeOfPaymentIdSearch] = useState<string | number | null>();
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [customerName, setCustomerName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
@@ -69,24 +70,19 @@ const Customers = () => {
 
   const emptyFilter = () => {
     setTypeOfPaymentIdSearch('');
-    setTypeOfPaymentId('');
     setIsFilterUsed(false);
 
     dispatch(fetchCustomers());
   };
 
   const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
-    setTypeOfPaymentId(event.target.value);
-
-    event.target.value === '30 gg d.f.'
-      ? setTypeOfPaymentIdSearch(1)
-      : event.target.value === 'A vista'
-      ? setTypeOfPaymentIdSearch(2)
-      : event.target.value === '30-60 gg d.f.'
-      ? setTypeOfPaymentIdSearch(3)
-      : event.target.value === '30 gg f.m.'
-      ? setTypeOfPaymentIdSearch(4)
-      : setTypeOfPaymentIdSearch(0);
+    for (const typeOfPayment of typesOfPayments) {
+      event.target.value === ''
+        ? setTypeOfPaymentIdSearch(0)
+        : event.target.value === typeOfPayment.name
+        ? setTypeOfPaymentIdSearch(typeOfPayment.id)
+        : null;
+    }
   };
 
   const fetchCustomersFiltered = () => {
@@ -129,14 +125,12 @@ const Customers = () => {
   const handleDeleteConfirm = async () => {
     await dispatch(deleteCustomer(id));
 
-    isFilterUsed
-      ? (setSkip(0), dispatch(sendSkipAndTake(0, take)), fetchCustomersFiltered())
-      : await dispatch(fetchCustomers());
+    isFilterUsed ? fetchCustomersFiltered() : await dispatch(fetchCustomers());
     return handleCloseConfirm();
   };
 
   useEffect(() => {
-    dispatch(fetchCustomers());
+    dispatch(fetchCustomers({ dispatch: dispatch }));
   }, []);
 
   return (
@@ -163,10 +157,10 @@ const Customers = () => {
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <SelectFilter
-              options={typeOfPaymentsList}
-              value={typeOfPaymentId}
+              options={typesOfPayments}
+              value={typeOfPaymentIdSearch}
               onChange={handleChangeFilter}
-              name='typeOfPaymentId'
+              name='typeOfPaymentIdSearch'
               label={t('filtri.customers')}
               fontWeight={theme.fontWeights.bold}
             />
@@ -202,7 +196,7 @@ const Customers = () => {
       <Flex direction='column'>
         <Table
           data={customers}
-          columns={COLUMNS}
+          columns={handleColumns(typesOfPayments)}
           display={show ? 'none' : 'block'}
           handleDelete={handleDelete}
           handleEdit={handleEdit}
@@ -218,7 +212,7 @@ const Customers = () => {
         </p>
         <Form
           show={show}
-          selectList={typeOfPaymentsList}
+          selectList={typesOfPayments}
           handleShow={handleShow}
           customer={customer}
         />

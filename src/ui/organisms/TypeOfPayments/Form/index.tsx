@@ -16,6 +16,7 @@ interface Props {
   skip: number;
   take: number;
   typeOfPayment: TypeOfPayment | null;
+  selectList: any[];
   handleShow: () => void;
 }
 
@@ -29,7 +30,7 @@ const defaultValues = {
   note: '',
 };
 
-const Form = ({ show, skip, take, typeOfPayment, handleShow }: Props) => {
+const Form = ({ show, skip, take, typeOfPayment, selectList, handleShow }: Props) => {
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
@@ -114,7 +115,7 @@ const Form = ({ show, skip, take, typeOfPayment, handleShow }: Props) => {
   };
 
   const handleGenerateName = () => {
-    return setValue('name', '30 gg d.f.');
+    return setValue('name', selectList[Math.floor(Math.random() * (selectList.length - 1))].name);
   };
 
   useEffect(() => {

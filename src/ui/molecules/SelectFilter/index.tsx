@@ -9,7 +9,7 @@ interface Props extends HTMLAttributes<HTMLSelectElement> {
   fontWeight: string;
   fontSize?: string;
   error?: string;
-  value?: string | number;
+  value?: string | number | null;
 }
 
 const SelectFilter = ({
@@ -26,6 +26,7 @@ const SelectFilter = ({
     <div>
       <label style={{ fontWeight: fontWeight ? fontWeight : '100px' }}>{label}</label>
       <Select style={{ fontSize: theme.fontSizes.xxs }} {...rest}>
+        <option value='' style={{ fontSize: theme.fontSizes.xxs }}></option>
         {options.map((selectOption) =>
           selectOption.value ? (
             <option

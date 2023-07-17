@@ -1,4 +1,45 @@
 {
+  "tabella": {
+    "azioni": "Actions",
+    "users": {
+      "nome": "Name",
+      "cognome": "Surname",
+      "email": "Email"
+    },
+    "skills": {
+      "nome": "Name",
+      "tipo-di-skill": "Type of skill",
+      "note": "Notes"
+    },
+    "typeOfPayments": {
+      "nome": "Name",
+      "giorni-al-primo-pagamento": "Days to first payment",
+      "giorni-tra-i-pagamenti": "Days between payments",
+      "numero-di-pagamenti": "Number of payments",
+      "spostare-i-pagamenti-alla-fine-del-mese": "Move payments to the end of month",
+      "note": "Notes"
+    },
+    "customers": {
+      "nome": "Name",
+      "tipo-di-pagamento": "Type of payment",
+      "note": "Notes"
+    },
+    "suppliers": {
+      "nome": "Name",
+      "tipo-di-pagamento": "Type of payment",
+      "note": "Notes"
+    },
+    "resources": {
+      "nome": "Name",
+      "cognome": "Surname",
+      "costo-orario": "Hourly Cost",
+      "ricavo-orario": "Hourly Revenue",
+      "curriculumVitae": "CV",
+      "fornitore": "Supplier",
+      "note": "Notes"
+    }
+  },
+
   "pagination": {
     "pagina": "Page",
     "pagina-placeholder": "Page num.",
@@ -90,7 +131,7 @@
     "settings-dropdown": {
       "settings": "Settings",
       "skills": "Skills",
-      "tipi-di-pagamento": "Type of payments",
+      "tipi-di-pagamento": "Type of payment",
       "utenti": "Users"
     },
     "timesheet-dropdown": {
@@ -126,10 +167,6 @@
     },
     "validation": {
       "email": "Invalid email",
-      "risorsa": {
-        "corta": "Resource too short",
-        "lunga": "Resource too long"
-      },
       "nome": {
         "corto": "Name too short",
         "lungo": "Name too long"

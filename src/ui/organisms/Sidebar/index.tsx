@@ -1,6 +1,6 @@
 import { Flex, Stack, Switch } from '@chakra-ui/react';
 import SidebarLink from '../SidebarLink';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { Icons, Spacer, theme } from 'ui';
@@ -38,11 +38,17 @@ const Sidebar = () => {
     }
   };
 
+  useEffect(() => {
+    localStorage.getItem('lang') === 'it' ? setIsItalianOn(true) : setIsItalianOn(false);
+  }, []);
+
   return (
     <Flex
       direction='column'
       height='100vh'
       width={open ? '3rem' : '16rem'}
+      minWidth={open ? '3rem' : '13rem'}
+      maxWidth={'16rem'}
       style={{
         boxShadow: '0 1px 8px rgba(81, 70, 137, 0.5)',
         borderRadius: '0 0 20px 0',

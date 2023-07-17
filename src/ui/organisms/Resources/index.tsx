@@ -4,7 +4,6 @@ import { Flex } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import Form from './Form';
 import '../../../utils/index.css';
-import { COLUMNS } from './columns';
 import {
   fetchSuppliers,
   getSuppliers,
@@ -15,7 +14,7 @@ import {
   getResourcesTotalCount,
   getSkip,
 } from 'store';
-import { Resource, suppliersList } from 'utils';
+import { Resource } from 'utils';
 import {
   ButtonForm,
   Filter,
@@ -29,6 +28,7 @@ import {
 import { darkModePalette } from 'ui/themes/colors';
 import { useTranslation } from 'react-i18next';
 import { deleteResource } from 'store/Resource';
+import { handleColumns } from './columns';
 
 const Resources = () => {
   const { t } = useTranslation();
@@ -59,8 +59,6 @@ const Resources = () => {
   const totalPages = Math.floor(totalRows / take);
 
   const skipState = useSelector(getSkip);
-
-  const [suppliersArray, setSuppliersArray] = useState<any[]>([{}]);
 
   const handleShow = () => {
     setShow(!show);
@@ -157,7 +155,7 @@ const Resources = () => {
   };
 
   const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
-    for (const supplier of suppliersArray) {
+    for (const supplier of suppliers) {
       supplier.name === event.target.value ? setSupplierIdSearch(supplier.id) : null;
     }
   };
@@ -186,25 +184,9 @@ const Resources = () => {
     return handleCloseConfirm();
   };
 
-  const removeDuplicates = () => {
-    setSuppliersArray(
-      suppliersList.filter(
-        (ele, ind) =>
-          ind === suppliersList.findIndex((elem) => elem.id === ele.id && elem.name === ele.name),
-      ),
-    );
-  };
-
   useEffect(() => {
     dispatch(fetchResources({ dispatch: dispatch }));
   }, []);
-
-  useEffect(() => {
-    for (const supplier of suppliers) {
-      suppliersList.push(supplier);
-    }
-    removeDuplicates();
-  }, [suppliers]);
 
   return (
     <PageLayout>
@@ -231,7 +213,7 @@ const Resources = () => {
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <Flex width='100%' justifyContent='space-between' direction='column'>
               <SelectFilter
-                options={suppliersArray}
+                options={suppliers}
                 value={String(supplierIdSearch)}
                 onChange={handleChangeFilter}
                 name='supplierIdSearch'
@@ -307,7 +289,7 @@ const Resources = () => {
       <Flex direction='column'>
         <Table
           data={resources}
-          columns={COLUMNS}
+          columns={handleColumns(suppliers)}
           display={show ? 'none' : 'block'}
           handleDelete={handleDelete}
           handleEdit={handleEdit}
@@ -321,7 +303,7 @@ const Resources = () => {
         >
           {resource ? t('resources.modifica-risorsa') : t('resources.aggiungi-nuovo-risorsa')}
         </p>
-        <Form show={show} handleShow={handleShow} resource={resource} selectList={suppliersArray} />
+        <Form show={show} handleShow={handleShow} resource={resource} selectList={suppliers} />
         {isFilterUsed ? (
           <Pagination
             skip={skip}

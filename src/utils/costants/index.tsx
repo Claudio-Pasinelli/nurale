@@ -1,4 +1,4 @@
-import { Supplier } from 'utils/models';
+import { Skill, Supplier, TypeOfPayment } from 'utils/models';
 import { icons } from '../../ui/atoms/Icons';
 
 export const ROUTES = {
@@ -136,37 +136,10 @@ export const SIDEBAR: SIDEBARInterface[] = [
   },
 ];
 
-export const usersList = [
-  { value: '' },
-  { value: 'Gioè Tiziano' },
-  { value: 'Gelmi Alessandro' },
-  { value: 'Terzuolo Matteo' },
-  { value: 'Cattaneo Elisa' },
-  { value: 'Panteghini Luca' },
-  { value: 'Moschella Andrea' },
-  { value: 'Tizio Tizio' },
-  { value: 'Caio Caio' },
-  { value: 'Baglio Aldo' },
-  { value: 'Antonio Nicola' },
-  { value: 'Lini Manuel' },
-  { value: 'Pasinelli Claudio' },
-];
-
 export const skillsList = [
-  { value: '' },
   { value: 'Frontend' },
   { value: 'Backend' },
   { value: 'Designer' },
   { value: 'Administrator' },
   { value: 'Other' },
 ];
-
-export const typeOfPaymentsList = [
-  { value: '' },
-  { value: '30 gg d.f.' },
-  { value: '30 gg f.m.' },
-  { value: '30-60 gg d.f.' },
-  { value: 'A vista' },
-];
-
-export const suppliersList: Supplier[] = [];

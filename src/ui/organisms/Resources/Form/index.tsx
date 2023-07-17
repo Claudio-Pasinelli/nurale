@@ -51,7 +51,7 @@ const Form = ({ show, resource, selectList, handleShow }: Props) => {
   } = methods;
 
   const handleReset = () => {
-    setValue('supplierId', selectList[0].name);
+    setValue('supplierId', undefined);
     reset(defaultValues);
   };
 
@@ -132,12 +132,6 @@ const Form = ({ show, resource, selectList, handleShow }: Props) => {
     return handleReset();
   }, [resource]);
 
-  // {
-  //   selectList && selectList && selectList[0].name
-  //     ? console.log(selectList[0].name)
-  //     : console.log(selectList);
-  // }
-
   return (
     <Modal show={show}>
       <FormProvider {...methods}>
@@ -212,14 +206,16 @@ const Form = ({ show, resource, selectList, handleShow }: Props) => {
               containerWidth='49%'
               fontWeight={theme.fontWeights.bold}
             />
-            <SelectForm
-              // defaultValue={selectList[0].name}
-              containerWidth='49%'
-              options={selectList}
-              name='supplierId'
-              label={t('resources.form.fornitore')}
-              fontWeight={theme.fontWeights.bold}
-            />
+            {selectList.length > 0 && selectList[0].name ? (
+              <SelectForm
+                defaultChecked={selectList[0].name}
+                containerWidth='49%'
+                options={selectList}
+                name='supplierId'
+                label={t('resources.form.fornitore')}
+                fontWeight={theme.fontWeights.bold}
+              />
+            ) : null}
           </Flex>
         </Flex>
         <Flex width='100%'>

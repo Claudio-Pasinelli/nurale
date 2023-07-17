@@ -1,4 +1,45 @@
 {
+  "tabella": {
+    "azioni": "Azioni",
+    "users": {
+      "nome": "Nome",
+      "cognome": "Cognome",
+      "email": "Email"
+    },
+    "skills": {
+      "nome": "Nome",
+      "tipo-di-skill": "Tipo di skill",
+      "note": "Note"
+    },
+    "typeOfPayments": {
+      "nome": "Nome",
+      "giorni-al-primo-pagamento": "Giorni al primo pagamento",
+      "giorni-tra-i-pagamenti": "Giorni tra i pagamenti",
+      "numero-di-pagamenti": "Numero di pagamenti",
+      "spostare-i-pagamenti-alla-fine-del-mese": "Spostare i pagamenti alla fine del mese",
+      "note": "Note"
+    },
+    "customers": {
+      "nome": "Nome",
+      "tipo-di-pagamento": "Tipo di pagamento",
+      "note": "Note"
+    },
+    "suppliers": {
+      "nome": "Nome",
+      "tipo-di-pagamento": "Tipo di pagamento",
+      "note": "Note"
+    },
+    "resources": {
+      "nome": "Nome",
+      "cognome": "Cognome",
+      "costo-orario": "Costo Or.",
+      "ricavo-orario": "Ricavo Or.",
+      "curriculumVitae": "CV",
+      "fornitore": "Fornitore",
+      "note": "Note"
+    }
+  },
+
   "pagination": {
     "pagina": "Pagina",
     "pagina-placeholder": "Num pagina",
@@ -126,10 +167,6 @@
     },
     "validation": {
       "email": "Email non valida",
-      "risorsa": {
-        "corta": "Risorsa troppo corta",
-        "lunga": "Risorsa troppo lunga"
-      },
       "nome": {
         "corto": "Nome troppo corto",
         "lungo": "Nome troppo lungo"

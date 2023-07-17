@@ -98,6 +98,8 @@ const FormLogin = () => {
     if (Cookies.get(EMAIL)) {
       setChecked(true);
     }
+
+    localStorage.getItem('lang') === 'it' ? setIsItalianOn(true) : setIsItalianOn(false);
   }, []);
 
   return (
