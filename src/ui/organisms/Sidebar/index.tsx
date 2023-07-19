@@ -6,8 +6,15 @@ import './index.css';
 import { Icons, Spacer, theme } from 'ui';
 import { ROUTES, SIDEBAR, removeTokenCookies } from 'utils';
 import i18n from 'i18n.config';
+import { useTranslation } from 'react-i18next';
+import { getUserRole } from 'store';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
+  const { t } = useTranslation();
+
+  const currentUserRole = useSelector(getUserRole);
+
   const [isItalianOn, setIsItalianOn] = useState(true);
 
   const [open, setOpen] = useState(false);
@@ -84,17 +91,32 @@ const Sidebar = () => {
         width='100%'
         height='100%'
       >
-        {SIDEBAR.map((link) => (
-          <div key={link.name + link.icon + link.href} onClick={() => handleOpen(true)}>
-            <SidebarLink
-              name={open ? '' : link.name}
-              nameIcon={link.icon}
-              dropdownVerification={link.dropdownVerification}
-              nameOtherIcon={open ? undefined : link.nameOtherIcon}
-              show={open}
-            />
-          </div>
-        ))}
+        {currentUserRole === 'ADMIN'
+          ? SIDEBAR.map((link) => (
+              <div key={link.name + link.icon + link.href} onClick={() => handleOpen(true)}>
+                <SidebarLink
+                  // name={open ? '' : t(`${link.name}`)}
+                  name={open ? '' : link.name}
+                  nameIcon={link.icon}
+                  dropdownVerification={link.dropdownVerification}
+                  nameOtherIcon={open ? undefined : link.nameOtherIcon}
+                  show={open}
+                />
+              </div>
+            ))
+          : currentUserRole === 'USER'
+          ? SIDEBAR.slice(0, 2).map((link) => (
+              <div key={link.name + link.icon + link.href} onClick={() => handleOpen(true)}>
+                <SidebarLink
+                  name={open ? '' : link.name}
+                  nameIcon={link.icon}
+                  dropdownVerification={link.dropdownVerification}
+                  nameOtherIcon={open ? undefined : link.nameOtherIcon}
+                  show={open}
+                />
+              </div>
+            ))
+          : null}
       </Flex>
       <Flex direction='column' padding={open ? '0 0 22px 0' : '0 22px 22px 0'}>
         <div style={{ border: 'solid #514689', borderWidth: '2px 0 0 0' }}>

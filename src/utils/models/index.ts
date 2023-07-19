@@ -1,3 +1,5 @@
+import { number } from 'zod';
+
 export interface Column {
   id: string;
   name: string;
@@ -69,6 +71,22 @@ export interface Resource {
   id?: number | null;
 }
 
+export interface ResourceSkill {
+  level: number | undefined;
+  note: string | null;
+  resource?: {
+    id: number;
+    name: string;
+  };
+  resourceId: number | string | null;
+  skill?: {
+    id: number;
+    name: string;
+  };
+  skillId: number | string | null;
+  id?: number | null;
+}
+
 export interface QueryParams {
   dispatch?: any;
   skip?: number;
@@ -78,6 +96,9 @@ export interface QueryParams {
   typeOfPaymentId?: string | number | null;
   supplierId?: number | null;
   hasCV?: boolean;
+  skillId?: number | null;
+  level?: number | null;
+  resourceId?: number | null;
 }
 export interface LoginResponse {
   user: {

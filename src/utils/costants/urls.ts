@@ -10,6 +10,7 @@ export const TYPE_OF_PAYMENTS = '/type-of-payments';
 export const CUSTOMERS = '/customers';
 export const SUPPLIERS = '/suppliers';
 export const RESOURCES = '/resources';
+export const RESOURCESKILLS = '/resource-skills';
 export const ME = '/me';
 
 // Auth

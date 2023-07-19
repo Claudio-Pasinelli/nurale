@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { SettingsResource } from '../Types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import schema from '../validation';
 import { fetchResources, useAppDispatch } from 'store';
 import { ButtonForm, InputForm, Modal, SelectForm, TextAreaForm, theme } from 'ui';
@@ -33,6 +33,8 @@ const defaultValues = {
 
 const Form = ({ show, resource, selectList, handleShow }: Props) => {
   const { t } = useTranslation();
+
+  const [currentSupplierName, setCurrentSupplierName] = useState<string | undefined>('');
 
   const dispatch = useAppDispatch();
 
@@ -126,9 +128,15 @@ const Form = ({ show, resource, selectList, handleShow }: Props) => {
       setValue('note', resource.note);
       setValue('hourCost', resource.hourCost);
       setValue('hourRevenue', resource.hourRevenue);
+
+      for (const supplierObj of selectList) {
+        resource.supplierId === supplierObj.id ? setCurrentSupplierName(supplierObj.name) : null;
+      }
+
       return setValue('supplierId', resource.supplierId);
     }
 
+    setCurrentSupplierName('');
     return handleReset();
   }, [resource]);
 
@@ -208,6 +216,7 @@ const Form = ({ show, resource, selectList, handleShow }: Props) => {
             />
             {selectList.length > 0 && selectList[0].name ? (
               <SelectForm
+                objectName={currentSupplierName}
                 defaultChecked={selectList[0].name}
                 containerWidth='49%'
                 options={selectList}

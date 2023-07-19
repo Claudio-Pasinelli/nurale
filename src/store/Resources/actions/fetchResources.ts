@@ -16,31 +16,18 @@ export const fetchResources = createAsyncThunk(
     const skip = skipAndTake.skip;
     const take = skipAndTake.take;
 
-    let params;
+    const params: QueryParams = {
+      skip: skip,
+      take: take,
+    };
 
-    fetchParams?.supplierId && fetchParams?.hasCV != undefined
-      ? (params = {
-          supplierId: fetchParams?.supplierId,
-          hasCV: fetchParams?.hasCV,
-          skip: skip,
-          take: take,
-        })
-      : fetchParams?.supplierId
-      ? (params = {
-          supplierId: fetchParams?.supplierId,
-          skip: skip,
-          take: take,
-        })
-      : fetchParams?.hasCV != undefined
-      ? (params = {
-          hasCV: fetchParams?.hasCV,
-          skip: skip,
-          take: take,
-        })
-      : (params = {
-          skip: skip,
-          take: take,
-        });
+    if (fetchParams?.supplierId) {
+      params.supplierId = fetchParams.supplierId;
+    }
+
+    if (fetchParams?.hasCV != undefined) {
+      params.hasCV = fetchParams.hasCV;
+    }
 
     try {
       const response = await apiClient.get<AxiosResponse>({

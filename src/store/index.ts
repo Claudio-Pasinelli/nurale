@@ -14,3 +14,5 @@ export * from './Suppliers';
 export * from './Supplier';
 export * from './Resources';
 export * from './Resource';
+export * from './ResourceSkills';
+export * from './ResourceSkill';

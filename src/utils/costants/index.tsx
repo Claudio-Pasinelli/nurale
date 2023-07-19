@@ -1,4 +1,3 @@
-import { Skill, Supplier, TypeOfPayment } from 'utils/models';
 import { icons } from '../../ui/atoms/Icons';
 
 export const ROUTES = {
@@ -136,10 +135,23 @@ export const SIDEBAR: SIDEBARInterface[] = [
   },
 ];
 
-export const skillsList = [
+export const SKILLS_LIST = [
   { value: 'Frontend' },
   { value: 'Backend' },
   { value: 'Designer' },
   { value: 'Administrator' },
   { value: 'Other' },
+];
+
+export const RESOURCE_SKILLS_LEVEL = [
+  { value: 1 },
+  { value: 2 },
+  { value: 3 },
+  { value: 4 },
+  { value: 5 },
+  { value: 6 },
+  { value: 7 },
+  { value: 8 },
+  { value: 9 },
+  { value: 10 },
 ];

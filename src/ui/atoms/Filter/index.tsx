@@ -10,9 +10,19 @@ interface Props {
   isFilterUsed: boolean;
   children: React.ReactNode;
   handleFilters: () => void;
+  emptyFilter: () => void;
+  search: () => void;
 }
 
-const Filter = ({ show, showFilters, isFilterUsed, children, handleFilters }: Props) => {
+const Filter = ({
+  show,
+  showFilters,
+  isFilterUsed,
+  children,
+  handleFilters,
+  emptyFilter,
+  search,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -61,6 +71,32 @@ const Filter = ({ show, showFilters, isFilterUsed, children, handleFilters }: Pr
             </ButtonForm>
           </Flex>
           {children}
+          <Flex justifyContent='space-around'>
+            <ButtonForm
+              marginTop='4rem'
+              marginBottom='1rem'
+              display={show ? 'none' : 'block'}
+              width='fit-content'
+              onClick={emptyFilter}
+              backgroundColor={darkModePalette.purple30}
+              _hover={{ bg: darkModePalette.pink70 }}
+              fontSize={theme.fontSizes.xxs}
+            >
+              {t('filtri.svuota-filtri')}
+            </ButtonForm>
+            <ButtonForm
+              marginTop='4rem'
+              marginBottom='1rem'
+              display={show ? 'none' : 'block'}
+              width='fit-content'
+              onClick={search}
+              backgroundColor={darkModePalette.pink100}
+              _hover={{ bg: darkModePalette.pink70 }}
+              fontSize={theme.fontSizes.xxs}
+            >
+              {t('filtri.conferma')}
+            </ButtonForm>
+          </Flex>
         </Flex>
       ) : null}
     </Flex>

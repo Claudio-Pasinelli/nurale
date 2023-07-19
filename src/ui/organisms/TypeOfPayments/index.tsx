@@ -35,7 +35,6 @@ const TypeOfPayments = () => {
   const [isFilterNo, setIsFilterNo] = useState(false);
 
   const [typeOfPayment, setTypeOfPayment] = useState<TypeOfPayment | null>(null);
-  const [typeOfPaymentName, setTypeOfPaymentName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
 
   const [skip, setSkip] = useState<number>(0);
@@ -92,28 +91,26 @@ const TypeOfPayments = () => {
     setIsFilterUsed(false);
   };
 
-  const handleAll = () => {
-    setHasEndOfMonthSearch(false);
+  const handleButtonSearch = (value: string) => {
+    if (value === 'all') {
+      setHasEndOfMonthSearch(false);
 
-    setIsFilterAll(true);
-    setIsFilterNo(false);
-    setIsFilterYes(false);
-  };
+      setIsFilterAll(true);
+      setIsFilterYes(false);
+      return setIsFilterNo(false);
+    } else if (value === 'yes') {
+      setHasEndOfMonthSearch(true);
 
-  const handleSearchYes = () => {
-    setHasEndOfMonthSearch(true);
+      setIsFilterAll(false);
+      setIsFilterYes(true);
+      return setIsFilterNo(false);
+    } else if (value === 'no') {
+      setHasEndOfMonthSearch(false);
 
-    setIsFilterAll(false);
-    setIsFilterYes(true);
-    setIsFilterNo(false);
-  };
-
-  const handleSearchNo = () => {
-    setHasEndOfMonthSearch(false);
-
-    setIsFilterAll(false);
-    setIsFilterYes(false);
-    setIsFilterNo(true);
+      setIsFilterAll(false);
+      setIsFilterYes(false);
+      return setIsFilterNo(true);
+    }
   };
 
   const handleEdit = (item: TypeOfPayment) => {
@@ -123,13 +120,13 @@ const TypeOfPayments = () => {
 
   const handleDelete = (object: TypeOfPayment) => {
     setId(object.id);
-    setTypeOfPaymentName(object.name);
+    setTypeOfPayment(object);
     setOpenConfirm(true);
   };
 
   const handleCloseConfirm = async () => {
     setId(null);
-    setTypeOfPaymentName('');
+    setTypeOfPayment(null);
     setOpenConfirm(false);
   };
 
@@ -167,6 +164,8 @@ const TypeOfPayments = () => {
           show={show}
           showFilters={showFilters}
           handleFilters={handleFilters}
+          emptyFilter={emptyFilter}
+          search={searchTypesOfPayments}
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <Flex width='100%' justifyContent='space-between' direction='column'>
@@ -175,7 +174,7 @@ const TypeOfPayments = () => {
               </p>
               <Flex width='100%' justifyContent='space-between' marginTop='0.5rem'>
                 <ButtonForm
-                  onClick={handleAll}
+                  onClick={() => handleButtonSearch('all')}
                   width='calc(30%)'
                   marginBottom='1rem'
                   display={show ? 'none' : 'block'}
@@ -186,7 +185,7 @@ const TypeOfPayments = () => {
                   {t('filtri.tipi-di-pagamento.tutti')}
                 </ButtonForm>
                 <ButtonForm
-                  onClick={handleSearchYes}
+                  onClick={() => handleButtonSearch('yes')}
                   width='calc(30%)'
                   marginBottom='1rem'
                   display={show ? 'none' : 'block'}
@@ -197,7 +196,7 @@ const TypeOfPayments = () => {
                   {t('filtri.tipi-di-pagamento.si')}
                 </ButtonForm>
                 <ButtonForm
-                  onClick={handleSearchNo}
+                  onClick={() => handleButtonSearch('no')}
                   width='calc(30%)'
                   marginBottom='1rem'
                   display={show ? 'none' : 'block'}
@@ -208,32 +207,6 @@ const TypeOfPayments = () => {
                   {t('filtri.tipi-di-pagamento.no')}
                 </ButtonForm>
               </Flex>
-            </Flex>
-            <Flex justifyContent='space-around'>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={emptyFilter}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.svuota-filtri')}
-              </ButtonForm>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={searchTypesOfPayments}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.conferma')}
-              </ButtonForm>
             </Flex>
           </Flex>
         </Filter>
@@ -289,7 +262,7 @@ const TypeOfPayments = () => {
           handleDelete={handleDeleteConfirm}
           handleClose={handleCloseConfirm}
           open={openConfirm}
-          objectName={typeOfPaymentName}
+          objectName={typeOfPayment?.name}
         />
       </Flex>
     </PageLayout>

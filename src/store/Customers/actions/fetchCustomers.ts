@@ -15,18 +15,15 @@ export const fetchCustomers = createAsyncThunk(
     const skip = skipAndTake.skip;
     const take = skipAndTake.take;
 
-    let params;
+    const params: QueryParams = {
+      skip: skip,
+      take: take,
+    };
 
-    fetchParams?.typeOfPaymentId
-      ? (params = {
-          typeOfPaymentId: fetchParams?.typeOfPaymentId,
-          skip: skip,
-          take: take,
-        })
-      : (params = {
-          skip: skip,
-          take: take,
-        });
+    if(fetchParams?.typeOfPaymentId)
+    {
+      params.typeOfPaymentId = fetchParams.typeOfPaymentId
+    }
 
     try {
       const response = await apiClient.get<AxiosResponse>({

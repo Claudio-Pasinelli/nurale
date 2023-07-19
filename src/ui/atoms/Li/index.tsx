@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 interface Props {
-  current: boolean;
+  current: string;
 }
 const Li = styled.div<Props>`
   margin-right: 2rem;
@@ -20,6 +20,6 @@ const Li = styled.div<Props>`
   &:hover {
     background-color: rgba(123, 97, 255, 0.05);
   }
-  color: ${(p) => (p.current ? '#EF426F' : 'black')};
+  color: ${({ current }) => (current === 'current' ? '#EF426F' : 'black')};
 `;
 export default Li;

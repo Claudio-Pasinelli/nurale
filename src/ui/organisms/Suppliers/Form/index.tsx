@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import schema from '../validation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonForm, InputForm, Modal, SelectForm, TextAreaForm, theme } from 'ui';
 import { createSupplier, editSupplier, fetchSuppliers, useAppDispatch } from 'store';
 import { SettingsSupplier } from '../Types';
@@ -25,6 +25,8 @@ const defaultValues = {
 
 const Form = ({ show, selectList, supplier, handleShow }: Props) => {
   const { t } = useTranslation();
+
+  const [currentSupplierName, setCurrentSupplierName] = useState<string | undefined>('');
 
   const dispatch = useAppDispatch();
 
@@ -95,9 +97,17 @@ const Form = ({ show, selectList, supplier, handleShow }: Props) => {
     if (supplier) {
       setValue('name', supplier.name);
       supplier.note && setValue('note', supplier.note);
+
+      for (const typeOfPaymentObj of selectList) {
+        supplier.typeOfPaymentId === typeOfPaymentObj.id
+          ? setCurrentSupplierName(typeOfPaymentObj.name)
+          : null;
+      }
+
       return setValue('typeOfPaymentId', supplier.typeOfPaymentId);
     }
 
+    setCurrentSupplierName('');
     return handleReset();
   }, [supplier]);
 
@@ -119,6 +129,7 @@ const Form = ({ show, selectList, supplier, handleShow }: Props) => {
           </Flex>
           <Flex width='100%' direction='column'>
             <SelectForm
+              objectName={currentSupplierName}
               containerWidth='100%'
               options={selectList}
               name='typeOfPaymentId'

@@ -37,6 +37,12 @@
       "curriculumVitae": "CV",
       "fornitore": "Supplier",
       "note": "Notes"
+    },
+    "resource-skills": {
+      "risorsa": "Resource",
+      "skill": "Skill",
+      "livello": "Level",
+      "note": "Notes"
     }
   },
 
@@ -61,10 +67,15 @@
     "suppliers": "Type of payment",
     "resources": {
       "select": "Supplier",
-      "titolo": "Resources with CV",
+      "titolo-bottoni": "Resources with CV",
       "tutti": "All",
       "si": "Yes",
       "no": "No"
+    },
+    "resource-skills": {
+      "risorsa": "Resource",
+      "skill": "Skill",
+      "livello": "Level"
     }
   },
 
@@ -103,7 +114,7 @@
     "home": "Home",
     "inserimento-veloce": "Quick insert",
     "commesse-dropdown": {
-      "commesse": "jobs",
+      "commesse": "Jobs",
       "ordini": "orders",
       "attivita": "activities"
     },
@@ -302,15 +313,15 @@
     "validation": {
       "nome": {
         "corto": "Name too short",
-        "nome-lungo": "Name too long"
+        "lungo": "Name too long"
       },
       "note": {
         "corto": "Notes too short",
         "lungo": "Notes too long"
       },
       "tipo-di-pagamento": {
-        "tipo-di-pagamento-richiesto": "Obligatory",
-        "tipo-di-pagamento-invalido": "Invalid type of payment"
+        "richiesto": "Obligatory",
+        "invalido": "Invalid type of payment"
       }
     }
   },
@@ -350,6 +361,35 @@
       "note": {
         "corto": "Notes too short",
         "lungo": "Notes too long"
+      }
+    }
+  },
+
+  "resource-skills": {
+    "aggiungi-nuova-risorsa-skill": "Add a new Skill to the resource",
+    "modifica-risorsa-skill": "Modify the Skill of the resource",
+    "form": {
+      "risorsa": "Resource",
+      "risorsa-placeholder": "Resource",
+      "skill": "Skill",
+      "skill-placeholder": "Skill",
+      "livello": "Level",
+      "livello-placeholder": "Level",
+      "note": "Notes",
+      "note-placeholder": "Notes"
+    },
+    "validation": {
+      "risorsa": {
+        "corto": "Name too short",
+        "lungo": "Name too lungo"
+      },
+      "note": {
+        "corto": "Notes too short",
+        "lungo": "Notes too long"
+      },
+      "tipo-di-pagamento": {
+        "richiesto": "Obligatory",
+        "invalido": "Invalid type of payment"
       }
     }
   }

@@ -11,7 +11,7 @@ const schema = z.object({
     .max(20, { message: 'skills.validation.tipo-di-skill.lungo' }),
   note: z
     .string()
-    .min(4, { message: 'skills.validation.note.corto' })
+    .min(0, { message: 'skills.validation.note.corto' })
     .max(300, { message: 'skills.validation.note.lungo' }),
 });
 

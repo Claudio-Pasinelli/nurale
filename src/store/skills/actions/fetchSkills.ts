@@ -14,18 +14,14 @@ export const fetchSkills = createAsyncThunk(
     const skip = skipAndTake.skip;
     const take = skipAndTake.take;
 
-    let params;
+    const params: QueryParams = {
+      skip: skip,
+      take: take,
+    };
 
-    fetchParams?.skillType
-      ? (params = {
-          skillType: fetchParams?.skillType,
-          skip: skip,
-          take: take,
-        })
-      : (params = {
-          skip: skip,
-          take: take,
-        });
+    if (fetchParams?.skillType) {
+      params.skillType = fetchParams.skillType;
+    }
 
     try {
       const response = await apiClient.get<AxiosResponse>({

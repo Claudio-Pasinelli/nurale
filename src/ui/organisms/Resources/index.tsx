@@ -14,7 +14,7 @@ import {
   getResourcesTotalCount,
   getSkip,
 } from 'store';
-import { Resource } from 'utils';
+import { QueryParams, Resource } from 'utils';
 import {
   ButtonForm,
   Filter,
@@ -49,7 +49,6 @@ const Resources = () => {
   const [isFilterNo, setIsFilterNo] = useState(false);
 
   const [resource, setResource] = useState<Resource | null>(null);
-  const [resourceName, setResourceName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
 
   const [skip, setSkip] = useState<number>(0);
@@ -76,7 +75,7 @@ const Resources = () => {
     setShowFilters(!showFilters);
   };
 
-  const emptyFilter = async () => {
+  const emptyFilter = () => {
     setHasCVSearch(false);
     setSupplierIdSearch(null);
     setIsFilterUsed(false);
@@ -85,38 +84,21 @@ const Resources = () => {
     setIsFilterNo(false);
     setIsFilterYes(false);
 
-    await dispatch(fetchResources()),
-      skipState && setSkip(skipState),
-      await dispatch(sendSkipAndTake(0, 100)),
-      await dispatch(fetchSuppliers()),
-      dispatch(sendSkipAndTake(skip, take));
+    dispatch(fetchResources({ dispatch: dispatch }));
   };
 
   const fetchResourcesFiltered = async () => {
-    isFilterAll && !supplierIdSearch
-      ? dispatch(fetchResources())
-      : (isFilterNo || isFilterYes) && !supplierIdSearch
-      ? dispatch(
-          fetchResources({
-            hasCV: hasCVSearch,
-          }),
-        )
-      : !isFilterNo &&
-        !isFilterYes &&
-        ((supplierIdSearch && isFilterAll) || (supplierIdSearch && !isFilterAll))
-      ? dispatch(
-          fetchResources({
-            supplierId: supplierIdSearch,
-          }),
-        )
-      : (isFilterNo || isFilterYes) && supplierIdSearch
-      ? await dispatch(
-          fetchResources({
-            hasCV: hasCVSearch,
-            supplierId: supplierIdSearch,
-          }),
-        )
-      : null;
+    const fetchParams: QueryParams = {};
+
+    if (isFilterNo || isFilterYes) {
+      fetchParams.hasCV = hasCVSearch;
+    }
+
+    if (supplierIdSearch) {
+      fetchParams.supplierId = supplierIdSearch;
+    }
+
+    dispatch(fetchResources(fetchParams));
   };
 
   const searchResources = () => {
@@ -130,28 +112,26 @@ const Resources = () => {
     setIsFilterUsed(false);
   };
 
-  const handleAll = () => {
-    setHasCVSearch(false);
+  const handleButtonSearch = (value: string) => {
+    if (value === 'all') {
+      setHasCVSearch(false);
 
-    setIsFilterAll(true);
-    setIsFilterYes(false);
-    setIsFilterNo(false);
-  };
+      setIsFilterAll(true);
+      setIsFilterYes(false);
+      return setIsFilterNo(false);
+    } else if (value === 'yes') {
+      setHasCVSearch(true);
 
-  const handleSearchYes = () => {
-    setHasCVSearch(true);
+      setIsFilterAll(false);
+      setIsFilterYes(true);
+      return setIsFilterNo(false);
+    } else if (value === 'no') {
+      setHasCVSearch(false);
 
-    setIsFilterAll(false);
-    setIsFilterYes(true);
-    setIsFilterNo(false);
-  };
-
-  const handleSearchNo = () => {
-    setHasCVSearch(false);
-
-    setIsFilterAll(false);
-    setIsFilterYes(false);
-    setIsFilterNo(true);
+      setIsFilterAll(false);
+      setIsFilterYes(false);
+      return setIsFilterNo(true);
+    }
   };
 
   const handleChangeFilter = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -167,13 +147,13 @@ const Resources = () => {
 
   const handleDelete = (object: Resource) => {
     setId(object.id);
-    setResourceName(object.firstName);
+    setResource(object);
     setOpenConfirm(true);
   };
 
   const handleCloseConfirm = async () => {
     setId(null);
-    setResourceName('');
+    setResource(null);
     setOpenConfirm(false);
   };
 
@@ -209,6 +189,8 @@ const Resources = () => {
           show={show}
           showFilters={showFilters}
           handleFilters={handleFilters}
+          emptyFilter={emptyFilter}
+          search={searchResources}
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <Flex width='100%' justifyContent='space-between' direction='column'>
@@ -220,10 +202,12 @@ const Resources = () => {
                 label={t('filtri.resources.select')}
                 fontWeight={theme.fontWeights.bold}
               />
-              <p style={{ fontWeight: theme.fontWeights.bold }}>{t('filtri.resources.titolo')}</p>
+              <p style={{ fontWeight: theme.fontWeights.bold }}>
+                {t('filtri.resources.titolo-bottoni')}
+              </p>
               <Flex width='100%' justifyContent='space-between' marginTop='0.5rem'>
                 <ButtonForm
-                  onClick={handleAll}
+                  onClick={() => handleButtonSearch('all')}
                   width='calc(30%)'
                   marginBottom='1rem'
                   display={show ? 'none' : 'block'}
@@ -234,7 +218,7 @@ const Resources = () => {
                   {t('filtri.resources.tutti')}
                 </ButtonForm>
                 <ButtonForm
-                  onClick={handleSearchYes}
+                  onClick={() => handleButtonSearch('yes')}
                   width='calc(30%)'
                   marginBottom='1rem'
                   display={show ? 'none' : 'block'}
@@ -245,7 +229,7 @@ const Resources = () => {
                   {t('filtri.resources.si')}
                 </ButtonForm>
                 <ButtonForm
-                  onClick={handleSearchNo}
+                  onClick={() => handleButtonSearch('no')}
                   width='calc(30%)'
                   marginBottom='1rem'
                   display={show ? 'none' : 'block'}
@@ -256,32 +240,6 @@ const Resources = () => {
                   {t('filtri.resources.no')}
                 </ButtonForm>
               </Flex>
-            </Flex>
-            <Flex justifyContent='space-around'>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={emptyFilter}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.svuota-filtri')}
-              </ButtonForm>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={searchResources}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.conferma')}
-              </ButtonForm>
             </Flex>
           </Flex>
         </Filter>
@@ -328,7 +286,7 @@ const Resources = () => {
           handleDelete={handleDeleteConfirm}
           handleClose={handleCloseConfirm}
           open={openConfirm}
-          objectName={resourceName}
+          objectName={resource?.firstName}
         />
       </Flex>
     </PageLayout>

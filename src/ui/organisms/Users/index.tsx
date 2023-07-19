@@ -6,7 +6,14 @@ import { AddIcon } from '@chakra-ui/icons';
 import '../../../utils/index.css';
 import Form from './Form';
 import { handleColumns } from './columns';
-import { deleteUser, fetchUsers, getUsers, getUsersTotalCount, useAppDispatch } from 'store';
+import {
+  deleteUser,
+  fetchUsers,
+  getResources,
+  getUsers,
+  getUsersTotalCount,
+  useAppDispatch,
+} from 'store';
 import { ButtonForm, ModalConfirm, PageLayout, Pagination, Table, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
 import { useTranslation } from 'react-i18next';
@@ -14,20 +21,24 @@ import { useTranslation } from 'react-i18next';
 const Users = () => {
   const { t } = useTranslation();
 
-  const take = 10;
   const dispatch = useAppDispatch();
+
   const users = useSelector(getUsers);
+  const resources = useSelector(getResources);
+
   const [show, setShow] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [userName, setUserName] = useState('');
+
   const [id, setId] = useState<number | null | undefined>(null);
   const [openConfirm, setOpenConfirm] = useState(false);
+
   const [skip, setSkip] = useState<number>(0);
+  const take = 10;
 
   const totalRows = useSelector(getUsersTotalCount);
   const totalPages = Math.floor(totalRows / take);
 
-  const [usersList, setUsersList] = useState<any[]>([{}]);
+  const [resourcesList, setResourcesList] = useState<any[]>([{}]);
 
   const handleShow = () => {
     setShow(!show);
@@ -44,13 +55,13 @@ const Users = () => {
 
   const handleDelete = (object: User) => {
     setId(object.id);
-    setUserName(object.firstName);
+    setUser(object);
     setOpenConfirm(true);
   };
 
   const handleCloseConfirm = async () => {
     setId(null);
-    setUserName('');
+    setUser(null);
     setOpenConfirm(false);
   };
 
@@ -61,26 +72,26 @@ const Users = () => {
   };
 
   const removeDuplicates = () => {
-    setUsersList(
-      usersList.filter(
+    setResourcesList(
+      resourcesList.filter(
         (ele, ind) =>
-          ind === usersList.findIndex((elem) => elem.id === ele.id && elem.value === ele.value),
+          ind === resourcesList.findIndex((elem) => elem.id === ele.id && elem.value === ele.value),
       ),
     );
   };
 
   useEffect(() => {
-    usersList.pop();
-    for (const user of users) {
-      user.firstName != undefined && user.lastName != undefined
-        ? usersList.push({ value: `${user.firstName} ${user.lastName}` })
+    resourcesList.pop();
+    for (const resource of resources) {
+      resource.firstName != undefined && resource.lastName != undefined
+        ? resourcesList.push({ value: `${resource.firstName} ${resource.lastName}` })
         : null;
     }
     removeDuplicates();
-  }, [users]);
+  }, [resources]);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchUsers({ dispatch: dispatch }));
   }, []);
 
   return (
@@ -117,7 +128,7 @@ const Users = () => {
         </p>
         <Form
           show={show}
-          selectList={usersList}
+          selectList={resourcesList}
           skip={skip}
           take={take}
           handleShow={handleShow}
@@ -135,7 +146,7 @@ const Users = () => {
           handleDelete={handleDeleteConfirm}
           handleClose={handleCloseConfirm}
           open={openConfirm}
-          objectName={userName}
+          objectName={user?.firstName}
         />
       </Flex>
     </PageLayout>

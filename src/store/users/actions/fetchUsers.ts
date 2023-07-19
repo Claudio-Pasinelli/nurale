@@ -3,6 +3,8 @@ import { AxiosResponse } from 'axios';
 import apiClient from 'utils/helpers/apiClient';
 import { BASE, API, V1, USERS } from 'utils/costants/urls';
 import { QueryParams } from 'utils';
+import { sendSkipAndTake } from 'store/skipAndTake';
+import { fetchResources } from 'store/Resources';
 
 export const fetchUsers = createAsyncThunk(
   'fetch/users',
@@ -26,6 +28,12 @@ export const fetchUsers = createAsyncThunk(
       });
 
       if (response.status === 200) {
+        if (fetchParams?.dispatch) {
+          const dispatch = fetchParams?.dispatch;
+          dispatch(sendSkipAndTake(0, 100));
+          await dispatch(fetchResources());
+          dispatch(sendSkipAndTake(skip, take));
+        }
         return response.data;
       }
 

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
   open: boolean;
-  objectName: string;
+  objectName?: string;
   handleClose: () => void;
   handleDelete: () => void;
 }

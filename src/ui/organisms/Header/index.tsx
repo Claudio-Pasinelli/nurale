@@ -57,7 +57,7 @@ const Header = () => {
             style={{
               color: 'white',
               marginBlock: 'auto',
-              marginLeft: '2.2rem',
+              marginLeft: '1.375rem',
               fontSize: theme.fontSizes.xs,
               fontWeight: theme.fontWeights.bold,
             }}

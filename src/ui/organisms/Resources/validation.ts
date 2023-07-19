@@ -11,7 +11,10 @@ const schema = z.object({
     .min(3, { message: 'resources.validation.cognome.corto' })
     .max(15, { message: 'resources.validation.cognome.lungo' }),
   curriculumVitae: z.string(),
-  note: z.string(),
+  note: z
+    .string()
+    .min(0, { message: 'skills.validation.note.corto' })
+    .max(300, { message: 'skills.validation.note.lungo' }),
   hourCost: z.number().nonnegative(),
   dailyCost: z.number().nonnegative().nullable(),
   hourRevenue: z.number().nonnegative(),

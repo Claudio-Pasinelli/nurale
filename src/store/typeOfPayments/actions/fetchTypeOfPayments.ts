@@ -14,18 +14,15 @@ export const fetchTypeOfPayments = createAsyncThunk(
     const skip = skipAndTake.skip;
     const take = skipAndTake.take;
 
-    let params;
+    const params: QueryParams = {
+      skip: skip,
+      take: take,
+    };
 
-    fetchParams?.hasEndOfMonth != undefined
-      ? (params = {
-          hasEndOfMonth: fetchParams?.hasEndOfMonth,
-          skip: skip,
-          take: take,
-        })
-      : (params = {
-          skip: skip,
-          take: take,
-        });
+    if (fetchParams?.hasEndOfMonth != undefined) {
+      params.hasEndOfMonth = fetchParams.hasEndOfMonth;
+    }
+
     try {
       const response = await apiClient.get<AxiosResponse>({
         url: `${BASE}${API}${V1}${TYPE_OF_PAYMENTS}`,

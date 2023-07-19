@@ -37,6 +37,12 @@
       "curriculumVitae": "CV",
       "fornitore": "Fornitore",
       "note": "Note"
+    },
+    "resource-skills": {
+      "risorsa": "Risorsa",
+      "skill": "Skill",
+      "livello": "Livello",
+      "note": "Note"
     }
   },
 
@@ -61,10 +67,15 @@
     "suppliers": "Tipo di pagamento",
     "resources": {
       "select": "Fornitore",
-      "titolo": "Risorse con CV",
+      "titolo-bottoni": "Risorse con CV",
       "tutti": "Tutti",
       "si": "Si",
       "no": "No"
+    },
+    "resource-skills": {
+      "risorsa": "Risorsa",
+      "skill": "Skill",
+      "livello": "Livello"
     }
   },
 
@@ -261,6 +272,7 @@
       }
     }
   },
+
   "customers": {
     "aggiungi-nuovo-cliente": "Aggiungi nuovo Cliente",
     "modifica-cliente": "Modifica Cliente",
@@ -300,7 +312,7 @@
     "validation": {
       "nome": {
         "corto": "Nome troppo corto",
-        "nome-lungo": "Nome troppo lungo"
+        "lungo": "Nome troppo lungo"
       },
       "note": {
         "corto": "Nota troppo corta",
@@ -348,6 +360,35 @@
       "note": {
         "corto": "Nota troppo corta",
         "lungo": "Nota troppo lunga"
+      }
+    }
+  },
+
+  "resource-skills": {
+    "aggiungi-nuova-risorsa-skill": "Aggiungi nuova Skill per la risorsa",
+    "modifica-risorsa-skill": "Modifica Skill per la risorsa",
+    "form": {
+      "risorsa": "Risorsa",
+      "risorsa-placeholder": "Risorsa",
+      "skill": "Skill",
+      "skill-placeholder": "Skill",
+      "livello": "Livello",
+      "livello-placeholder": "Livello",
+      "note": "Note",
+      "note-placeholder": "Note"
+    },
+    "validation": {
+      "risorsa": {
+        "corto": "Nome troppo corto",
+        "lungo": "Nome troppo lungo"
+      },
+      "note": {
+        "corto": "Nota troppo corta",
+        "lungo": "Nota troppo lunga"
+      },
+      "tipo-di-pagamento": {
+        "richiesto": "Obbligatorio",
+        "invalido": "Tipo di pagamento non valido"
       }
     }
   }

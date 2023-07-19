@@ -12,3 +12,5 @@ export const getUserError = createSelector(getUserState, (state) => state.error)
 export const getUserFirstName = createSelector(getUserState, (state) => state.data?.firstName);
 
 export const getUserLastName = createSelector(getUserState, (state) => state.data?.lastName);
+
+export const getUserRole = createSelector(getUserState, (state) => state.data?.role);

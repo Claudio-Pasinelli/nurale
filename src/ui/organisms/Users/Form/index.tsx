@@ -5,11 +5,12 @@ import { SettingsUser } from '../Types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import schema from '../validation';
 import { useEffect, useState } from 'react';
-import { createUser, editUser, fetchUsers, useAppDispatch } from 'store';
+import { createUser, editUser, fetchUsers, getResources, useAppDispatch } from 'store';
 import { ButtonForm, InputForm, Modal, SelectForm, theme } from 'ui';
 import { darkModePalette } from 'ui/themes/colors';
 import { User } from 'utils';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 interface Props {
   show: boolean;
@@ -22,7 +23,7 @@ interface Props {
 
 const defaultValues = {
   email: '',
-  risorsa: '',
+  risorsa: undefined,
   nome: '',
   cognome: '',
   password: '',
@@ -32,6 +33,10 @@ const defaultValues = {
 
 const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
   const { t } = useTranslation();
+
+  const resources = useSelector(getResources);
+
+  const [currentResourceName, setCurrentResourceName] = useState<string | undefined>('');
 
   const dispatch = useAppDispatch();
   const initialPwd = `Nurale${new Date().getFullYear()}!`;
@@ -53,6 +58,13 @@ const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
 
   const handleNew = async () => {
     setIsLoading(true);
+
+    for (const resource of resources) {
+      getValues('risorsa') === `${resource.firstName} ${resource.lastName}`
+        ? setValue('risorsa', resource.id)
+        : null;
+    }
+
     const hasErrors = await trigger();
 
     if (user) {
@@ -86,7 +98,7 @@ const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
           passwordConfirm: getValues('passwordConfirm'),
           firstName: getValues('nome'),
           lastName: getValues('cognome'),
-          resourceId: 10,
+          resourceId: Number(getValues('risorsa')),
         }),
       );
     }
@@ -134,10 +146,18 @@ const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
       setValue('nome', user.firstName);
       setValue('cognome', user.lastName);
       user.phone && setValue('phone', user.phone);
-      setValue('risorsa', 'Caio Caio'); // DA RIVEDERE !!!!!!!!!!!!!!!!!!!!!!!!!
+
+      for (const resource of resources) {
+        user.resourceId === resource.id
+          ? setCurrentResourceName(`${resource.firstName} ${resource.lastName}`)
+          : null;
+      }
+
+      setValue('risorsa', user.resourceId);
       return;
     }
 
+    setCurrentResourceName('');
     unregister('phone');
     setValue('email', '');
     setValue('password', initialPwd);
@@ -146,6 +166,8 @@ const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
     setValue('cognome', '');
     return;
   }, [user]);
+
+  console.log(selectList);
 
   return (
     <Modal show={show}>
@@ -162,6 +184,7 @@ const Form = ({ show, selectList, skip, take, user, handleShow }: Props) => {
               error={errors?.email?.message && t(`${errors?.email?.message}`)}
             />
             <SelectForm
+              objectName={currentResourceName}
               options={selectList}
               name='risorsa'
               label={t('users.form.aggiungi.risorsa')}

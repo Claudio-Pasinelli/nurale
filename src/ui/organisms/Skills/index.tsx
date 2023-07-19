@@ -13,7 +13,7 @@ import {
   sendSkipAndTake,
   useAppDispatch,
 } from 'store';
-import { Skill, skillsList } from 'utils';
+import { Skill, SKILLS_LIST } from 'utils';
 import {
   ButtonForm,
   Filter,
@@ -41,7 +41,6 @@ const Skills = () => {
   const [isFilterUsed, setIsFilterUsed] = useState(false);
   const [skillTypeSearch, setSkillTypeSearch] = useState('');
   const [skill, setSkill] = useState<Skill | null>(null);
-  const [skillName, setSkillName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
 
   const [skip, setSkip] = useState<number>(0);
@@ -99,13 +98,13 @@ const Skills = () => {
 
   const handleDelete = (object: Skill) => {
     setId(object.id);
-    setSkillName(object.name);
+    setSkill(object);
     setOpenConfirm(true);
   };
 
   const handleCloseConfirm = async () => {
     setId(null);
-    setSkillName('');
+    setSkill(null);
     setOpenConfirm(false);
   };
 
@@ -143,42 +142,18 @@ const Skills = () => {
           show={show}
           showFilters={showFilters}
           handleFilters={handleFilters}
+          emptyFilter={emptyFilter}
+          search={searchSkills}
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <SelectFilter
-              options={skillsList}
+              options={SKILLS_LIST}
               value={skillTypeSearch}
               onChange={handleChangeFilter}
               name='skillTypeSearch'
               label={t('filtri.skills')}
               fontWeight={theme.fontWeights.bold}
             />
-            <Flex justifyContent='space-around'>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={emptyFilter}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.svuota-filtri')}
-              </ButtonForm>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={searchSkills}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.conferma')}
-              </ButtonForm>
-            </Flex>
           </Flex>
         </Filter>
       </Flex>
@@ -199,7 +174,7 @@ const Skills = () => {
         >
           {skill ? t('skills.modifica-skill') : t('skills.aggiungi-nuova-skill')}
         </p>
-        <Form show={show} selectList={skillsList} handleShow={handleShow} skill={skill} />
+        <Form show={show} selectList={SKILLS_LIST} handleShow={handleShow} skill={skill} />
         {isFilterUsed ? (
           <Pagination
             skip={skip}
@@ -224,7 +199,7 @@ const Skills = () => {
           handleDelete={handleDeleteConfirm}
           handleClose={handleCloseConfirm}
           open={openConfirm}
-          objectName={skillName}
+          objectName={skill?.name}
         />
       </Flex>
     </PageLayout>

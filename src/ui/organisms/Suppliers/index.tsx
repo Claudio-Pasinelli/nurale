@@ -43,7 +43,6 @@ const Suppliers = () => {
   const [isFilterUsed, setIsFilterUsed] = useState(false);
   const [typeOfPaymentIdSearch, setTypeOfPaymentIdSearch] = useState<string | number | null>();
   const [supplier, setSupplier] = useState<Supplier | null>(null);
-  const [supplierName, setSupplierName] = useState('');
   const [id, setId] = useState<number | null | undefined>(null);
 
   const [skip, setSkip] = useState<number>(0);
@@ -112,13 +111,13 @@ const Suppliers = () => {
 
   const handleDelete = (object: Supplier) => {
     setId(object.id);
-    setSupplierName(object.name);
+    setSupplier(object);
     setOpenConfirm(true);
   };
 
   const handleCloseConfirm = async () => {
     setId(null);
-    setSupplierName('');
+    setSupplier(null);
     setOpenConfirm(false);
   };
 
@@ -154,6 +153,8 @@ const Suppliers = () => {
           show={show}
           showFilters={showFilters}
           handleFilters={handleFilters}
+          emptyFilter={emptyFilter}
+          search={searchSuppliers}
         >
           <Flex width='100%' direction='column' marginTop={'1.7rem'}>
             <SelectFilter
@@ -164,32 +165,6 @@ const Suppliers = () => {
               label={t('filtri.suppliers')}
               fontWeight={theme.fontWeights.bold}
             />
-            <Flex justifyContent='space-around'>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={emptyFilter}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.svuota-filtri')}
-              </ButtonForm>
-              <ButtonForm
-                marginTop='4rem'
-                marginBottom='1rem'
-                display={show ? 'none' : 'block'}
-                width='fit-content'
-                onClick={searchSuppliers}
-                backgroundColor={darkModePalette.pink100}
-                _hover={{ bg: darkModePalette.pink70 }}
-                fontSize={theme.fontSizes.xxs}
-              >
-                {t('filtri.conferma')}
-              </ButtonForm>
-            </Flex>
           </Flex>
         </Filter>
       </Flex>
@@ -240,7 +215,7 @@ const Suppliers = () => {
           handleDelete={handleDeleteConfirm}
           handleClose={handleCloseConfirm}
           open={openConfirm}
-          objectName={supplierName}
+          objectName={supplier?.name}
         />
       </Flex>
     </PageLayout>

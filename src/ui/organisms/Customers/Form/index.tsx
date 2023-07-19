@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import schema from '../validation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonForm, InputForm, Modal, SelectForm, TextAreaForm, theme } from 'ui';
 import { createCustomer, editCustomer, fetchCustomers, useAppDispatch } from 'store';
 import { SettingsCustomer } from '../Types';
@@ -25,6 +25,8 @@ const defaultValues = {
 
 const Form = ({ show, selectList, customer, handleShow }: Props) => {
   const { t } = useTranslation();
+
+  const [currentCustomerName, setCurrentCustomerName] = useState<string | undefined>('');
 
   const dispatch = useAppDispatch();
 
@@ -95,9 +97,16 @@ const Form = ({ show, selectList, customer, handleShow }: Props) => {
     if (customer) {
       setValue('name', customer.name);
       setValue('note', customer.note);
+
+      for (const typeOfPaymentObj of selectList) {
+        customer.typeOfPaymentId === typeOfPaymentObj.id
+          ? setCurrentCustomerName(typeOfPaymentObj.name)
+          : null;
+      }
       return setValue('typeOfPaymentId', customer.typeOfPaymentId);
     }
 
+    setCurrentCustomerName('');
     return handleReset();
   }, [customer]);
 
@@ -119,6 +128,7 @@ const Form = ({ show, selectList, customer, handleShow }: Props) => {
           </Flex>
           <Flex width='100%' direction='column'>
             <SelectForm
+              objectName={currentCustomerName}
               containerWidth='100%'
               options={selectList}
               name='typeOfPaymentId'

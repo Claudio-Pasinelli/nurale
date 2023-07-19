@@ -1,6 +1,6 @@
 export interface SettingsUser {
   email: string;
-  risorsa: string;
+  risorsa: string | number | null | undefined;
   nome: string;
   cognome: string;
   password: string;

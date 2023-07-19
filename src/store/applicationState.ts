@@ -13,6 +13,8 @@ import { suppliersReduxer } from './Suppliers';
 import { supplierReduxer } from './Supplier';
 import { resourcesReduxer } from './Resources';
 import { resourceReduxer } from './Resource';
+import { resourceSkillReduxer } from './ResourceSkill';
+import { resourceSkillsReduxer } from './ResourceSkills';
 
 const rootReducer = combineReducers({
   login: loginReduxer.reducer,
@@ -36,6 +38,9 @@ const rootReducer = combineReducers({
 
   resources: resourcesReduxer.reducer,
   resource: resourceReduxer.reducer,
+
+  resourceSkills: resourceSkillsReduxer.reducer,
+  resourceSkill: resourceSkillReduxer.reducer,
 });
 
 export default rootReducer;
